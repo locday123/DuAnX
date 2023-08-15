@@ -1,0 +1,22 @@
+.table-list{
+    display: flex;
+    flex-direction: column ;
+}
+
+.group-name{
+    justify-content: center;
+    p{
+        font-weight: bold;
+        margin-bottom: 0 !important;
+    }
+}
+
+.button{
+    padding: 10px;
+    &::before{
+        border-bottom: 1px solid red;
+    }
+    button{
+        float: right;
+    }
+}
