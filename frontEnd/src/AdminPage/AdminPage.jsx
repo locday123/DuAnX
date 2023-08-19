@@ -31,7 +31,6 @@ function AdminPage({children}){
             else{
                 navigate('/login')
                 setAuth(false);
-                setMessage(res.data.thongbao);
             }
         })
     },[])

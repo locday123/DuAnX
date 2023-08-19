@@ -1,6 +1,8 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { ContextProvider } from './Context'
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 
 
 import GlobalStyles from './components/GlobalStyles'
