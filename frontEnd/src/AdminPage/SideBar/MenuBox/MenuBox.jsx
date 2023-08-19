@@ -1,14 +1,9 @@
 import classNames from 'classnames/bind';
 import styles from './MenuBox.module.scss';
 import {Link} from 'react-router-dom';
-import { useContext } from 'react';
-import Context from '../../../Context/';
 const cx = classNames.bind(styles);
 
 function MenuBox({data}){
-
-    const {SetBreadcrumb} = useContext(Context)
-
     return (
         (data.map((rs)=>(
             <div className={cx('menu-box')}>
@@ -23,7 +18,7 @@ function MenuBox({data}){
                         to={rs.linkMenu+result.linkMenu} 
                         key={index}
                         >
-                            <li onClick={()=>SetBreadcrumb(result.linkMenu,result.nameMenu)}><span>{result.nameMenu}</span></li>
+                            <li><span>{result.nameMenu}</span></li>
                     </Link>
                     )
                 )}

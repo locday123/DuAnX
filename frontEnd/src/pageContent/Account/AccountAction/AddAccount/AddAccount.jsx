@@ -1,15 +1,17 @@
-import {useState, Fragment} from 'react';
+import {useState, Fragment, useContext} from 'react';
 import Box from '@mui/material/Box';
 import SwipeableDrawer from '@mui/material/SwipeableDrawer';
 import Button from '@mui/material/Button';
 import {List, ListItem, TextField, MenuItem, Alert } from '@mui/material';
 import { addAccount } from '../../../../Service/Account/AccountService';
+import Context from '../../../../Context';
 
 export default function AddAccount() {
   const [state, setState] = useState({
     right: false,
   });
 
+  const {alert, setAlert, setMessage, setAcc_ischange} = useContext(Context)
   const [dataAccount, setAccount] = useState([])
 
   const toggleDrawer = (anchor, open) => (event) => {
@@ -74,7 +76,13 @@ export default function AddAccount() {
                       sx={{marginRight:2}}
                       onClick={()=>
                         addAccount(dataAccount).
-                        then((value)=>(<Alert severity="success">{value.message}</Alert>))}
+                        then((value)=>{
+                          setAlert({ ...{ vertical: 'bottom', horizontal: 'right' }, open: true });
+                          setMessage(value.message)
+                          setAcc_ischange(true)
+                          
+                        })
+                      }
               >Thêm tài khoản</Button>
               <Button variant="contained">Hủy</Button>
             </ListItem>

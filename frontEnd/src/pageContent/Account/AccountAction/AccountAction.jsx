@@ -1,9 +1,12 @@
 import {Alert, Box, IconButton, Tooltip, Grid, Button, Snackbar} from '@mui/material';
 import {Delete, Edit, Preview} from '@mui/icons-material';
 import { deleteAccount } from '../../../Service/Account/AccountService';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
+import Context from '../../../Context';
 
 function AccountAction({userID}){
+    const {alert, setAlert, setMessage, setAcc_ischange} = useContext(Context)
+
     return(
         <Box>
             <Tooltip title="Xem chi tiết tài khoản">
@@ -19,7 +22,10 @@ function AccountAction({userID}){
             <Tooltip title={'Xóa ID [ ' + userID+' ]'}>
                 <IconButton color='primary' onClick={()=>
                     deleteAccount(userID).then((value)=>{
-                       value
+                        setAlert({ ...{ vertical: 'bottom', horizontal: 'right' }, open: true });
+                        setMessage(value.message)
+                        setAcc_ischange(true)
+                        
                     })}>
                     <Delete />
                 </IconButton>

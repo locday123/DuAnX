@@ -6,15 +6,18 @@ import HeaderView from './Header/HeaderView'
 import axios from 'axios';
 import {useEffect, useState } from 'react';
 import {useNavigate} from 'react-router-dom';
+import AlertMessage from '../components/AlertMessage';
 
 const cx = classNames.bind(styles);
 
 function AdminPage({children}){
-
+    
     const [auth, setAuth] = useState(false)
     const [name, setName] = useState('');
     const [menu, setMenu] = useState('');
     const navigate = useNavigate('/');
+
+    
 
     axios.defaults.withCredentials = true;
     useEffect(()=>{
@@ -32,8 +35,6 @@ function AdminPage({children}){
             }
         })
     },[])
-
-
     return (
         auth?
         <div className={cx('main')}> 
@@ -43,9 +44,10 @@ function AdminPage({children}){
                     <HeaderView data={name}/>
                 </div>
                 <div className={cx('content')}>
-                        {children}
+                    {children}
                 </div>
             </div>
+            <AlertMessage/>
         </div>
         :
         <></>

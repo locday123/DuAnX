@@ -1,28 +1,32 @@
 
 import classNames from 'classnames/bind';
 import styles from './Account.module.scss';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import DataGrid from '../../components/DataGird';
 import momen from 'moment'
 
 import AccountAction from './AccountAction/AccountAction';
 import {getAccount} from '../../Service/Account/AccountService'
-import { Button } from '@mui/material';
 import AddAccount from './AccountAction/AddAccount/AddAccount';
+import Context from '../../Context';
 
 const cx = classNames.bind(styles);
 
 function Account(){
 
     const [listAccount, setListAccount] = useState([])
-    const [data, setData] = useState([])
-    const [isChange, setisChange] = useState(false)
+    const {acc_isChange} = useContext(Context)
 
     function Group ({data}){
         return (
             <div className={cx('group-name')}>
-                <p>{data.nameAccount}</p>
-                <span>{data.emailAccount}</span>
+                <div className='avatar'>
+                    <img class="_img-account_f4cz5_38" src="https://www.w3schools.com/howto/img_avatar.png"/>
+                </div>
+                <div>
+                    <p>{data.nameAccount}</p>
+                    <span>{data.emailAccount}</span>
+                </div>
             </div>
         )
     }/* Hiển thị Tên + Email */
@@ -57,14 +61,13 @@ function Account(){
     useEffect(()=>{
         getAccount().then((value)=>{
             setListAccount(value)
-            setisChange(true)
         });
-    },[])   
+    },[acc_isChange==true])   
 
     return ( 
         <div className={cx('table-list')}>
             <div className={cx('button')}>
-                <AddAccount/>
+                <AddAccount/> {/* Component Thêm Tài Khoản */}
             </div> {/* Button thêm tài khoản */}
             <DataGrid 
                 rows={rows} 

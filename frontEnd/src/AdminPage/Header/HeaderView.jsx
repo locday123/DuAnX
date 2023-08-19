@@ -1,15 +1,15 @@
 import classNames from 'classnames/bind';
 import styles from './HeaderView.module.scss';
 import axios from 'axios';
-import {useNavigate} from 'react-router-dom';
-import { useContext } from 'react';
-import Context from '../../Context';
+import {useLocation, useNavigate} from 'react-router-dom';
 
 const cx = classNames.bind(styles);
 
 function HeaderView({data}){
+    
     const navigate = useNavigate('/');
-    const {breadCrumb} = useContext(Context)
+    const location = useLocation()
+    const crumbs = location.pathname.split('/').filter(crumbs=>crumbs!=='')
 
     const handleLogout = (event)=>{
         event.preventDefault();
@@ -32,7 +32,6 @@ function HeaderView({data}){
     return (
         <div className={cx('header')}>
             <div className={cx('content')}>
-                {breadCrumb.urlName}
                 <span onClick={handleLogout}>Đăng xuất</span>
             </div>
             <div className={cx('account')}>
