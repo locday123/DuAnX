@@ -6,20 +6,27 @@ import {List, ListItem, TextField, MenuItem, Alert } from '@mui/material';
 import { addAccount } from '../../../../Service/Account/AccountService';
 import Context from '../../../../Context';
 
-export default function AddAccount() {
+export default function AddAccount({data}) {
   const [state, setState] = useState({
     right: false,
   });
 
+  const lastAccount = data != null ?
+  (Number(data.substr(1))+1) <=9 ? 'S00'+(Number(data.substr(1))+1): 
+  (Number(data.substr(1))+1) >=10 && (Number(data.substr(1))+1) <=99 ?'S0'+(Number(data.substr(1))+1):
+  'S'+(Number(data.substr(1))+1):null
+
   const {alert, setAlert, setMessage, setAcc_ischange} = useContext(Context)
   const [dataAccount, setAccount] = useState([])
+  console.log(dataAccount)
+ 
 
   const toggleDrawer = (anchor, open) => (event) => {
     setState({ ...state, [anchor]: open });
   };
 
   const inputValue = [
-    {nameInput: 'idAccount', placehoder: 'Vui lòng nhập ID', labelInput: 'ID', typeInput:'text'},
+    {nameInput: 'idAccount', placehoder: 'Vui lòng nhập ID', labelInput: 'ID tự động', typeInput:'text', values: lastAccount},
     {nameInput: 'nameAccount', placehoder: 'Vui lòng nhập tên', labelInput: 'Họ Tên', typeInput:'text'},
     {nameInput: 'passAccount', placehoder: 'Vui lòng nhập mật khẩu', labelInput: 'Mật khẩu', typeInput:'password'},
     {nameInput: 'emailAccount', placehoder: 'Vui lòng nhập email', labelInput: 'Email', typeInput:'text'},
@@ -66,6 +73,14 @@ export default function AddAccount() {
                       type={value.typeInput}
                       fullWidth
                       onChange={(event)=>setAccount({...dataAccount, [value.nameInput]: event.target.value })}
+                      inputProps={value.values!=null ? 
+                        {
+                          value:value.values, 
+                          "disabled":"true",
+                          onInput:(event) => setAccount({...dataAccount, [value.nameInput]: event.target.value })
+                          
+                        }:""
+                      }
                     />
                 </ListItem>
 

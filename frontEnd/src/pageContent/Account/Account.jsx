@@ -16,7 +16,7 @@ function Account(){
 
     const [listAccount, setListAccount] = useState([])
     const {acc_isChange} = useContext(Context)
-
+    
     function Group ({data}){
         return (
             <div className={cx('group-name')}>
@@ -57,7 +57,9 @@ function Account(){
         dateAccount: momen(row.dateAccount).format('DD/MM/YYYY'),
         handle: row
         }))/* Hiển thị danh sách tài khoản */
-
+    
+    const getRowLast = rows.length > 0 ? rows[rows.length - 1].idAccount: null
+    
     useEffect(()=>{
         getAccount().then((value)=>{
             setListAccount(value)
@@ -67,7 +69,7 @@ function Account(){
     return ( 
         <div className={cx('table-list')}>
             <div className={cx('button')}>
-                <AddAccount/> {/* Component Thêm Tài Khoản */}
+                <AddAccount data={getRowLast} /> {/* Component Thêm Tài Khoản */}
             </div> {/* Button thêm tài khoản */}
             <DataGrid 
                 rows={rows} 
