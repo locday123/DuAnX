@@ -1,8 +1,15 @@
 const Account = require("../Model/Account");
 
 module.exports = {
+    lastAccount: async ()=>{
+        return new Promise(function(myResolve, myReject) {
+            
+         }); 
+    },
+
     index:  (req, res)=>{
         Account.get_all().then((value)=>{
+            console.log();
             return res.json(value)
         }) 
     },
