@@ -10,7 +10,7 @@ function HeaderView({data}){
     const navigate = useNavigate('/');
     const location = useLocation()
     const crumbs = location.pathname.split('/').filter(crumbs=>crumbs!=='')
-
+    const images = "http://localhost:8081/images/"+data.imagesID
     const handleLogout = (event)=>{
         event.preventDefault();
         axios.get('http://localhost:8081/logout')
@@ -35,8 +35,8 @@ function HeaderView({data}){
                 <span onClick={handleLogout}>Đăng xuất</span>
             </div>
             <div className={cx('account')}>
-                <img className={cx('img-account')} src='https://www.w3schools.com/howto/img_avatar.png'/>
-                <span>{data}</span>
+                <img className={cx('img-account')} src={images}/>
+                <span>{data.name}</span>
             </div>
         </div>
     )

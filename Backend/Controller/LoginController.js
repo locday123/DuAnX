@@ -24,6 +24,7 @@ module.exports = {
                 status:"SUCCESS", 
                 username: req.id, 
                 hoten: req.hoten, 
+                images:req.images,
                 menu: getMenu(value,null),
             })
         })
@@ -37,7 +38,7 @@ module.exports = {
                 if(username == value.idAccount && password == value.passAccount)
                 {
                     console.log(value)
-                    const id = {id: value.idAccount, hoten: value.nameAccount}
+                    const id = {id: value.idAccount, hoten: value.nameAccount, images:value.imagesAccount}
                     const token = jwt.sign(id, 'vq', {expiresIn: '1d'});
                     res.cookie('vq',token);
                     return res.json({

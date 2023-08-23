@@ -58,7 +58,6 @@ function Account(){
         handle: row
         }))/* Hiển thị danh sách tài khoản */
     
-    const getRowLast = rows.length > 0 ? rows[rows.length - 1].idAccount: null
     
     useEffect(()=>{
         getAccount().then((value)=>{
@@ -69,7 +68,7 @@ function Account(){
     return ( 
         <div className={cx('table-list')}>
             <div className={cx('button')}>
-                <AddAccount data={getRowLast} /> {/* Component Thêm Tài Khoản */}
+                <AddAccount /> {/* Component Thêm Tài Khoản */}
             </div> {/* Button thêm tài khoản */}
             <DataGrid 
                 rows={rows} 

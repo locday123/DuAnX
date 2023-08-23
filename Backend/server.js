@@ -4,6 +4,7 @@
   const cookieParser = require("cookie-parser");
   const cors = require('cors');
   const bodyParser = require('body-parser');
+  const path = require('path')
   
   app.use(cors({
     origin: ['http://localhost:5173'],
@@ -15,6 +16,7 @@
   app.use(bodyParser.urlencoded({ extended: false }))
   app.use(bodyParser.json())
   
+  
   const AccoutRoutes = require('./Routes/AccountRoutes')
   const LoginRoutes = require('./Routes/LoginRoutes');
   const LogoutRoutes = require('./Routes/LogoutRoutes');
@@ -25,6 +27,7 @@
   app.use('/account', AccoutRoutes)
   app.use('/login', LoginRoutes)
   app.use('/logout',LogoutRoutes)
+  app.use("/images", express.static('public/images'));
 
 
   app.listen(PORT, ()=>{
