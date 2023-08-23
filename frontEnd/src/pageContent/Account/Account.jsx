@@ -21,7 +21,7 @@ function Account(){
         return (
             <div className={cx('group-name')}>
                 <div className='avatar'>
-                    <img class="_img-account_f4cz5_38" src="https://www.w3schools.com/howto/img_avatar.png"/>
+                    <img class="img_account" src="https://www.w3schools.com/howto/img_avatar.png"/>
                 </div>
                 <div>
                     <p>{data.nameAccount}</p>
