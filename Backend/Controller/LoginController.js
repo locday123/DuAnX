@@ -22,9 +22,10 @@ module.exports = {
         Menu.get_all().then((value)=>{
             return res.json({
                 status:"SUCCESS", 
-                username: req.id, 
-                hoten: req.hoten, 
                 images:req.images,
+                username: 'abc', 
+                hoten: req.hoten, 
+                
                 menu: getMenu(value,null),
             })
         })

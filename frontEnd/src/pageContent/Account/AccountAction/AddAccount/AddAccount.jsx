@@ -6,15 +6,10 @@ import { List, ListItem, TextField, MenuItem, Alert } from '@mui/material';
 import { addAccount } from '../../../../Service/Account/AccountService';
 import Context from '../../../../Context';
 
-export default function AddAccount({data}) {
+export default function AddAccount() {
   const [state, setState] = useState({
     right: false,
   });
-
-  const lastAccount = data != null ?
-  (Number(data.substr(1))+1) <=9 ? 'S00'+(Number(data.substr(1))+1): 
-  (Number(data.substr(1))+1) >=10 && (Number(data.substr(1))+1) <=99 ?'S0'+(Number(data.substr(1))+1):
-  'S'+(Number(data.substr(1))+1):null
 
   const {alert, setAlert, setMessage, setAcc_ischange} = useContext(Context)
   const [dataAccount, setAccount] = useState([])
@@ -27,7 +22,6 @@ export default function AddAccount({data}) {
   };
   console.log(dataAccount);
   const inputValue = [
-    {nameInput: 'idAccount', placehoder: 'Vui lòng nhập ID', labelInput: 'ID tự động', typeInput:'text', values: lastAccount},
     {nameInput: 'nameAccount', placehoder: 'Vui lòng nhập tên', labelInput: 'Họ Tên', typeInput:'text'},
     {nameInput: 'passAccount', placehoder: 'Vui lòng nhập mật khẩu', labelInput: 'Mật khẩu', typeInput:'password'},
     {nameInput: 'emailAccount', placehoder: 'Vui lòng nhập email', labelInput: 'Email', typeInput:'text'},
@@ -36,7 +30,11 @@ export default function AddAccount({data}) {
     {nameInput: 'dateAccount', placehoder: 'Vui lòng nhập năm sinh', labelInput: '', typeInput:'date'}
   ]
 
-  const sexAccount = [{valueInput:0, label: 'Nam'},{valueInput:1, label: 'Nữ'}]
+  const sexAccount = [
+    {valueInput:2, label: 'Vui lòng chọn giới tính'},
+    {valueInput:0, label: 'Nam'},
+    {valueInput:1, label: 'Nữ'}
+  ]
 
   const list = (anchor) => (
     <Box sx={{ width: 350, height:50, backgroundColor:'#f5f5f9', padding:2, marginBottom:2}}>
@@ -50,9 +48,8 @@ export default function AddAccount({data}) {
                       label={value.labelInput} 
                       placeholder={value.placehoder} 
                       name={value.nameInput}
-                      defaultValue={1}
+                      defaultValue={2}
                       onChange={(event)=>setAccount({...dataAccount, [value.nameInput]: event.target.value })}
-                      helperText="Chọn giới tính"
                       select
                       fullWidth
                     >
@@ -74,14 +71,6 @@ export default function AddAccount({data}) {
                       type={value.typeInput}
                       fullWidth
                       onChange={(event)=>setAccount({...dataAccount, [value.nameInput]: event.target.value })}
-                      inputProps={value.values!=null ? 
-                        {
-                          value:value.values, 
-                          "disabled":"true",
-                          onInput:(event) => setAccount({...dataAccount, [value.nameInput]: event.target.value })
-                          
-                        }:""
-                      }
                     />
                 </ListItem>
 
