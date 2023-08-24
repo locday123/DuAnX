@@ -22,7 +22,6 @@ module.exports = {
             phoneAccount: req.body.phoneAccount,
             dateAccount: req.body.dateAccount
         }
-       
         Account.create(data).then((value)=>{
             res.json({
                 status: 'SUCCESS',

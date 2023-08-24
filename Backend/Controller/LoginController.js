@@ -23,9 +23,8 @@ module.exports = {
             return res.json({
                 status:"SUCCESS", 
                 images:req.images,
-                username: 'abc', 
+                username: req.id, 
                 hoten: req.hoten, 
-                
                 menu: getMenu(value,null),
             })
         })

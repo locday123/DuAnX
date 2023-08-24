@@ -15,6 +15,7 @@ module.exports = {
                 else{   
                     req.id = decode.id
                     req.hoten = decode.hoten
+                    req.images = decode.images
                     next();
                 }
             });
