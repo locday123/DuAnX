@@ -1,26 +1,23 @@
+const Upload = require("../Hook/Upload");
 const Account = require("../Model/Account");
 
 module.exports = {
-    lastAccount: async ()=>{
-        return new Promise(function(myResolve, myReject) {
-            
-         }); 
-    },
-
     index:  (req, res)=>{
         Account.get_all().then((value)=>{
             console.log();
             return res.json(value)
         }) 
     },
-    
+    uploadFile: (req, res)=>{
+        Upload.uploadAvatar.single("imagesAccount")
+    },
     addAccount: (req, res)=>{
         var data = {
             nameAccount: req.body.nameAccount,
             passAccount: req.body.passAccount,
             sexAccount: req.body.sexAccount,
             phoneAccount: req.body.phoneAccount,
-            dateAccount: req.body.dateAccount
+            dateAccount: req.body.dateAccount,
         }
         Account.create(data).then((value)=>{
             res.json({

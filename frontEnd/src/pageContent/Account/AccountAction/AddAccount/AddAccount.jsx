@@ -12,7 +12,7 @@ export default function AddAccount() {
   });
 
   const { alert, setAlert, setMessage, setAcc_ischange } = useContext(Context)
-  const [dataAccount, setAccount] = useState([])
+  const [dataAccount, setAccount] = useState()
   console.log(dataAccount)
 
 
@@ -22,12 +22,13 @@ export default function AddAccount() {
   };
   console.log(dataAccount);
   const inputValue = [
-    { nameInput: 'nameAccount', placehoder: 'Vui lòng nhập tên', labelInput: 'Họ Tên', typeInput: 'text' },
-    { nameInput: 'passAccount', placehoder: 'Vui lòng nhập mật khẩu', labelInput: 'Mật khẩu', typeInput: 'password' },
-    { nameInput: 'emailAccount', placehoder: 'Vui lòng nhập email', labelInput: 'Email', typeInput: 'text' },
-    { nameInput: 'sexAccount', placehoder: 'Chọn giới tính', labelInput: 'Giới Tính', typeInput: 'select' },
-    { nameInput: 'phoneAccount', placehoder: 'Vui lòng nhập số điện thoại', labelInput: 'Điện Thoại', typeInput: 'text' },
-    { nameInput: 'dateAccount', placehoder: 'Vui lòng nhập năm sinh', labelInput: '', typeInput: 'date' }
+    { nameInput: 'imagesAccount', placehoder: 'Vui lòng chọn file', labelInput: 'Ảnh đại diện', typeInput: 'file' }
+   // { nameInput: 'nameAccount', placehoder: 'Vui lòng nhập tên', labelInput: 'Họ Tên', typeInput: 'text' },
+    //{ nameInput: 'passAccount', placehoder: 'Vui lòng nhập mật khẩu', labelInput: 'Mật khẩu', typeInput: 'password' },
+    //{ nameInput: 'emailAccount', placehoder: 'Vui lòng nhập email', labelInput: 'Email', typeInput: 'text' },
+    //{ nameInput: 'sexAccount', placehoder: 'Chọn giới tính', labelInput: 'Giới Tính', typeInput: 'select' },
+    //{ nameInput: 'phoneAccount', placehoder: 'Vui lòng nhập số điện thoại', labelInput: 'Điện Thoại', typeInput: 'text' },
+    //{ nameInput: 'dateAccount', placehoder: 'Vui lòng nhập năm sinh', labelInput: '', typeInput: 'date' }
   ]
 
   const sexAccount = [
@@ -70,7 +71,7 @@ export default function AddAccount() {
                   name={value.nameInput}
                   type={value.typeInput}
                   fullWidth
-                  onChange={(event) => setAccount({ ...dataAccount, [value.nameInput]: event.target.value })}
+                  onChange={(event) => setAccount({ ...dataAccount, [value.nameInput]: event.target.files[0]})}
                 />
               </ListItem>
 
