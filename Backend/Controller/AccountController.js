@@ -1,15 +1,13 @@
+const multer = require("multer");
 const Upload = require("../Hook/Upload");
 const Account = require("../Model/Account");
-
+const upload = Upload.uploadAvatar.single("imagesAccount")
 module.exports = {
     index:  (req, res)=>{
         Account.get_all().then((value)=>{
             console.log();
             return res.json(value)
         }) 
-    },
-    uploadFile: (req, res)=>{
-        Upload.uploadAvatar.single("imagesAccount")
     },
     addAccount: (req, res)=>{
         var data = {
@@ -19,16 +17,30 @@ module.exports = {
             phoneAccount: req.body.phoneAccount,
             dateAccount: req.body.dateAccount,
         }
-        Account.create(data).then((value)=>{
-            res.json({
-                status: 'SUCCESS',
-                message:'Thêm tài khoản thành công'
-            })        
-        }).catch((err)=>{
+        upload(req, res, (err)=>{
+            if(err instanceof multer.MulterError){
                 res.json({
                     status: 'FAILED',
                     message:'Xảy ra lỗi, vui lòng kiểm tra lại'
                 })
+            }
+            else if(err){
+                res.json({
+                    status: 'FAILED',
+                    message:'Xảy ra lỗi, vui lòng kiểm tra lại'
+                })
+            }
+            Account.create(data).then((value)=>{
+                res.json({
+                    status: 'SUCCESS',
+                    message:'Thêm tài khoản thành công'
+                })        
+            }).catch((err)=>{
+                res.json({
+                    status: 'FAILED',
+                    message:'Xảy ra lỗi, vui lòng kiểm tra lại'
+                })
+            })
         })
     },
 

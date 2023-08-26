@@ -5,7 +5,7 @@ const Hook = require('../Hook/Hook')
 const Upload = require('../Hook/Upload')
 
 router.get("/", Hook.checkLogin, AccountController.index)
-router.post("/",AccountController.uploadFile)
+router.post("/",AccountController.addAccount)
 router.put("/:id", AccountController.updateAccount)
 router.delete("/:id", AccountController.deleteAccount)
 

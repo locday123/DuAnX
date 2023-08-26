@@ -22,13 +22,13 @@ export default function AddAccount() {
   };
   console.log(dataAccount);
   const inputValue = [
-    { nameInput: 'imagesAccount', placehoder: 'Vui lòng chọn file', labelInput: 'Ảnh đại diện', typeInput: 'file' }
-   // { nameInput: 'nameAccount', placehoder: 'Vui lòng nhập tên', labelInput: 'Họ Tên', typeInput: 'text' },
-    //{ nameInput: 'passAccount', placehoder: 'Vui lòng nhập mật khẩu', labelInput: 'Mật khẩu', typeInput: 'password' },
-    //{ nameInput: 'emailAccount', placehoder: 'Vui lòng nhập email', labelInput: 'Email', typeInput: 'text' },
-    //{ nameInput: 'sexAccount', placehoder: 'Chọn giới tính', labelInput: 'Giới Tính', typeInput: 'select' },
-    //{ nameInput: 'phoneAccount', placehoder: 'Vui lòng nhập số điện thoại', labelInput: 'Điện Thoại', typeInput: 'text' },
-    //{ nameInput: 'dateAccount', placehoder: 'Vui lòng nhập năm sinh', labelInput: '', typeInput: 'date' }
+    { nameInput: 'imagesAccount', placehoder: 'Vui lòng chọn file', labelInput: 'Ảnh đại diện', typeInput: 'file' },
+    { nameInput: 'nameAccount', placehoder: 'Vui lòng nhập tên', labelInput: 'Họ Tên', typeInput: 'text' },
+    { nameInput: 'passAccount', placehoder: 'Vui lòng nhập mật khẩu', labelInput: 'Mật khẩu', typeInput: 'password' },
+    { nameInput: 'emailAccount', placehoder: 'Vui lòng nhập email', labelInput: 'Email', typeInput: 'text' },
+    { nameInput: 'sexAccount', placehoder: 'Chọn giới tính', labelInput: 'Giới Tính', typeInput: 'select' },
+    { nameInput: 'phoneAccount', placehoder: 'Vui lòng nhập số điện thoại', labelInput: 'Điện Thoại', typeInput: 'text' },
+    { nameInput: 'dateAccount', placehoder: 'Vui lòng nhập năm sinh', labelInput: '', typeInput: 'date' }
   ]
 
   const sexAccount = [
@@ -50,7 +50,7 @@ export default function AddAccount() {
                   placeholder={value.placehoder}
                   name={value.nameInput}
                   defaultValue={2}
-                  onChange={(event) => setAccount({ ...dataAccount, [value.nameInput]: event.target.value })}
+                  onChange={(e) => setAccount({ ...dataAccount, [value.nameInput]: e.target.value })}
                   select
                   fullWidth
                 >
@@ -71,7 +71,11 @@ export default function AddAccount() {
                   name={value.nameInput}
                   type={value.typeInput}
                   fullWidth
-                  onChange={(event) => setAccount({ ...dataAccount, [value.nameInput]: event.target.files[0]})}
+                  onChange={
+                    value.typeInput == 'file' ?
+                      (e) => setAccount({ ...dataAccount, [value.nameInput]: e.target.files[0] }) :
+                      (e) => setAccount({ ...dataAccount, [value.nameInput]: e.target.value })
+                  }
                 />
               </ListItem>
 
