@@ -69,11 +69,7 @@ export default function AddAccount() {
                   name={value.nameInput}
                   type={value.typeInput}
                   fullWidth
-                  onChange={
-                    value.typeInput == 'file' ?
-                      (e) => setAccount({ ...dataAccount, [value.nameInput]: e.target.files[0] }) :
-                      (e) => setAccount({ ...dataAccount, [value.nameInput]: e.target.value })
-                  }
+                  onChange={(e) => setAccount({ ...dataAccount, [value.nameInput]: e.target.value })}
                 />
               </ListItem>
 

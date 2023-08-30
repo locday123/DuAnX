@@ -4,7 +4,7 @@ import TabContext from '@mui/lab/TabContext'
 import TabList from '@mui/lab/TabList';
 import { AccountCircle, SecurityOutlined } from '@mui/icons-material';
 import { useState } from "react";
-import PageUpdate from "./pageUpdate";
+import PageUpdate from "./PageUpdate";
 
 
 function UpdateAccount() {
