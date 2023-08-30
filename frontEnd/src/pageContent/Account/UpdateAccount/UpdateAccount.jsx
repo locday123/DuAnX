@@ -1,27 +1,52 @@
-import { Box, Paper, Tab, Tabs } from "@mui/material"
+import { Box, Paper, Tab } from "@mui/material"
+import TabPanel from '@mui/lab/TabPanel'
+import TabContext from '@mui/lab/TabContext'
+import TabList from '@mui/lab/TabList';
+import { AccountCircle, SecurityOutlined } from '@mui/icons-material';
+import { useState } from "react";
+import PageUpdate from "./pageUpdate";
 
 
-function UpdateAccount (){
-    const inputValue = [
-        { nameInput: 'imagesAccount', labelInput: 'Ảnh đại diện', typeInput: 'file' },
-        { nameInput: 'nameAccount', placehoder: 'Vui lòng nhập tên', labelInput: 'Họ Tên', typeInput: 'text' },
-        { nameInput: 'passAccount', placehoder: 'Vui lòng nhập mật khẩu', labelInput: 'Mật khẩu', typeInput: 'password' },
-        { nameInput: 'emailAccount', placehoder: 'Vui lòng nhập email', labelInput: 'Email', typeInput: 'text' },
-        { nameInput: 'sexAccount', placehoder: 'Chọn giới tính', labelInput: 'Giới Tính', typeInput: 'select' },
-        { nameInput: 'phoneAccount', placehoder: 'Vui lòng nhập số điện thoại', labelInput: 'Điện Thoại', typeInput: 'text' },
-        { nameInput: 'dateAccount', placehoder: 'Vui lòng nhập năm sinh', labelInput: '', typeInput: 'date' }
-      ]
+function UpdateAccount() {
+    const [tabValue, settabValue] = useState("1")
+    const handleChange = (event, newValue) => {
+        settabValue(newValue);
+    };
+
+    const TabContent = [
+        { nameTabPanel: "TÀI KHOẢN", icon: <AccountCircle />, value: "1", pageContent: <PageUpdate /> },
+        { nameTabPanel: "ĐỔI MẬT KHẨU", icon: <SecurityOutlined />, value: "2", pageContent: "ab" }
+    ]
     return (
         <Box>
-            <Paper elevation={3} sx={{borderRadius:'10px'}}>
-                <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                    <Tabs>
-                        <Tab label="Item One" />
-                        <Tab label="Item Two"/>
-                        <Tab label="Item Three"/>
-                    </Tabs>
-                </Box>
-                abc
+            <Paper elevation={3} sx={{ borderRadius: '10px' }}>
+                <TabContext value={tabValue}>
+                    <Box sx={{ borderBottom: 1, borderColor: 'divider', }}>
+                        <TabList onChange={handleChange}>
+                            {TabContent.map((value, key) => (
+                                <Tab key={key} sx={{ color: "rgb(145, 85, 253)" }}
+                                    label={
+                                        <Box sx={{ display: "flex", alignItems: "center" }}>
+                                            {value.icon}
+                                            <span style={{ marginLeft: "5px" }}>{value.nameTabPanel}</span>
+                                        </Box>
+                                    }
+                                    value={value.value}
+                                    id={"tabs" + value.value}
+                                    aria-controls={"tabs" + value.value}
+                                    iconPosition="start"
+                                />
+                            ))}
+                        </TabList>
+                    </Box>
+                    <Box>
+                        {TabContent.map((value, key) => (
+                            <TabPanel key={key} value={value.value}>
+                                {value.pageContent}
+                            </TabPanel>
+                        ))}
+                    </Box>
+                </TabContext>
             </Paper>
         </Box>
     )
