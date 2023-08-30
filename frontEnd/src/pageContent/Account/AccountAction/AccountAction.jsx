@@ -1,11 +1,12 @@
-import {Alert, Box, IconButton, Tooltip, Grid, Button, Snackbar} from '@mui/material';
+import {Box, IconButton, Tooltip} from '@mui/material';
 import {Delete, Edit, Preview} from '@mui/icons-material';
+import {Link} from 'react-router-dom';
 import { deleteAccount } from '../../../Service/Account/AccountService';
 import { useContext, useState } from 'react';
 import Context from '../../../Context';
 
 function AccountAction({userID}){
-    const {alert, setAlert, setMessage, setAcc_ischange} = useContext(Context)
+    const {setAlert, setMessage, setAcc_ischange} = useContext(Context)
 
     return(
         <Box>
@@ -14,10 +15,12 @@ function AccountAction({userID}){
                     <Preview/>
                 </IconButton>
             </Tooltip>
-            <Tooltip title="Xem chi tiết tài khoản">
-                <IconButton color='primary'>
-                    <Edit color='white'/>
-                </IconButton>
+            <Tooltip title={'Cập nhật tài khoản [ ' + userID+' ]'}>
+                <Link to={"/account/edit/"+userID}>
+                    <IconButton color='primary'>
+                        <Edit color='white'/>
+                    </IconButton>
+                </Link>
             </Tooltip>
             <Tooltip title={'Xóa ID [ ' + userID+' ]'}>
                 <IconButton color='primary' onClick={()=>
@@ -25,15 +28,12 @@ function AccountAction({userID}){
                         setAlert({ ...{ vertical: 'bottom', horizontal: 'right' }, open: true });
                         setMessage(value.message)
                         setAcc_ischange(true)
-                        
                     })}>
                     <Delete />
                 </IconButton>
             </Tooltip>
             
         </Box>
-        
-
     )
     
 }

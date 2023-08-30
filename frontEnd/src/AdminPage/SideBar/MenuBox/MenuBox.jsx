@@ -6,7 +6,7 @@ const cx = classNames.bind(styles);
 function MenuBox({data}){
     return (
         (data.map((rs)=>(
-            <div className={cx('menu-box')}>
+            <div key={rs.idMenu} className={cx('menu-box')}>
                 <div className={cx('menu-title')}>
                     <span key={rs.nameMenu}>{rs.nameMenu}</span>
                 </div>   
@@ -14,7 +14,7 @@ function MenuBox({data}){
                 rs.childMenu ?
                 <ul className='menu-mini'>
                 {rs.childMenu.map((result, index)=>(
-                    <Link 
+                    <Link
                         to={rs.linkMenu+result.linkMenu} 
                         key={index}
                         >

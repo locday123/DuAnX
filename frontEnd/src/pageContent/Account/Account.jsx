@@ -7,7 +7,7 @@ import momen from 'moment'
 
 import AccountAction from './AccountAction/AccountAction';
 import { getAccount } from '../../Service/Account/AccountService'
-import AddAccount from './AccountAction/AddAccount/AddAccount';
+import AddAccount from './AddAccount/AddAccount';
 import Context from '../../Context';
 
 const cx = classNames.bind(styles);

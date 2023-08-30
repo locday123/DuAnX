@@ -4,7 +4,6 @@ var storageUser =  multer.diskStorage({
         return res(null, './public/images')
     },
     filename:(req, file, res)=>{
-        console.log(file);
         return res(null, file.originalname)
     }
 })

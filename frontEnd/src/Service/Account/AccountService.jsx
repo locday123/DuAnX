@@ -13,9 +13,8 @@ const getAccount = async () =>{
 }
 
 const addAccount = async (data)=> {
-    const formData = new FormData()
-    formData.append('imagesAccount', data.imagesAccount)
-    const response = (await client.post(linkApi, formData))
+    
+    const response = (await client.post(linkApi, data))
     return await response.data;
 }
 

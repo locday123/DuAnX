@@ -3,8 +3,8 @@ import Box from '@mui/material/Box';
 import SwipeableDrawer from '@mui/material/SwipeableDrawer';
 import Button from '@mui/material/Button';
 import { List, ListItem, TextField, MenuItem, Alert } from '@mui/material';
-import { addAccount } from '../../../../Service/Account/AccountService';
-import Context from '../../../../Context';
+import { addAccount } from '../../../Service/Account/AccountService';
+import Context from '../../../Context';
 
 export default function AddAccount() {
   const [state, setState] = useState({
@@ -12,8 +12,7 @@ export default function AddAccount() {
   });
 
   const { alert, setAlert, setMessage, setAcc_ischange } = useContext(Context)
-  const [dataAccount, setAccount] = useState()
-  console.log(dataAccount)
+  const [dataAccount, setAccount] = useState([])
 
 
   const toggleDrawer = (anchor, open) => (event) => {
@@ -22,7 +21,6 @@ export default function AddAccount() {
   };
   console.log(dataAccount);
   const inputValue = [
-    { nameInput: 'imagesAccount', placehoder: 'Vui lòng chọn file', labelInput: 'Ảnh đại diện', typeInput: 'file' },
     { nameInput: 'nameAccount', placehoder: 'Vui lòng nhập tên', labelInput: 'Họ Tên', typeInput: 'text' },
     { nameInput: 'passAccount', placehoder: 'Vui lòng nhập mật khẩu', labelInput: 'Mật khẩu', typeInput: 'password' },
     { nameInput: 'emailAccount', placehoder: 'Vui lòng nhập email', labelInput: 'Email', typeInput: 'text' },
