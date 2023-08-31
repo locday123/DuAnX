@@ -37,12 +37,9 @@ function PageUpdate() {
         getAccountID(idUser).then((value) => {
             if (value.getStatus === "SUCCESS") {
                 setdataID(value.info);
-                setImages(value.info.imagesAccount ?
-                    "http://localhost:8081/images/" + value.info.imagesAccount :
-                    "http://localhost:8081/images/img_avatar.png"
-                )
-
+                setImages("http://localhost:8081/images/" + (value.info.imagesAccount != null ? value.info.imagesAccount : "img_avatar.png"))
             }
+
 
         })
     }, [])

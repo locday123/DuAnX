@@ -13,7 +13,7 @@ const getAccount = async () => {
 
 const getAccountID = async (userID) => {
     try {
-        const linkEdit = linkApi + "edit/" + userID
+        const linkEdit = linkApi + userID
         const response = await client.get(linkEdit, userID)
         return await response.data
     } catch (err) {

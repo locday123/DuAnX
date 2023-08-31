@@ -9,7 +9,13 @@ module.exports = {
     },
     getAccountID:(req, res)=>{
         Account.find(req.params.id).then((value)=>{
-            return res.json({getStatus: "SUCCESS", info:value})
+            if(value){
+                return res.json({getStatus: "SUCCESS", info:value})
+            }else{
+                return res.json({getStatus: "ERROR"})
+            }
+        }).catch((err)=>{
+            console.log(err);
         })
     },
 
