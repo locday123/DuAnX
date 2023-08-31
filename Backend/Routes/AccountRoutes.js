@@ -4,9 +4,10 @@ const AccountController = require('../Controller/AccountController')
 const Hook = require('../Hook/Hook')
 const Upload = require('../Hook/Upload')
 
-router.get("/", Hook.checkLogin, AccountController.index)
+router.get("/", Hook.checkLogin, AccountController.getAll)
+router.get("/edit/:id", Hook.checkLogin, AccountController.getAccountID)
 router.post("/",AccountController.addAccount)
-router.put("/:id", AccountController.updateAccount)
+router.put("/edit/:id", AccountController.updateAccount)
 router.delete("/:id", AccountController.deleteAccount)
 
 module.exports = router;

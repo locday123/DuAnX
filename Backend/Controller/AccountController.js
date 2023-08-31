@@ -2,12 +2,17 @@ const multer = require("multer");
 const Upload = require("../Hook/Upload");
 const Account = require("../Model/Account");
 module.exports = {
-    index:  (req, res)=>{
+    getAll:  (req, res)=>{
         Account.get_all().then((value)=>{
-            console.log();
             return res.json(value)
         }) 
     },
+    getAccountID:(req, res)=>{
+        Account.find(req.params.id).then((value)=>{
+            return res.json({getStatus: "SUCCESS", info:value})
+        })
+    },
+
     addAccount: (req, res)=>{
             var data = {
                 nameAccount: req.body.nameAccount == 'undefined'? null:req.body.nameAccount,
@@ -15,6 +20,7 @@ module.exports = {
                 sexAccount: req.body.sexAccount == 'undefined'? null:req.body.sexAccount,
                 phoneAccount: req.body.phoneAccount == 'undefined'? null:req.body.phoneAccount,
                 dateAccount: req.body.dateAccount == 'undefined'? null:req.body.dateAccount,
+                emailAccount: req.body.emailAccount == 'undefined'? null:req.body.emailAccount,
             }
             Account.create(data).then((value)=>{
                 res.json({
