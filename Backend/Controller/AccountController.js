@@ -1,7 +1,7 @@
 const multer = require("multer");
 const Upload = require("../Hook/Upload");
 const Account = require("../Model/Account");
-const upload_images = Upload.uploadAvatar.single("imagesAccount")
+const upload_images = Upload.uploadAvatar.single("uploadImages")
 module.exports = {
     getAll:  (req, res)=>{
         Account.get_all().then((value)=>{
@@ -33,7 +33,7 @@ module.exports = {
                     message:'Xảy ra lỗi, vui lòng kiểm tra lại'
                 })
             })
-    },
+    },  
 
     updateAccount: (req, res)=>{
         upload_images(req,res,(err)=>{
@@ -49,9 +49,27 @@ module.exports = {
                     message:"Upload avatar lỗi " + err 
                 })
             }
-            
-            console.log(typeof JSON.parse(JSON.stringify(req.body.data)))
-        })  
+            var data= JSON.parse(JSON.parse(JSON.stringify(req.body.data)))
+            if(Object.keys(data).length === 0){
+                res.json({
+                    status: 'FAILED',
+                    message:'Xảy ra lỗi, vui lòng kiểm tra lại'
+                })
+            }
+            else{
+                Account.update(req.params.id, data).then(()=>{
+                    res.json({
+                        status: 'SUCCESS',
+                        message:'Cập nhật thành công ID ' + req.params.id
+                    })
+                }).catch((err)=>{
+                    res.json({
+                        status: 'FAILED',
+                        message:'Xảy ra lỗi, vui lòng kiểm tra lạiaa'
+                    })
+                })
+            }
+        })
         
     },
 
