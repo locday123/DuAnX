@@ -49,8 +49,8 @@ module.exports = {
                     message:"Upload avatar lỗi " + err 
                 })
             }
-           
-            console.log(req.body)
+            
+            console.log(typeof JSON.parse(JSON.stringify(req.body.data)))
         })  
         
     },

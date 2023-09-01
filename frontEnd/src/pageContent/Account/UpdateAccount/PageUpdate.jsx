@@ -96,8 +96,8 @@ function PageUpdate({ dataID }) {
                     component="label"
                     sx={{ marginRight: "10px" }}
                     onClick={() => updateAccount(dataID.idAccount, imagesUpload, userUpdate).then((value) => {
-                        setAlert({ ...{ vertical: 'bottom', horizontal: 'right' }, open: true });
-                        setMessage(value.message)
+                        //setAlert({ ...{ vertical: 'bottom', horizontal: 'right' }, open: true });
+                        //setMessage(value.message)
                     })}
                 >
                     CẬP NHẬT
