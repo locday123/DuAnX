@@ -11,7 +11,7 @@ export default function AddAccount() {
     right: false,
   });
 
-  const { setAlert, setMessage, setAcc_ischange } = useContext(Context)
+  const { alert, setAlert, setMessage, setAcc_ischange } = useContext(Context)
   const [dataAccount, setAccount] = useState([])
 
 
@@ -19,6 +19,7 @@ export default function AddAccount() {
     setState({ ...state, [anchor]: open });
 
   };
+  console.log(dataAccount);
   const inputValue = [
     { nameInput: 'nameAccount', placehoder: 'Vui lòng nhập tên', labelInput: 'Họ Tên', typeInput: 'text' },
     { nameInput: 'passAccount', placehoder: 'Vui lòng nhập mật khẩu', labelInput: 'Mật khẩu', typeInput: 'password' },
@@ -27,10 +28,11 @@ export default function AddAccount() {
     { nameInput: 'phoneAccount', placehoder: 'Vui lòng nhập số điện thoại', labelInput: 'Điện Thoại', typeInput: 'text' },
     { nameInput: 'dateAccount', placehoder: 'Vui lòng nhập năm sinh', labelInput: '', typeInput: 'date' }
   ]
+
   const sexAccount = [
     { valueInput: 2, label: 'Vui lòng chọn giới tính' },
-    { valueInput: 1, label: 'Nam' },
-    { valueInput: 0, label: 'Nữ' }
+    { valueInput: 0, label: 'Nam' },
+    { valueInput: 1, label: 'Nữ' }
   ]
 
   const list = (anchor) => (
@@ -39,20 +41,18 @@ export default function AddAccount() {
       <List sx={{ marginTop: 2 }}>
         {
           inputValue.map((value, index) => (
-            <ListItem key={index}>
-              <TextField
-                label={value.labelInput}
-                placeholder={value.placehoder}
-                name={value.nameInput}
-                type={value.typeInput}
-                defaultValue={value.typeInput == "select" ? 2 : ""}
-                onChange={(e) => setAccount({ ...dataAccount, [value.nameInput]: e.target.value })}
-                select={value.typeInput == "select" ? true : false}
-                fullWidth
-
-              >
-                {
-                  value.typeInput == "select" ?
+            value.typeInput == 'select' ?
+              <ListItem key={index}>
+                <TextField
+                  label={value.labelInput}
+                  placeholder={value.placehoder}
+                  name={value.nameInput}
+                  defaultValue={2}
+                  onChange={(e) => setAccount({ ...dataAccount, [value.nameInput]: e.target.value })}
+                  select
+                  fullWidth
+                >
+                  {
                     sexAccount.map((value) => (
                       <MenuItem key={value.valueInput} value={value.valueInput}>
                         {value.label}
@@ -69,11 +69,7 @@ export default function AddAccount() {
                   name={value.nameInput}
                   type={value.typeInput}
                   fullWidth
-                  onChange={
-                    value.typeInput == 'file' ?
-                      (e) => setAccount({ ...dataAccount, [value.nameInput]: e.target.files[0] }) :
-                      (e) => setAccount({ ...dataAccount, [value.nameInput]: e.target.value })
-                  }
+                  onChange={(e) => setAccount({ ...dataAccount, [value.nameInput]: e.target.value })}
                 />
               </ListItem>
 

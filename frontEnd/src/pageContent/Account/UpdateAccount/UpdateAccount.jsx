@@ -3,8 +3,12 @@ import TabPanel from '@mui/lab/TabPanel'
 import TabContext from '@mui/lab/TabContext'
 import TabList from '@mui/lab/TabList';
 import { AccountCircle, SecurityOutlined } from '@mui/icons-material';
-import { useState } from "react";
-import PageUpdate from "./pageUpdate";
+import { useEffect, useState } from "react";
+import { useLocation } from 'react-router-dom';
+
+import PageUpdate from "./PageUpdate";
+import { getAccountID } from "../../../Service/Account/AccountService";
+import ChangePassword from "./ChangePassword";
 
 
 function UpdateAccount() {
@@ -30,7 +34,7 @@ function UpdateAccount() {
 
     const TabContent = [
         { nameTabPanel: "TÀI KHOẢN", icon: <AccountCircle />, value: "1", pageContent: <PageUpdate dataID={dataID} /> },
-        { nameTabPanel: "ĐỔI MẬT KHẨU", icon: <SecurityOutlined />, value: "2", pageContent: "ab" }
+        { nameTabPanel: "ĐỔI MẬT KHẨU", icon: <SecurityOutlined />, value: "2", pageContent: <ChangePassword dataID={dataID}/> }
     ]
 
 
