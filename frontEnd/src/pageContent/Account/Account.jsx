@@ -58,9 +58,9 @@ function Account() {
         id: row.idAccount,
         idAccount: row.idAccount,
         nameAccount: row,
-        sexAccount: row.sexAccount == 1 ? 'Nam' : 'Nữ',
-        phoneAccount: row.phoneAccount,
-        dateAccount: momen(row.dateAccount).format('DD/MM/YYYY'),
+        sexAccount: row.sexAccount == 1 ? 'Nam' : row.sexAccount == 0 ? "Nữ" : "Chưa cập nhật",
+        phoneAccount: row.phoneAccount ? row.phoneAccount : "Chưa cập nhật",
+        dateAccount: row.dateAccount ? momen(row.dateAccount).format('DD/MM/YYYY') : "Chưa cập nhật",
         handle: row
     }))/* Hiển thị danh sách tài khoản */
 

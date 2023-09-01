@@ -1,41 +1,53 @@
-import axios from 'axios';
-import {client} from '../Serivce'
+
+import { client } from '../Serivce'
 
 let linkApi = 'account/'
 
-const getAccount = async () =>{
-    try{
+const getAccount = async () => {
+    try {
         const response = await client.get(linkApi)
         return await response.data;
-    } catch(err){
+    } catch (err) {
         console.log(err);
     }
 }
 
-const addAccount = async (data)=> {
-    
+const getAccountID = async (userID) => {
+    try {
+        const linkEdit = linkApi + userID
+        const response = await client.get(linkEdit, userID)
+        return await response.data
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+const addAccount = async (data) => {
     const response = (await client.post(linkApi, data))
     return await response.data;
 }
 
-const updateAccount = async ({userID, data})=>{
-    let urlUser = linkApi + userID
-    await client.put(urlUser, data).then((value)=>{
-        return value.data
-    })
-}
 
-const deleteAccount = async (userID)=>{
-    try{
+const updateAccount = async (userID, images, data) => {
+    const Form = new FormData()
+    if (Object.keys(images).length != 0) {
+        Form.append("uploadImages", images.imagesAccount, "user_" + userID + ".jpg")
+    }
+    Form.append("data", JSON.stringify(data))
+    let urlUser = linkApi + userID
+    const response = (await client.put(urlUser, Form))
+    return await response.data
+}
+const deleteAccount = async (userID) => {
+    try {
         let urlUser = linkApi + userID
-        console.log(urlUser);
         const response = await client.delete(urlUser, userID)
         return await response.data
-    }   
-    catch(err){
+    }
+    catch (err) {
         console.log(err);
     }
-    
+
 }
 
-export {getAccount, addAccount, deleteAccount, updateAccount}
+export { getAccount, getAccountID, addAccount, deleteAccount, updateAccount }

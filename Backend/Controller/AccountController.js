@@ -1,21 +1,27 @@
 const multer = require("multer");
 const Upload = require("../Hook/Upload");
 const Account = require("../Model/Account");
+const upload_images = Upload.uploadAvatar.single("uploadImages")
 module.exports = {
-    index:  (req, res)=>{
+    getAll:  (req, res)=>{
         Account.get_all().then((value)=>{
-            console.log();
             return res.json(value)
         }) 
     },
-    addAccount: (req, res)=>{
-            var data = {
-                nameAccount: req.body.nameAccount == 'undefined'? null:req.body.nameAccount,
-                passAccount: req.body.passAccount == 'undefined'? null:req.body.passAccount,
-                sexAccount: req.body.sexAccount == 'undefined'? null:req.body.sexAccount,
-                phoneAccount: req.body.phoneAccount == 'undefined'? null:req.body.phoneAccount,
-                dateAccount: req.body.dateAccount == 'undefined'? null:req.body.dateAccount,
+    getAccountID:(req, res)=>{
+        Account.find(req.params.id).then((value)=>{
+            if(value){
+                return res.json({getStatus: "SUCCESS", info:value})
+            }else{
+                return res.json({getStatus: "ERROR"})
             }
+        }).catch((err)=>{
+            console.log(err);
+        })
+    },
+
+    addAccount: (req, res)=>{
+            var data = req.body
             Account.create(data).then((value)=>{
                 res.json({
                     status: 'SUCCESS',
@@ -27,36 +33,43 @@ module.exports = {
                     message:'Xảy ra lỗi, vui lòng kiểm tra lại'
                 })
             })
-    },
+    },  
 
     updateAccount: (req, res)=>{
-        var data = {
-            nameAccount: req.body.nameAccount,
-            passAccount: req.body.passAccount,
-            sexAccount: Number.parseInt(req.body.sexAccount),
-            dateAccount: req.body.dateAccount,
-            phoneAccount: req.body.phoneAccount,
-            emailAccount: req.body.emailAccount
-        }
-        if(data){
-            Account.update(req.params.id, data).then(()=>{
+        upload_images(req,res,(err)=>{
+            if(err instanceof multer.MulterError){
                 res.json({
-                    status: 'SUCCESS',
-                    message:'Cập nhật thành công ID ' + req.params.id
+                    status: 'ERROR',
+                    message:"Upload avatar lỗi"
                 })
-            }).catch((err)=>{
+            }
+            else if(err){
+                res.json({
+                    status: 'ERROR',
+                    message:"Upload avatar lỗi " + err 
+                })
+            }
+            var data= JSON.parse(JSON.parse(JSON.stringify(req.body.data)))
+            if(Object.keys(data).length === 0){
                 res.json({
                     status: 'FAILED',
                     message:'Xảy ra lỗi, vui lòng kiểm tra lại'
                 })
-            })
-        }
-        else{
-            res.json({
-                status: 'FAILED',
-                message:'Xảy ra lỗi, vui lòng kiểm tra lại'
-            })
-        }
+            }
+            else{
+                Account.update(req.params.id, data).then(()=>{
+                    res.json({
+                        status: 'SUCCESS',
+                        message:'Cập nhật thành công ID ' + req.params.id
+                    })
+                }).catch((err)=>{
+                    res.json({
+                        status: 'FAILED',
+                        message:'Xảy ra lỗi, vui lòng kiểm tra lạiaa'
+                    })
+                })
+            }
+        })
         
     },
 
