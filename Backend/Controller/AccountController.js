@@ -1,6 +1,7 @@
 const multer = require("multer");
 const Upload = require("../Hook/Upload");
 const Account = require("../Model/Account");
+const upload_images = Upload.uploadAvatar.single("imagesAccount")
 module.exports = {
     getAll:  (req, res)=>{
         Account.get_all().then((value)=>{
@@ -20,14 +21,7 @@ module.exports = {
     },
 
     addAccount: (req, res)=>{
-            var data = {
-                nameAccount: req.body.nameAccount == 'undefined'? null:req.body.nameAccount,
-                passAccount: req.body.passAccount == 'undefined'? null:req.body.passAccount,
-                sexAccount: req.body.sexAccount == 'undefined'? null:req.body.sexAccount,
-                phoneAccount: req.body.phoneAccount == 'undefined'? null:req.body.phoneAccount,
-                dateAccount: req.body.dateAccount == 'undefined'? null:req.body.dateAccount,
-                emailAccount: req.body.emailAccount == 'undefined'? null:req.body.emailAccount,
-            }
+            var data = req.body
             Account.create(data).then((value)=>{
                 res.json({
                     status: 'SUCCESS',
@@ -42,33 +36,22 @@ module.exports = {
     },
 
     updateAccount: (req, res)=>{
-        var data = {
-            nameAccount: req.body.nameAccount,
-            passAccount: req.body.passAccount,
-            sexAccount: Number.parseInt(req.body.sexAccount),
-            dateAccount: req.body.dateAccount,
-            phoneAccount: req.body.phoneAccount,
-            emailAccount: req.body.emailAccount
-        }
-        if(data){
-            Account.update(req.params.id, data).then(()=>{
+        upload_images(req,res,(err)=>{
+            if(err instanceof multer.MulterError){
                 res.json({
-                    status: 'SUCCESS',
-                    message:'Cập nhật thành công ID ' + req.params.id
+                    status: 'ERROR',
+                    message:"Upload avatar lỗi"
                 })
-            }).catch((err)=>{
+            }
+            else if(err){
                 res.json({
-                    status: 'FAILED',
-                    message:'Xảy ra lỗi, vui lòng kiểm tra lại'
+                    status: 'ERROR',
+                    message:"Upload avatar lỗi " + err 
                 })
-            })
-        }
-        else{
-            res.json({
-                status: 'FAILED',
-                message:'Xảy ra lỗi, vui lòng kiểm tra lại'
-            })
-        }
+            }
+           
+            console.log(req.body)
+        })  
         
     },
 

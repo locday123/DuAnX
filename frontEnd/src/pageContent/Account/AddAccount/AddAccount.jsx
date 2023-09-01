@@ -27,13 +27,11 @@ export default function AddAccount() {
     { nameInput: 'phoneAccount', placehoder: 'Vui lòng nhập số điện thoại', labelInput: 'Điện Thoại', typeInput: 'text' },
     { nameInput: 'dateAccount', placehoder: 'Vui lòng nhập năm sinh', labelInput: '', typeInput: 'date' }
   ]
-
   const sexAccount = [
     { valueInput: 2, label: 'Vui lòng chọn giới tính' },
     { valueInput: 1, label: 'Nam' },
     { valueInput: 0, label: 'Nữ' }
   ]
-  console.log(dataAccount);
 
   const list = (anchor) => (
     <Box sx={{ width: 350, height: 50, backgroundColor: '#f5f5f9', padding: 2, marginBottom: 2 }}>

@@ -1,23 +1,23 @@
-import { useLocation } from 'react-router-dom';
 import momen from 'moment'
 
 import { Box, Button, CardMedia, MenuItem, TextField } from "@mui/material"
 import Grid from "@mui/material/Unstable_Grid2"
-import { useEffect, useState } from "react"
-import { getAccountID } from "../../../Service/Account/AccountService"
+import { useContext, useEffect, useState } from "react"
+import { getAccountID, updateAccount } from "../../../Service/Account/AccountService"
+import Context from '../../../Context'
 
 
-function PageUpdate() {
-    const location = useLocation()
-    const idUser = location.pathname.split('/').filter(crumbs => crumbs !== '')[2]
+function PageUpdate({ dataID }) {
     const [images, setImages] = useState('')
-    const [dataID, setdataID] = useState([])
-    const [updateData, setData] = useState([])
+    const [userUpdate, setUser] = useState([])
+    const [imagesUpload, setIMGUpload] = useState([])
+    const { setAlert, setMessage } = useContext(Context)
     const handleImages = (e) => {
         URL.revokeObjectURL(images)
         const img = e.target.files[0];
         img.preview = URL.createObjectURL(img)
         setImages(img.preview)
+        setIMGUpload({ ...imagesUpload, ['imagesAccount']: e.target.files[0] })
     }
     const inputValue = [
         { nameInput: 'imagesAccount', labelInput: 'Ảnh đại diện', typeInput: 'file', width: 12 },
@@ -32,18 +32,10 @@ function PageUpdate() {
         { valueInput: 1, label: 'Nam' },
         { valueInput: 0, label: 'Nữ' }
     ]
-
     useEffect(() => {
-        getAccountID(idUser).then((value) => {
-            if (value.getStatus === "SUCCESS") {
-                setdataID(value.info);
-                setImages("http://localhost:8081/images/" + (value.info.imagesAccount != null ? value.info.imagesAccount : "img_avatar.png"))
-            }
-
-
-        })
-    }, [])
-
+        URL.revokeObjectURL(images)
+        setImages("http://localhost:8081/images/" + (dataID['imagesAccount'] != null ? dataID['imagesAccount'] : "img_avatar.png"))
+    }, [dataID])
     return (
         <Grid container rowSpacing={3} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
             {
@@ -73,15 +65,15 @@ function PageUpdate() {
                                     label={value.labelInput}
                                     placeholder={value.placehoder}
                                     name={value.nameInput}
-                                    value={
-                                        dataID[value.nameInput] != null ?
-                                            value.typeInput == "date" ?
-                                                momen(dataID[value.nameInput]).format('YYYY-MM-DD') :
-                                                dataID[value.nameInput] :
-                                            ""}
                                     type={value.typeInput}
                                     select={value.typeInput == "select" ? true : false}
+                                    onChange={(e) => setUser({ ...userUpdate, [value.nameInput]: e.target.value })}
                                     fullWidth
+                                    defaultValue={dataID[value.nameInput] != null ?
+                                        value.typeInput == "date" ?
+                                            momen(dataID[value.nameInput]).format('YYYY-MM-DD') :
+                                            dataID[value.nameInput] :
+                                        ""}
 
                                 >
                                     {
@@ -99,12 +91,17 @@ function PageUpdate() {
             }
 
             <Grid>
-                <Button variant="contained" component="label" sx={{ marginRight: "10px" }}>
+                <Button
+                    variant="contained"
+                    component="label"
+                    sx={{ marginRight: "10px" }}
+                    onClick={() => updateAccount(dataID.idAccount, imagesUpload, userUpdate).then((value) => {
+                        setAlert({ ...{ vertical: 'bottom', horizontal: 'right' }, open: true });
+                        setMessage(value.message)
+                    })}
+                >
                     CẬP NHẬT
-                </Button> {/* Thêm hình ảnh */}
-                <Button variant="outlined" component="label" sx={{ width: "120px" }}>
-                    ĐẶT LẠI
-                </Button>
+                </Button> {/* Cập nhật */}
             </Grid>
         </Grid >
     )
