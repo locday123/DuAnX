@@ -1,3 +1,4 @@
+
 import { client } from '../Serivce'
 
 let linkApi = 'account/'
@@ -22,18 +23,20 @@ const getAccountID = async (userID) => {
 }
 
 const addAccount = async (data) => {
-
     const response = (await client.post(linkApi, data))
     return await response.data;
 }
 
-const updateAccount = async ({ userID, data }) => {
+const updateAccount = async (userID, images, data) => {
+    console.log(data);
+    const Form = new FormData()
+    Form.append("imagesAccount", images.imagesAccount, "user_" + userID + ".jpg")
+    Form.append("data", data)
+    console.log(Form);
     let urlUser = linkApi + userID
-    await client.put(urlUser, data).then((value) => {
-        return value.data
-    })
+    const response = (await client.put(urlUser, Form))
+    return await response.data
 }
-
 const deleteAccount = async (userID) => {
     try {
         let urlUser = linkApi + userID
