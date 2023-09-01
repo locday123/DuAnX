@@ -18,6 +18,7 @@ function PageUpdate({ dataID }) {
         img.preview = URL.createObjectURL(img)
         setImages(img.preview)
         setIMGUpload({ ...imagesUpload, ['imagesAccount']: e.target.files[0] })
+        setUser({ ...userUpdate, ['imagesAccount']: "user_" + dataID.idAccount + ".jpg" })
     }
     const inputValue = [
         { nameInput: 'imagesAccount', labelInput: 'Ảnh đại diện', typeInput: 'file', width: 12 },
@@ -96,8 +97,8 @@ function PageUpdate({ dataID }) {
                     component="label"
                     sx={{ marginRight: "10px" }}
                     onClick={() => updateAccount(dataID.idAccount, imagesUpload, userUpdate).then((value) => {
-                        //setAlert({ ...{ vertical: 'bottom', horizontal: 'right' }, open: true });
-                        //setMessage(value.message)
+                        setAlert({ ...{ vertical: 'bottom', horizontal: 'right' }, open: true });
+                        setMessage(value.message)
                     })}
                 >
                     CẬP NHẬT

@@ -30,7 +30,9 @@ const addAccount = async (data) => {
 
 const updateAccount = async (userID, images, data) => {
     const Form = new FormData()
-    Form.append("imagesAccount", images.imagesAccount, "user_" + userID + ".jpg")
+    if (Object.keys(images).length != 0) {
+        Form.append("uploadImages", images.imagesAccount, "user_" + userID + ".jpg")
+    }
     Form.append("data", JSON.stringify(data))
     let urlUser = linkApi + userID
     const response = (await client.put(urlUser, Form))
