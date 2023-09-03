@@ -4,10 +4,11 @@ INSERT INTO ACCOUNT(passAccount, nameAccount, emailAccount, sexAccount, phoneAcc
 VALUES ('locday123', 'Hoàng Xuân Lộc', 'xuanloc060393@gmail.com', 1, '0374536393','user_S001.jpg');
 
 INSERT INTO CATEGORY(nameCategory, linkCategory, rootCategory) VALUES('Điện thoại', 'dien-thoai', null);
-INSERT INTO CATEGORY(nameCategory, linkCategory, rootCategory) VALUES('iPhone', 'iphone', null);
-INSERT INTO CATEGORY(nameCategory, linkCategory, rootCategory) VALUES('Samsung', 'samsung', null);
-INSERT INTO CATEGORY(nameCategory, linkCategory, rootCategory) VALUES('iPhone 14 Series', '14-series', null);
-INSERT INTO CATEGORY(nameCategory, linkCategory, rootCategory) VALUES('iPhone 14 Pro Max', '14-pro-max', null);
+INSERT INTO CATEGORY(nameCategory, linkCategory, rootCategory) VALUES('iPhone', 'iphone', 1);
+INSERT INTO CATEGORY(nameCategory, linkCategory, rootCategory) VALUES('Samsung', 'samsung', 1);
+INSERT INTO CATEGORY(nameCategory, linkCategory, rootCategory) VALUES('iPhone 14 Series', '14-series', 2);
+INSERT INTO CATEGORY(nameCategory, linkCategory, rootCategory) VALUES('iPhone 14 Pro Max', '14-pro-max', 4);
+INSERT INTO CATEGORY(nameCategory, linkCategory, rootCategory) VALUES('iPhone 14 Pro', '14-pro', 4);
 
 
 INSERT INTO MENU VALUES (1, 'Tài khoản', '/account', null);

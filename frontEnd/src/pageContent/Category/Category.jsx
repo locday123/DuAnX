@@ -1,24 +1,27 @@
 import { useEffect, useState } from "react";
 import { getCategory } from '../../Service/Category/CategoryService'
 
-function Category({ cats }) {
+function Category() {
     const [category, setCategory] = useState([])
-
+    const Tree = ({data}) => ( 
+        <ul>
+          {data && data.map(item => (
+            <li>
+              {item.nameCategory}
+              {item.childCategory && <Tree data={item.childCategory} />}
+            </li>
+          ))}
+        </ul>
+      );
     useEffect(() => {
         getCategory().then((value) => {
-            setCategory(category)
-
+            setCategory(value.category)
         });
     }, [])
-    console.log(category);
+    
     return (
         <div>
-            {category.map(cat => (
-                <div>
-                    <span key={cat.idCategory}>{cat.nameCategory}</span>
-
-                </div>
-            ))}
+             <Tree data={category} />
         </div>
     )
 }
