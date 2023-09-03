@@ -1,33 +1,24 @@
 import { useEffect, useState } from "react";
-import {getCategory} from '../../Service/Category/CategoryService'
+import { getCategory } from '../../Service/Category/CategoryService'
 
-function Category(){
+function Category({ cats }) {
     const [category, setCategory] = useState([])
-    const getMenu = (category, idCategory) =>{
-        var out = []
-        for (var i in category) {
-            
-          if (category[i].rootCategory == idCategory) {
-            
-            var children = getMenu(category, category[i].idCategory)
-            if (children.length) {
-                category[i].childCategory = children
-            }
-            out.push(category[i])
-          }
-        }
-        return out
-    }
+
     useEffect(() => {
         getCategory().then((value) => {
-            setCategory(getMenu(value,null))
-            
+            setCategory(category)
+
         });
     }, [])
     console.log(category);
-    return(
+    return (
         <div>
-            <span>abc</span>
+            {category.map(cat => (
+                <div>
+                    <span key={cat.idCategory}>{cat.nameCategory}</span>
+
+                </div>
+            ))}
         </div>
     )
 }
