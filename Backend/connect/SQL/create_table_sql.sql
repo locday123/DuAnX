@@ -3,10 +3,10 @@ USE DuanX;
 
 CREATE TABLE ACCOUNT
 (
-	idIncrement INT AUTO_INCREMENT,
+	idIncrement INTEGER AUTO_INCREMENT,
     idAccount VARCHAR(10),
 	passAccount VARCHAR(15),
-	nameAccount NVARCHAR(255),
+	nameAccount VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
 	emailAccount VARCHAR(255),
 	sexAccount BOOLEAN,
 	phoneAccount VARCHAR(10),
@@ -27,7 +27,7 @@ CREATE TABLE CATEGORY(
 CREATE TABLE MENU
 (
 	idMenu INTEGER,
-	nameMenu NVARCHAR(255),
+	nameMenu VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
 	linkMenu VARCHAR(255),
 	rootMenu INTEGER,
 	CONSTRAINT KEY_MENU PRIMARY KEY(idMenu, linkMenu)

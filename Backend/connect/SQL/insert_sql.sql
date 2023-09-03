@@ -13,6 +13,6 @@ INSERT INTO CATEGORY(nameCategory, linkCategory, rootCategory) VALUES('iPhone 14
 INSERT INTO MENU VALUES (1, 'Tài khoản', '/account', null);
 INSERT INTO MENU VALUES (2, 'Quản lý tài khoản', '/quan-ly-tai-khoan', 1);
 INSERT INTO MENU VALUES (3, 'Thêm tài khoản', '/them-tai-khoan', 1);
-INSERT INTO MENU VALUES (4, 'Sản phẩm', '/product', null);
-INSERT INTO MENU VALUES (5, 'Quản lý sản phẩm', '/quan-ly-san-pham', 4);
-INSERT INTO MENU VALUES (6, 'Quản lý danh mục', '/quan-ly-danh-muc', 4);
+INSERT INTO MENU VALUES (4, 'Danh mục', '/category', null);
+INSERT INTO MENU VALUES (5, 'Quản lý danh mục', '/category', 4);
+
