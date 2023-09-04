@@ -19,7 +19,7 @@ const TreeCategory = (category, idCategory) => {
 module.exports = {
     getAll:  (req, res)=>{
         Category.get_all().then((value)=>{
-            return res.json({category:TreeCategory(value,null)})
+            return res.json({category:TreeCategory(value,0)})
         })
     },
 }

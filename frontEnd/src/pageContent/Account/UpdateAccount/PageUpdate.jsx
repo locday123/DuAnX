@@ -3,7 +3,7 @@ import momen from 'moment'
 import { Box, Button, CardMedia, MenuItem, TextField } from "@mui/material"
 import Grid from "@mui/material/Unstable_Grid2"
 import { useContext, useEffect, useState } from "react"
-import {updateAccount } from "../../../Service/Account/AccountService"
+import { updateAccount } from "../../../Service/Account/AccountService"
 import Context from '../../../Context'
 
 

@@ -35,7 +35,6 @@
   },
   "devDependencies": {
     "@emotion/styled": "^11.11.0",
-    "@fortawesome/fontawesome-free": "^6.4.0",
     "@mui/styled-engine": "npm:@mui/styled-engine-sc@latest",
     "@types/react": "^18.0.37",
     "@types/react-dom": "^18.0.11",
