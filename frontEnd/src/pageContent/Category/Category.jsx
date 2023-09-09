@@ -10,7 +10,10 @@ function Category() {
   const [value, setValue] = useState({category:[1]});
   const inputValue = [
     { nameInput: 'nameCategory', placehoder: 'Tên danh mục', labelInput: 'Tên danh mục', typeInput: 'text', width: 3 },
-    { nameInput: 'linkCategory', placehoder: 'Đường dẫn danh mục', labelInput: 'Đường dẫn danh mục', typeInput: 'text', width: 3 }
+    { nameInput: 'linkCategory', placehoder: 'Đường dẫn danh mục', labelInput: 'Đường dẫn danh mục', typeInput: 'text', width: 3 },
+    { nameInput: 'linkCategory', placehoder: 'Đường dẫn danh mục', labelInput: 'Đường dẫn danh mục', typeInput: 'text', width: 3 },
+    { nameInput: 'metaTitle', placehoder: 'Mô tả ngắn (55-60 ký tự)', labelInput: 'Mô tả ngắn (55-60 ký tự)', typeInput: 'text', width: 4, size:"large" },
+    { nameInput: 'metaTitle', placehoder: 'Mô tả ngắn (55-60 ký tự)', labelInput: 'Mô tả ngắn (55-60 ký tự)', typeInput: 'text', width: 8, size:"large" }
   ]
   useEffect(() => {
     getCategory().then((value) => {
@@ -23,9 +26,9 @@ function Category() {
   };
 
   return (
-    <Grid container rowSpacing={5} sx={{backgroundColor:"white", borderRadius:"10px", padding:"0px 15px 0px 15px  "}}>
+    <Grid container rowSpacing={5} sx={{backgroundColor:"white", borderRadius:"10px", padding:"0px 15px 0px 15px"}}>
       <Grid container rowSpacing={3} xs={12} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-        <Grid xs={4}>
+        <Grid xs={3}>
           <TreeSelect
             fieldNames={{
               children: 'childCategory',
@@ -53,7 +56,7 @@ function Category() {
                 name={value.nameInput}
                 type={value.typeInput}
                 fullWidth
-                size="small"
+                size={value.size?value.size:"small"}
             />
           </Grid>
         ))
@@ -64,9 +67,12 @@ function Category() {
                 component="label"
                 fullWidth
             >
-                TẠO TÀI KHOẢN
+                TẠO DANH MỤC
             </Button> {/* Cập nhật */}
         </Grid>
+      </Grid>
+      <Grid container rowSpacing={3} xs={12} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+          abc
       </Grid>
     </Grid>
   )
