@@ -1,7 +1,10 @@
+import { Box } from "@mui/material"
 
-function CategoryList() {
+function CategoryList({ value }) {
     return (
-        
+        <Box>
+
+        </Box>
     )
 }
 

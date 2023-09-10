@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import { TreeSelect, Tree } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
-
-
-import { getCategory } from '../../Service/Category/CategoryService'
 import { Button, TextField } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
+
+import { getCategory } from '../../Service/Category/CategoryService'
+import CategoryList from './CategoryList'
 function Category() {
   const { SHOW_PARENT } = TreeSelect;
   const [category, setCategory] = useState([])
@@ -83,7 +83,7 @@ function Category() {
             title: 'nameCategory',
             key: 'idCategory'
           }}
-          titleRender={(tree) => { return (<span>{tree.linkCategory}</span>) }}
+          titleRender={(tree) => { return (<CategoryList value={tree} />) }}
           style={{ fontSize: "16px" }}
         />
       </Grid>
