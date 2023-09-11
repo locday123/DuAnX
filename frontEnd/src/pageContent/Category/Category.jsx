@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
-import { TreeSelect, Tree } from 'antd';
-import { DownOutlined } from '@ant-design/icons';
+import { TreeSelect, Tree, Table } from 'antd';
 import { Button, TextField } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
 
@@ -9,13 +8,12 @@ import CategoryList from './CategoryList'
 function Category() {
   const { SHOW_PARENT } = TreeSelect;
   const [category, setCategory] = useState([])
-  const [value, setValue] = useState({ category: [1] });
+  const [dataCategory, setData] = useState({ rootCategory: [1] });
   const inputValue = [
-    { nameInput: 'nameCategory', placehoder: 'Tên danh mục', labelInput: 'Tên danh mục', typeInput: 'text', width: 3 },
-    { nameInput: 'linkCategory', placehoder: 'Đường dẫn danh mục', labelInput: 'Đường dẫn danh mục', typeInput: 'text', width: 3 },
-    { nameInput: 'linkCategory', placehoder: 'Đường dẫn danh mục', labelInput: 'Đường dẫn danh mục', typeInput: 'text', width: 3 },
-    { nameInput: 'metaTitle', placehoder: 'Mô tả ngắn (55-60 ký tự)', labelInput: 'Mô tả ngắn (55-60 ký tự)', typeInput: 'text', width: 4, size: "large" },
-    { nameInput: 'metaTitle', placehoder: 'Mô tả ngắn (55-60 ký tự)', labelInput: 'Mô tả ngắn (55-60 ký tự)', typeInput: 'text', width: 8, size: "large" }
+    { nameInput: 'nameCategory', placehoder: 'Tên danh mục', labelInput: 'Tên danh mục', typeInput: 'text', width: 4 },
+    { nameInput: 'linkCategory', placehoder: 'Đường dẫn danh mục', labelInput: 'Đường dẫn danh mục', typeInput: 'text', width: 4},
+    { nameInput: 'metaTitle', placehoder: 'Meta Title', labelInput: 'Mô tả ngắn (55-60 ký tự)', typeInput: 'text', width: 4, size: "large" },
+    { nameInput: 'metaDescription', placehoder: 'Meta Description', labelInput: 'Mô tả ngắn (55-60 ký tự)', typeInput: 'text', width: 8, size: "large" }
   ]
   useEffect(() => {
     getCategory().then((value) => {
@@ -23,14 +21,14 @@ function Category() {
     });
   }, [])
   const onChange = (newValue) => {
-    setValue({ ...value, category: newValue });
+    setData({ ...dataCategory, rootCategory: newValue });
 
   };
-
+  console.log(dataCategory);
   return (
     <Grid container rowSpacing={5} sx={{ backgroundColor: "white", borderRadius: "10px", padding: "0px 15px 0px 15px" }}>
-      <Grid container rowSpacing={1} xs={12} columnSpacing={{ xs: 1, sm: 2, md: 3 }} sx={{ borderBottom: "1px solid red" }}>
-        <Grid xs={3}>
+      <Grid container rowSpacing={3} xs={12} columnSpacing={{ xs: 1, sm: 2, md: 3 }} sx={{ borderBottom: "1px solid red" }}>
+        <Grid xs={4}>
           <TreeSelect
             fieldNames={{
               children: 'childCategory',
@@ -39,7 +37,7 @@ function Category() {
             }}
             showSearch
             style={{ width: '100%' }}
-            value={value.category}
+            value={dataCategory.rootCategory}
             dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
             placeholder="Chọn danh mục"
             allowClear
@@ -57,12 +55,13 @@ function Category() {
                 name={value.nameInput}
                 type={value.typeInput}
                 fullWidth
+                onChange={(e)=>{setData({...dataCategory, [value.nameInput]: e.target.value})}}
                 size={value.size ? value.size : "small"}
               />
             </Grid>
           ))
         }
-        <Grid xs={2}>
+        <Grid xs={4}>
           <Button
             variant="contained"
             component="label"
@@ -72,20 +71,8 @@ function Category() {
           </Button> {/* Cập nhật */}
         </Grid>
       </Grid>
-      <Grid container rowSpacing={3} xs={12} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-        <Tree
-          showLine
-          switcherIcon={<DownOutlined />}
-          defaultExpandedKeys={[1]}
-          treeData={category}
-          fieldNames={{
-            children: 'childCategory',
-            title: 'nameCategory',
-            key: 'idCategory'
-          }}
-          titleRender={(tree) => { return (<CategoryList value={tree} />) }}
-          style={{ fontSize: "16px" }}
-        />
+      <Grid xs={12}>
+        <CategoryList value={category}/>
       </Grid>
     </Grid>
   )

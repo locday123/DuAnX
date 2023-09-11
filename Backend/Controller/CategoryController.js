@@ -11,6 +11,7 @@ const TreeCategory = (category, idCategory) => {
             if (children.length) {
                 category[i].childCategory = children
             }
+            category[i].key = category[i].idCategory
             out.push(category[i])
         }
     }
@@ -22,4 +23,18 @@ module.exports = {
             return res.json({category:TreeCategory(value,0)})
         })
     },
+    addCategory: (req, res)=>{
+        var data = req.body
+        Category.create(data).then((value)=>{
+            res.json({
+                status: 'SUCCESS',
+                message:'Tạo danh mục mới thành công'
+            })        
+        }).catch((err)=>{
+            res.json({
+                status: 'FAILED',
+                message:'Xảy ra lỗi, vui lòng kiểm tra lại'
+            })
+        })
+    }
 }

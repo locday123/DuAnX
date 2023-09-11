@@ -1,13 +1,28 @@
-import { Box } from "@mui/material"
+import { Button } from "@mui/material"
+import { Table } from "antd"
 
 function CategoryList({ value }) {
+    const columnCategory = [
+        {title: "Tên danh mục", dataIndex: "nameCategory", key: "nameCategory"},
+        {title: "ID Danh mục", dataIndex: "idCategory", key: "idCategory"},
+        {title: "Đường dẫn", dataIndex: "linkCategory", key: "linkCategory"},
+        {
+            title: "Hành động", 
+            dataIndex: "actionCategory", 
+            key: "actionCategory",
+            render: ()=>(<Button variant="contained">Xóa</Button>)
 
+        }
+        
+    ]
     return (
-        <Box sx={{ display: "flex" }}>
-            <Box>{value.nameCategory}</Box>
-            <Box>{value.idCategory}</Box>
-            <Box>{value.linkCategory}</Box>
-        </Box>
+        <Table
+            columns={columnCategory}
+            dataSource={value}
+            childrenColumnName="childCategory"
+            size="large"
+            bordered
+        />
     )
 }
 

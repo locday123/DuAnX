@@ -12,5 +12,10 @@ const getCategory = async () => {
     }
 }
 
+const addCategory = async () => {
+    const response = (await client.post(linkApi, data))
+    return await response.data;
+}
 
-export { getCategory }
+
+export { getCategory, addCategory }
