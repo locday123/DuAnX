@@ -1,27 +1,25 @@
-import {createContext, useState} from 'react'
+import { createContext, useState } from 'react'
 
 const Context = createContext();
 
-export function ContextProvider({children}){
+export function ContextProvider({ children }) {
     const [message, setMessage] = useState()
-    const [acc_isChange, setAcc_ischange] = useState(false)
+    const [dataChange, setChange] = useState(false)
     const [alert, setAlert] = useState({
         open: false,
         vertical: 'top',
         horizontal: 'center',
-      });
-    
+    });
+
     const handleClose = () => {
-        
-            setAlert({ ...alert, open: false });
-            setAcc_ischange(false)
-        
+        setChange(false)
+        setAlert({ ...alert, open: false });
     };
-    
-    
-    
-    return(
-        <Context.Provider value={{alert, setAlert, handleClose, message, setMessage, acc_isChange, setAcc_ischange}}>
+
+
+
+    return (
+        <Context.Provider value={{ alert, setAlert, handleClose, message, setMessage, dataChange, setChange }}>
             {children}
         </Context.Provider>
     )

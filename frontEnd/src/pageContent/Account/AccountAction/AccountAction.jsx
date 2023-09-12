@@ -6,7 +6,7 @@ import { useContext, useState } from 'react';
 import Context from '../../../Context';
 
 function AccountAction({ userID }) {
-    const { setAlert, setMessage, setAcc_ischange } = useContext(Context)
+    const { setAlert, setMessage, setChange } = useContext(Context)
 
     return (
         <Box>
@@ -27,7 +27,7 @@ function AccountAction({ userID }) {
                     deleteAccount(userID).then((value) => {
                         setAlert({ ...{ vertical: 'bottom', horizontal: 'right' }, open: true });
                         setMessage(value.message)
-                        setAcc_ischange(true)
+                        setChange(true)
                     })}>
                     <Delete />
                 </IconButton>

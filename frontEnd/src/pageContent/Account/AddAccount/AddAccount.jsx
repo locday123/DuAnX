@@ -11,7 +11,7 @@ export default function AddAccount() {
     right: false,
   });
 
-  const { alert, setAlert, setMessage, setAcc_ischange } = useContext(Context)
+  const { setAlert, setMessage, setChange } = useContext(Context)
   const [dataAccount, setAccount] = useState([])
 
 
@@ -83,7 +83,7 @@ export default function AddAccount() {
                 then((value) => {
                   setAlert({ ...{ vertical: 'bottom', horizontal: 'right' }, open: true });
                   setMessage(value.message)
-                  setAcc_ischange(true)
+                  setChange(true)
                 })
             }
           >Thêm tài khoản</Button>

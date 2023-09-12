@@ -7,3 +7,12 @@ SET NEW.idAccount = CONCAT('S',LPAD(
   FROM INFORMATION_SCHEMA.TABLES    
   WHERE table_name = 'ACCOUNT')
 ,3,'0'));
+delimiter 
+CREATE TRIGGER rootCategoryEdit AFTER INSERT ON CATEGORY
+FOR EACH ROW 
+BEGIN
+	IF (NEW.rootCategory IS NULL) THEN
+		SET rootCategory = 0
+	END IF
+END
+delimiter ;

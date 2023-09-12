@@ -12,10 +12,21 @@ const getCategory = async () => {
     }
 }
 
-const addCategory = async () => {
+const addCategory = async (data) => {
     const response = (await client.post(linkApi, data))
     return await response.data;
 }
+const deleteCategory = async (idCategory) => {
+    try {
+        let urlCategory = linkApi + idCategory
+        const response = await client.delete(urlCategory, idCategory)
+        return await response.data
+    }
+    catch (err) {
+        console.log(err);
+    }
+
+}
 
 
-export { getCategory, addCategory }
+export { getCategory, addCategory, deleteCategory }

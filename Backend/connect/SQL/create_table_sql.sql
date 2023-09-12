@@ -19,8 +19,10 @@ CREATE TABLE ACCOUNT
 CREATE TABLE CATEGORY(
 	idCategory INTEGER AUTO_INCREMENT,
     nameCategory VARCHAR(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
-    linkCategory VARCHAR(255),
+    linkCategory VARCHAR(255) unique,
     rootCategory INTEGER,
+    metaTitle VARCHAR(70) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+    metaDescription VARCHAR(155) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
     CONSTRAINT KEY_CATEGORY PRIMARY KEY(idCategory)
 );
 

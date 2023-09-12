@@ -15,7 +15,7 @@ const cx = classNames.bind(styles);
 function Account() {
 
     const [listAccount, setListAccount] = useState([])
-    const { acc_isChange } = useContext(Context)
+    const { dataChange } = useContext(Context)
 
     function Group({ data }) {
         const images = "http://localhost:8081/images/" + (data.imagesAccount ? data.imagesAccount : "img_avatar.png")
@@ -69,7 +69,7 @@ function Account() {
         getAccount().then((value) => {
             setListAccount(value)
         });
-    }, [acc_isChange == true])
+    }, [dataChange == true])
 
     return (
         <div className={cx('table-list')}>

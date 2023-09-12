@@ -25,11 +25,41 @@ module.exports = {
     },
     addCategory: (req, res)=>{
         var data = req.body
-        Category.create(data).then((value)=>{
+        
+        Category.find(data.linkCategory).then((value)=>{
+            if(value == undefined){
+                Category.create(data).then((value)=>{
+                    res.json({
+                        status: 'SUCCESS',
+                        message:'Tạo danh mục mới thành công'
+                    })        
+                }).catch((err)=>{
+                    res.json({
+                        status: 'FAILED',
+                        message:'Xảy ra lỗi, vui lòng kiểm tra lại'
+                    })
+                })
+            }
+            else{
+                res.json({
+                    status: 'FAILED',
+                    message:'Xảy ra lỗi, vui lòng kiểm tra lạiaa'
+                })
+            }
+        }).catch((err)=>{
+            res.json({
+                status: 'FAILED',
+                message:'Xảy ra lỗi, vui lòng kiểm tra lại'
+            })
+        })
+        
+    },
+    deleteCategory: (req, res)=>{
+        Category.delete(req.params.id).then((value)=>{
             res.json({
                 status: 'SUCCESS',
-                message:'Tạo danh mục mới thành công'
-            })        
+                message:'Xóa thành công danh mục ID ' + req.params.id
+            })
         }).catch((err)=>{
             res.json({
                 status: 'FAILED',
@@ -37,4 +67,5 @@ module.exports = {
             })
         })
     }
+
 }
