@@ -28,6 +28,16 @@ function Category() {
     { nameInput: 'metaTitle', placehoder: 'Meta Title', labelInput: 'Meta Title (' + lengthMetaT + '/70) ký tự', typeInput: 'text', width: 4, size: "large" },
     { nameInput: 'metaDescription', placehoder: 'Meta Description', labelInput: 'Meta Description (' + lengthMetaD + '/155) ký tự', typeInput: 'text', width: 8, size: "large" }
   ]
+  function slugify(str) {
+    return String(str)
+      .normalize('NFKD') // split accented characters into their base characters and diacritical marks
+      .replace(/[\u0300-\u036f]/g, '') // remove all the accents, which happen to be all in the \u03xx UNICODE block.
+      .trim() // trim leading or trailing whitespace
+      .toLowerCase() // convert to lowercase
+      .replace(/[^a-z0-9 -]/g, '') // remove non-alphanumeric characters
+      .replace(/\s+/g, '-') // replace spaces with hyphens
+      .replace(/-+/g, '-'); // remove consecutive hyphens
+  }
 
   const checkForm = (data) => {
     if (data.nameCategory && data.linkCategory) {
@@ -40,6 +50,7 @@ function Category() {
     setData({ ...dataCategory, rootCategory: newValue });
 
   };
+  console.log(dataCategory);
   return (
     <Grid container rowSpacing={5} sx={{ backgroundColor: "white", borderRadius: "10px", padding: "0px 15px 0px 15px" }}>
       <Grid container rowSpacing={3} xs={12} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
@@ -68,6 +79,7 @@ function Category() {
                 required
                 label={value.labelInput}
                 placeholder={value.placehoder}
+                value={value.nameInput == "linkCategory" ? slugify(dataCategory.nameCategory) : undefined}
                 name={value.nameInput}
                 type={value.typeInput}
                 inputProps={

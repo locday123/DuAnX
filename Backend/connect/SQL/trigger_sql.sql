@@ -12,7 +12,7 @@ CREATE TRIGGER rootCategoryEdit AFTER INSERT ON CATEGORY
 FOR EACH ROW 
 BEGIN
 	IF (NEW.rootCategory IS NULL) THEN
-		SET rootCategory = 0
+		SET NEW.rootCategory = 0
 	END IF
 END
 delimiter ;
