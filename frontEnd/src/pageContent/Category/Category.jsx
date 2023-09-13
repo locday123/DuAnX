@@ -13,20 +13,19 @@ function Category() {
   const { setAlert, setMessage, dataChange, setChange } = useContext(Context)
   const [category, setCategory] = useState([])
   const [dataCategory, setData] = useState({ rootCategory: [1] });
-  const [lengthMetaT, setLmetat] = useState(0)
-  const [lengthMetaD, setLmetad] = useState(0)
+  const [meta, setMeta] = useState([])
+  const [onFocus, setFocus] = useState([])
 
   useEffect(() => {
     getCategory().then((value) => {
       setCategory(value.category)
     });
   }, [dataChange == true])
-
   const inputValue = [
     { nameInput: 'nameCategory', placehoder: 'Tên danh mục', labelInput: 'Tên danh mục', typeInput: 'text', width: 4 },
     { nameInput: 'linkCategory', placehoder: 'Đường dẫn danh mục', labelInput: 'Đường dẫn danh mục', typeInput: 'text', width: 4 },
-    { nameInput: 'metaTitle', placehoder: 'Meta Title', labelInput: 'Meta Title (' + lengthMetaT + '/70) ký tự', typeInput: 'text', width: 4, size: "large" },
-    { nameInput: 'metaDescription', placehoder: 'Meta Description', labelInput: 'Meta Description (' + lengthMetaD + '/155) ký tự', typeInput: 'text', width: 8, size: "large" }
+    { nameInput: 'metaTitle', placehoder: 'Meta Title', labelInput: 'Meta Title (' + meta.title + '/70) ký tự', typeInput: 'text', width: 4, size: "large" },
+    { nameInput: 'metaDescription', placehoder: 'Meta Description', labelInput: 'Meta Description (' + meta.description + '/155) ký tự', typeInput: 'text', width: 8, size: "large" }
   ]
   function slugify(str) {
     return String(str)
@@ -50,7 +49,6 @@ function Category() {
     setData({ ...dataCategory, rootCategory: newValue });
 
   };
-  console.log(dataCategory);
   return (
     <Grid container rowSpacing={5} sx={{ backgroundColor: "white", borderRadius: "10px", padding: "0px 15px 0px 15px" }}>
       <Grid container rowSpacing={3} xs={12} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
@@ -77,25 +75,33 @@ function Category() {
             <Grid key={key} xs={value.width}>
               <TextField
                 required
-                label={value.labelInput}
                 placeholder={value.placehoder}
-                value={value.nameInput == "linkCategory" ? slugify(dataCategory.nameCategory) : undefined}
-                name={value.nameInput}
+                fullWidth
                 type={value.typeInput}
+                size={value.size ? value.size : "small"}
+                value={
+                  
+                    value.nameInput == "linkCategory" ?
+                        onFocus.slug
+                      :undefined
+                }
+                name={value.nameInput}
                 inputProps={
                   value.nameInput == "metaTitle" ? { "maxLength": "70" } : value.nameInput == "metaDescription" ? { "maxLength": "155" } : undefined
                 }
-                fullWidth
+                onFocus={()=>setFocus({...focus,"focus":value.nameInput})}
                 onChange={(e) => {
                   setData({ ...dataCategory, [value.nameInput]: e.target.value })
                   if (value.nameInput == "metaTitle") {
-                    setLmetat(e.target.value.length)
+                    setMeta({...meta, "title":e.target.value.length})
                   }
                   if (value.nameInput == "metaDescription") {
-                    setLmetad(e.target.value.length)
+                    setMeta({...meta, "description":e.target.value.length})
+                  }
+                  if(value.nameInput == "nameCategory"){
+                    setFocus({...focus, "slug":slugify(e.target.value)})
                   }
                 }}
-                size={value.size ? value.size : "small"}
               />
             </Grid>
           ))

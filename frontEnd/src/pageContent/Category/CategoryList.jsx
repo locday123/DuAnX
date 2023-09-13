@@ -16,19 +16,21 @@ function CategoryList({ value }) {
             dataIndex: "actionCategory",
             key: "actionCategory",
 
-            render: (text, record, index) => (
-                <Button
-                    variant="contained"
-                    onClick={() => {
-                        deleteCategory(record.linkCategory).then((value) => {
-                            setChange(true)
-                            setAlert({ ...{ vertical: 'bottom', horizontal: 'right' }, open: true });
-                            setMessage(value.message)
-                        })
-                    }}
-                >
-                    Xóa
-                </Button>
+            render: (text, record, index) =>(
+                <>{record.rootCategory!=0?
+                    <Button
+                        variant="contained"
+                        onClick={() => {
+                            deleteCategory(record.linkCategory).then((value) => {
+                                setChange(true)
+                                setAlert({ ...{ vertical: 'bottom', horizontal: 'right' }, open: true });
+                                setMessage(value.message)
+                            })
+                        }}
+                    >
+                        Xóa
+                    </Button>
+                :undefined}</>
             )
         }
     ]
