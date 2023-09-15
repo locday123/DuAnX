@@ -2,7 +2,7 @@ import { Box, IconButton, Tooltip } from '@mui/material';
 import { Delete, Edit, Preview } from '@mui/icons-material';
 import { Link } from 'react-router-dom';
 import { deleteAccount } from '../../../Service/Account/AccountService';
-import { useContext, useState } from 'react';
+import { useContext } from 'react';
 import Context from '../../../Context';
 
 function AccountAction({ userID }) {

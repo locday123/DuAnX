@@ -58,7 +58,7 @@ module.exports = {
         Category.delete(req.params.id).then((value)=>{
             res.json({
                 status: 'SUCCESS',
-                message:'Xóa thành công danh mục ID ' + req.params.id
+                message:'Xóa thành công danh mục [ ' + req.params.id+' ]'
             })
         }).catch((err)=>{
             res.json({
