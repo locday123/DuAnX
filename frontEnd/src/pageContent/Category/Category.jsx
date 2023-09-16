@@ -100,6 +100,7 @@ function Category() {
                   }
                   if(value.nameInput == "nameCategory"){
                     setFocus({...focus, "slug":slugify(e.target.value)})
+                    setData({ ...dataCategory, [value.nameInput]: e.target.value, linkCategory: slugify(e.target.value) })
                   }
                 }}
               />

@@ -17,3 +17,11 @@ BEGIN
 	END IF;
 END; //
 delimiter ;
+
+delimiter //
+CREATE TRIGGER deleteChildCategory BEFORE DELETE ON CATEGORY
+FOR EACH ROW 
+BEGIN
+	signal sqlstate '45000' set message_text = OLD.idCategory;
+END; //
+delimiter ;

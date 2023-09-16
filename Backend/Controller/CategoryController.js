@@ -25,7 +25,6 @@ module.exports = {
     },
     addCategory: (req, res)=>{
         var data = req.body
-        
         Category.find(data.linkCategory).then((value)=>{
             if(value == undefined){
                 Category.create(data).then((value)=>{
