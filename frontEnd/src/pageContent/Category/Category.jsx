@@ -80,23 +80,23 @@ function Category() {
                 type={value.typeInput}
                 size={value.size ? value.size : "small"}
                 value={
-                  
-                    value.nameInput == "linkCategory" ?
-                        onFocus.slug
-                      :undefined
+
+                  value.nameInput == "linkCategory" ?
+                    onFocus.slug
+                    : undefined
                 }
                 name={value.nameInput}
                 inputProps={
                   value.nameInput == "metaTitle" ? { "maxLength": "70" } : value.nameInput == "metaDescription" ? { "maxLength": "155" } : undefined
                 }
-                onFocus={()=>setFocus({...focus,"focus":value.nameInput})}
+                onFocus={() => setFocus({ ...focus, "focus": value.nameInput })}
                 onChange={(e) => {
                   setData({ ...dataCategory, [value.nameInput]: e.target.value })
                   if (value.nameInput == "metaTitle") {
-                    setMeta({...meta, "title":e.target.value.length})
+                    setMeta({ ...meta, "title": e.target.value.length })
                   }
                   if (value.nameInput == "metaDescription") {
-                    setMeta({...meta, "description":e.target.value.length})
+                    setMeta({ ...meta, "description": e.target.value.length })
                   }
                   if(value.nameInput == "nameCategory"){
                     setFocus({...focus, "slug":slugify(e.target.value)})
