@@ -19,9 +19,10 @@ END; //
 delimiter ;
 
 delimiter //
-CREATE TRIGGER deleteChildCategory BEFORE DELETE ON CATEGORY
+CREATE TRIGGER addRowtempCateogry AFTER DELETE ON CATEGORY
 FOR EACH ROW 
 BEGIN
-	signal sqlstate '45000' set message_text = OLD.idCategory;
+	CREATE TEMPORARY TABLE temp_DeleteCategory (idCategory INTEGER);
+    INSERT INTO temp_DeleteCategory (idCategory) (SELECT idCategory from Category where rootCategory = OLD.idCategory );
 END; //
 delimiter ;
