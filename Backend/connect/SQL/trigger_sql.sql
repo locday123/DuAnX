@@ -26,3 +26,13 @@ BEGIN
     INSERT INTO temp_DeleteCategory (idCategory) (SELECT idCategory from Category where rootCategory = OLD.idCategory );
 END; //
 delimiter ;
+
+delimiter //
+CREATE TRIGGER removeChild AFTER INSERT ON temp_DeleteCategory
+FOR EACH ROW 
+BEGIN
+	DELETE FROM CATEGORY WHERE idCategory IN (SELECT idCategory FROM temp_DeleteCategory); 
+    DROP TEMPORARY TABLE temp_DeleteCategory;
+END; //
+delimiter ;
+
