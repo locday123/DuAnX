@@ -16,6 +16,11 @@ const addCategory = async (data) => {
     const response = (await client.post(linkApi, data))
     return await response.data;
 }
+const updateCategory = async (idCategory, data) => {
+    let urlCategory = linkApi + idCategory
+    const response = (await client.put(urlCategory, data))
+    return await response.data
+}
 const deleteCategory = async (idCategory) => {
     try {
         let urlCategory = linkApi + idCategory
@@ -29,4 +34,4 @@ const deleteCategory = async (idCategory) => {
 }
 
 
-export { getCategory, addCategory, deleteCategory }
+export { getCategory, addCategory, updateCategory, deleteCategory }

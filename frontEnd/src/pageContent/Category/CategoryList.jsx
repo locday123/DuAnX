@@ -1,6 +1,6 @@
-import { Button, IconButton, Tooltip } from "@mui/material"
+import { IconButton, Switch, Tooltip } from "@mui/material"
 import { Table } from "antd"
-import { deleteCategory } from "../../Service/Category/CategoryService"
+import { deleteCategory, updateCategory } from "../../Service/Category/CategoryService"
 import { useContext, useEffect, useState } from "react"
 import Context from "../../Context"
 import { Delete } from "@mui/icons-material"
@@ -12,10 +12,22 @@ function CategoryList({ value }) {
         { title: "ID Danh mục", dataIndex: "idCategory", key: "idCategory" },
         { title: "Đường dẫn", dataIndex: "linkCategory", key: "linkCategory" },
         {
-            title: "Hành động",
-            dataIndex: "actionCategory",
-            key: "actionCategory",
-
+            title: "Trạng thái", dataIndex: "statusCategory", key: "statusCategory",
+            render: (text, record, index) => (
+                <Switch
+                    checked={record.statusCategory == 1 ? 1 : 0}
+                    onChange={(e) => {
+                        updateCategory(record.linkCategory, e.target.checked).then((value) => {
+                            setChange(true)
+                            setAlert({ ...{ vertical: 'bottom', horizontal: 'right' }, open: true });
+                            setMessage(value.message)
+                        })
+                    }}
+                />
+            )
+        },
+        {
+            title: "Hành động", dataIndex: "actionCategory", key: "actionCategory",
             render: (text, record, index) => (
 
                 <Tooltip title={'Xóa danh mục [ ' + record.nameCategory + ' ]'}>

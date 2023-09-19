@@ -53,6 +53,22 @@ module.exports = {
         })
         
     },
+
+    updateCategory: (req, res)=>{
+        
+        Category.update(req.params.id, data).then(()=>{
+            res.json({
+                status: 'SUCCESS',
+                message:'Cập nhật thành công ID ' + req.params.id
+            })
+        }).catch((err)=>{
+            res.json({
+                status: 'FAILED',
+                message:'Xảy ra lỗi, vui lòng kiểm tra lạia'
+            })
+        })
+    },
+
     deleteCategory: (req, res)=>{
         Category.delete(req.params.id).then((value)=>{
             res.json({
