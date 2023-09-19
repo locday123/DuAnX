@@ -55,7 +55,6 @@ module.exports = {
     },
 
     updateCategory: (req, res)=>{
-        
         Category.update(req.params.id, req.body).then(()=>{
             res.json({
                 status: 'SUCCESS',

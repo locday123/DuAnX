@@ -17,6 +17,7 @@ const addCategory = async (data) => {
     return await response.data;
 }
 const updateCategory = async (idCategory, data) => {
+    console.log(data);
     let urlCategory = linkApi + idCategory
     const response = (await client.put(urlCategory, data))
     return await response.data

@@ -7,6 +7,7 @@ import { Delete } from "@mui/icons-material"
 function CategoryList({ value }) {
     const { setAlert, setMessage, setChange } = useContext(Context)
     const [data, setData] = useState([value])
+    const [swichData, setSwitch] = useState()
     const columnCategory = [
         { title: "Tên danh mục", dataIndex: "nameCategory", key: "nameCategory" },
         { title: "ID Danh mục", dataIndex: "idCategory", key: "idCategory" },
@@ -15,9 +16,11 @@ function CategoryList({ value }) {
             title: "Trạng thái", dataIndex: "statusCategory", key: "statusCategory",
             render: (text, record, index) => (
                 <Switch
-                    checked={record.statusCategory == 1 ? 1 : 0}
+                    defaultChecked={record.statusCategory}
                     onChange={(e) => {
-                        updateCategory(record.idCategory, { statusCategory: e.target.checked }).then((value) => {
+                        setSwitch({...swichData, statusCategory:e.target.checked})
+                        swichData&&
+                        updateCategory(record.idCategory, swichData).then((value) => {
                             setChange(true)
                             setAlert({ ...{ vertical: 'bottom', horizontal: 'right' }, open: true });
                             setMessage(value.message)
@@ -32,7 +35,7 @@ function CategoryList({ value }) {
 
                 <Tooltip title={'Xóa danh mục [ ' + record.nameCategory + ' ]'}>
                     <IconButton color='primary' onClick={() => {
-                        deleteCategory(record.linkCategory).then((value) => {
+                        deleteCategory(record.idCategory).then((value) => {
                             setChange(true)
                             setAlert({ ...{ vertical: 'bottom', horizontal: 'right' }, open: true });
                             setMessage(value.message)
