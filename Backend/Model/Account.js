@@ -5,3 +5,4 @@ module.exports = new class Account extends Model{
         super('ACCOUNT','idAccount')
     }
 }
+    

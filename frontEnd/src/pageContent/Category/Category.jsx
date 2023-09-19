@@ -12,7 +12,7 @@ function Category() {
   const { SHOW_PARENT } = TreeSelect;
   const { setAlert, setMessage, dataChange, setChange } = useContext(Context)
   const [category, setCategory] = useState([])
-  const [dataCategory, setData] = useState({ rootCategory: [1] });
+  const [dataCategory, setData] = useState({ rootCategory: [null] });
   const [meta, setMeta] = useState([])
   const [onFocus, setFocus] = useState([])
 
@@ -44,11 +44,12 @@ function Category() {
     } else { return false }
   }
 
-
   const onChange = (newValue) => {
-    setData({ ...dataCategory, rootCategory: newValue });
+    setData({ ...dataCategory, rootCategory: newValue == undefined ? null : newValue });
 
   };
+
+  console.log(dataCategory);
   return (
     <Grid container rowSpacing={5} sx={{ backgroundColor: "white", borderRadius: "10px", padding: "0px 15px 0px 15px" }}>
       <Grid container rowSpacing={3} xs={12} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
@@ -61,7 +62,6 @@ function Category() {
             }}
             showSearch
             style={{ width: '100%' }}
-            value={dataCategory.rootCategory}
             dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
             placeholder="Chọn danh mục"
             allowClear
@@ -98,8 +98,8 @@ function Category() {
                   if (value.nameInput == "metaDescription") {
                     setMeta({ ...meta, "description": e.target.value.length })
                   }
-                  if(value.nameInput == "nameCategory"){
-                    setFocus({...focus, "slug":slugify(e.target.value)})
+                  if (value.nameInput == "nameCategory") {
+                    setFocus({ ...focus, "slug": slugify(e.target.value) })
                     setData({ ...dataCategory, [value.nameInput]: e.target.value, linkCategory: slugify(e.target.value) })
                   }
                 }}

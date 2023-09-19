@@ -72,7 +72,7 @@ module.exports = class Model {
 
        let cThis = this;
        return new Promise(function(myResolve, myReject) {  
-       db.query('DELETE FROM  ??  WHERE ?? = ?',[ cThis.table, cThis.id,id], function (error, result) {
+       db.query('DELETE FROM  ??  WHERE ?? = (?)',[ cThis.table, cThis.id,id], function (error, result) {
        if (error) throw  error;
        myResolve( result )
 

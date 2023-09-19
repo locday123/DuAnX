@@ -3,7 +3,7 @@ USE DuanX;
 INSERT INTO ACCOUNT(passAccount, nameAccount, emailAccount, sexAccount, phoneAccount, imagesAccount)
 VALUES ('locday123', 'Hoàng Xuân Lộc', 'xuanloc060393@gmail.com', 1, '0374536393','user_S001.jpg');
 
-INSERT INTO CATEGORY(nameCategory, linkCategory, rootCategory, statusCategory) VALUES('Điện thoại', 'dien-thoai', 0, true);
+INSERT INTO CATEGORY(nameCategory, linkCategory, rootCategory, statusCategory) VALUES('Điện thoại', 'dien-thoai', NULL, true);
 INSERT INTO CATEGORY(nameCategory, linkCategory, rootCategory, statusCategory) VALUES('iPhone', 'iphone', 1, true);
 INSERT INTO CATEGORY(nameCategory, linkCategory, rootCategory, statusCategory) VALUES('Samsung', 'samsung', 1, true);
 INSERT INTO CATEGORY(nameCategory, linkCategory, rootCategory, statusCategory) VALUES('iPhone 14 Series', '14-series', 2, true);
