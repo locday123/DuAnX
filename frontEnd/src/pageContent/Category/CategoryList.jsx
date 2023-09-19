@@ -17,7 +17,7 @@ function CategoryList({ value }) {
                 <Switch
                     checked={record.statusCategory == 1 ? 1 : 0}
                     onChange={(e) => {
-                        updateCategory(record.linkCategory, e.target.checked).then((value) => {
+                        updateCategory(record.idCategory, { statusCategory: e.target.checked }).then((value) => {
                             setChange(true)
                             setAlert({ ...{ vertical: 'bottom', horizontal: 'right' }, open: true });
                             setMessage(value.message)

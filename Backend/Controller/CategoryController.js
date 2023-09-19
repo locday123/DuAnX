@@ -56,7 +56,7 @@ module.exports = {
 
     updateCategory: (req, res)=>{
         
-        Category.update(req.params.id, data).then(()=>{
+        Category.update(req.params.id, req.body).then(()=>{
             res.json({
                 status: 'SUCCESS',
                 message:'Cập nhật thành công ID ' + req.params.id
