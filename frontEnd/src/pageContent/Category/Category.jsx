@@ -55,6 +55,7 @@ function Category() {
       <Grid container rowSpacing={3} xs={12} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
         <Grid xs={4}>
           <TreeSelect
+
             fieldNames={{
               children: 'childCategory',
               label: 'nameCategory',
