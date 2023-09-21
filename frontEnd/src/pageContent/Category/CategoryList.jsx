@@ -4,10 +4,18 @@ import { deleteCategory, updateCategory } from "../../Service/Category/CategoryS
 import { useContext, useEffect, useState } from "react"
 import Context from "../../Context"
 import { Delete, Edit } from "@mui/icons-material"
-import { Link } from "react-router-dom"
+import ModalSystem from "../../components/ModalSystem"
+import UpdateCategory from "./UpdateCategory"
 function CategoryList({ value }) {
     const { setAlert, setMessage, setChange } = useContext(Context)
     const [data, setData] = useState([value])
+    const [open, setOpen] = useState(false)
+    const [info, setInfo] = useState([])
+
+    const showModal = (record) => {
+        setOpen(true);
+        setInfo(record)
+    };
     const columnCategory = [
         { title: "Tên danh mục", dataIndex: "nameCategory", key: "nameCategory", width: '15%' },
         { title: "ID", dataIndex: "idCategory", key: "idCategory", width: '4%', align: "center" },
@@ -37,7 +45,7 @@ function CategoryList({ value }) {
             )
         },
         {
-            title: "Hành động", dataIndex: "actionCategory", key: "actionCategory", width: '10%', align: "center",
+            title: "Hành động", dataIndex: "actionCategory", key: "actionCategory", width: '8%', align: "center",
             render: (text, record, index) => (
 
                 <Box>
@@ -53,11 +61,9 @@ function CategoryList({ value }) {
                         </IconButton>
                     </Tooltip>
                     <Tooltip title={'Cập nhật danh mục [ ' + record.nameCategory + ' ]'}>
-                        <Link to={"/category/" + record.idCategory}>
-                            <IconButton color='primary'>
-                                <Edit color='white' />
-                            </IconButton>
-                        </Link>
+                        <IconButton color='primary' onClick={() => showModal(record)}>
+                            <Edit color='white' />
+                        </IconButton>
                     </Tooltip>
                 </Box>
             )
@@ -68,15 +74,21 @@ function CategoryList({ value }) {
         setData(value)
     }, [value])
     return (
-        <Table
-            columns={columnCategory}
-            dataSource={data}
-            rowKey="idCategory"
-            key="idCategory"
-            childrenColumnName="childCategory"
-            size="large"
-            bordered
-        />
+        <>
+            <Table
+                columns={columnCategory}
+                dataSource={data}
+                rowKey="idCategory"
+                key="idCategory"
+                childrenColumnName="childCategory"
+                size="large"
+                bordered
+            />
+
+            <ModalSystem open={open} title="CẬP NHẬT">
+                <UpdateCategory category={data} info={info} />
+            </ModalSystem>
+        </>
     )
 }
 
