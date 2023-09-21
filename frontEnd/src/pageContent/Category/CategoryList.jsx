@@ -16,6 +16,10 @@ function CategoryList({ value }) {
         setOpen(true);
         setInfo(record)
     };
+    const handleCancel = () => {
+        setOpen(false);
+    };
+
     const columnCategory = [
         { title: "Tên danh mục", dataIndex: "nameCategory", key: "nameCategory", width: '15%' },
         { title: "ID", dataIndex: "idCategory", key: "idCategory", width: '4%', align: "center" },
@@ -85,9 +89,9 @@ function CategoryList({ value }) {
                 bordered
             />
 
-            <ModalSystem open={open} title="CẬP NHẬT">
+            <ModalSystem open={open} title="CẬP NHẬT" onCancel={handleCancel}>
                 <UpdateCategory category={data} info={info} />
-            </ModalSystem>
+            </ModalSystem >
         </>
     )
 }
