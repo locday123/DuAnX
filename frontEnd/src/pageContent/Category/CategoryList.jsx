@@ -24,10 +24,10 @@ function CategoryList({ value }) {
         { title: "Tên danh mục", dataIndex: "nameCategory", key: "nameCategory", width: '15%' },
         { title: "ID", dataIndex: "idCategory", key: "idCategory", width: '4%', align: "center" },
         {
-            title: "Meta Title - Description", dataIndex: "tagMeta", key: "tagMeta",
+            title: "Meta Title - Description", dataIndex: "tagMeta", key: "tagMeta", width: '40%',
             render: (text, record, index) => (
                 <>
-                    <Box sx={{ color: "#681da8", fontSize: "15px" }}>{record.metaTitle}</Box>
+                    <Box sx={{ color: "#681da8", fontSize: "15px", fontWeight: "bold" }}>{record.metaTitle}</Box>
                     <Box sx={{ color: "#4d5156", fontSize: "14px" }}>{record.metaDescription}</Box>
                 </>
             )

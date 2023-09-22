@@ -1,13 +1,13 @@
 import { Modal } from 'antd';
 
-function ModalSystem({ title, open, children, onCancel, onOK }) {
+function ModalSystem({ title, open, children, onCancel }) {
     return (
         <Modal
             open={open}
             title={title}
             width={1000}
             onCancel={onCancel}
-            onOk={onOK}
+            footer={null}
         >
             {children}
         </Modal>

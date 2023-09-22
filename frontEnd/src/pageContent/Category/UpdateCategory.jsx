@@ -41,7 +41,7 @@ function UpdateCategory({ category, info }) {
                         allowClear
                         onChange={onChange}
                         treeData={category}
-                        defaultValue={info.idCategory}
+                        defaultValue={1}
                         size="large"
                     />
                 </Grid>
@@ -100,7 +100,7 @@ function UpdateCategory({ category, info }) {
                             }
                         }
                     >
-                        TẠO DANH MỤC
+                        CẬP NHẬT
                     </Button> {/* Cập nhật */}
                 </Grid>
             </Grid>
