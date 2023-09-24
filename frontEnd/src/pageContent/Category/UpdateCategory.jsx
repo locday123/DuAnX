@@ -2,7 +2,7 @@
 import { Button, TextField } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
 import { TreeSelect } from "antd";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { slugify } from "../../Hook/Hook";
 import { updateCategory } from "../../Service/Category/CategoryService";
 import Context from "../../Context";
@@ -13,22 +13,20 @@ function UpdateCategory({ category, info }) {
     const [dataCategory, setData] = useState([]);
     const [meta, setMeta] = useState([])
     const inputValue = [
-        { nameInput: 'nameCategory', placehoder: 'Tên danh mục', labelInput: 'Tên danh mục', typeInput: 'text', width: 4 },
-        { nameInput: 'linkCategory', placehoder: 'Đường dẫn danh mục', labelInput: 'Đường dẫn danh mục', typeInput: 'text', width: 4 },
-        { nameInput: 'metaTitle', placehoder: 'Meta Title', labelInput: 'Meta Title /70 ký tự', typeInput: 'text', width: 4, size: "large" },
-        { nameInput: 'metaDescription', placehoder: 'Meta Description', labelInput: 'Meta Description 155 ký tự', typeInput: 'text', width: 8, size: "large" }
+        { nameInput: 'nameCategory', placehoder: 'Tên danh mục', labelInput: 'Tên danh mục', typeInput: 'text', width: 4},
+        { nameInput: 'linkCategory', placehoder: 'Đường dẫn danh mục', labelInput: 'Đường dẫn danh mục', typeInput: 'text', width: 4},
+        { nameInput: 'metaTitle', placehoder: 'Meta Title', labelInput: 'Meta Title /70 ký tự', typeInput: 'text', width: 4, size: "large"},
+        { nameInput: 'metaDescription', placehoder: 'Meta Description', labelInput: 'Meta Description 155 ký tự', typeInput: 'text', width: 8, size: "large"}
     ]
     const onChange = (newValue) => {
         setData({ ...dataCategory, rootCategory: newValue == undefined ? null : newValue });
 
     };
-    console.log(dataCategory);
     return (
-        <Grid container rowSpacing={5} sx={{ backgroundColor: "white", borderRadius: "10px", padding: "0px 15px 0px 15px" }}>
+        <Grid container rowSpacing={5} sx={{ backgroundColor: "white", borderRadius: "10px", padding: "0px 15px 0px 15px"}}>
             <Grid container rowSpacing={3} xs={12} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
                 <Grid xs={4}>
                     <TreeSelect
-
                         fieldNames={{
                             children: 'childCategory',
                             label: 'nameCategory',
@@ -38,10 +36,9 @@ function UpdateCategory({ category, info }) {
                         style={{ width: '100%' }}
                         dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
                         placeholder="Chọn danh mục"
-                        allowClear
                         onChange={onChange}
                         treeData={category}
-                        defaultValue={1}
+                        defaultValue={info.idCategory}
                         size="large"
                     />
                 </Grid>
@@ -90,12 +87,10 @@ function UpdateCategory({ category, info }) {
                         fullWidth
                         onClick={
                             () => {
-
                                 updateCategory(info.idCategory, dataCategory).then((value) => {
                                     setChange(true)
                                     setAlert({ ...{ vertical: 'bottom', horizontal: 'right' }, open: true });
                                     setMessage(value.message)
-
                                 })
                             }
                         }

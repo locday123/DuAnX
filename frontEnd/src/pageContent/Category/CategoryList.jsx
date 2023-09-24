@@ -8,33 +8,24 @@ import ModalSystem from "../../components/ModalSystem"
 import UpdateCategory from "./UpdateCategory"
 function CategoryList({ value }) {
     const { setAlert, setMessage, setChange } = useContext(Context)
-    const [data, setData] = useState([value])
     const [open, setOpen] = useState(false)
-    const [info, setInfo] = useState([])
+    const [infoCategory, setInfo] = useState([])
 
     const showModal = (record) => {
-        setOpen(true);
         setInfo(record)
+        setOpen(true);
+        console.log(infoCategory);
+        
     };
     const handleCancel = () => {
         setOpen(false);
     };
-
     const columnCategory = [
-        { title: "Tên danh mục", dataIndex: "nameCategory", key: "nameCategory", width: '15%' },
-        { title: "ID", dataIndex: "idCategory", key: "idCategory", width: '4%', align: "center" },
+
+        { title: "Tên danh mục", dataIndex: "nameCategory", key: "nameCategory"},        
+        { title: "Đường dẫn", dataIndex: "linkCategory", key: "linkCategory", align: "left" },
         {
-            title: "Meta Title - Description", dataIndex: "tagMeta", key: "tagMeta", width: '40%',
-            render: (text, record, index) => (
-                <>
-                    <Box sx={{ color: "#681da8", fontSize: "15px", fontWeight: "bold" }}>{record.metaTitle}</Box>
-                    <Box sx={{ color: "#4d5156", fontSize: "14px" }}>{record.metaDescription}</Box>
-                </>
-            )
-        },
-        { title: "Đường dẫn", dataIndex: "linkCategory", key: "linkCategory", width: '7%', align: "center" },
-        {
-            title: "Trạng thái", dataIndex: "statusCategory", key: "statusCategory", width: '7%', align: "center",
+            title: "Trạng thái", dataIndex: "statusCategory", key: "statusCategory", align: "center",
             render: (text, record, index) => (
                 <Switch
                     defaultChecked={record.statusCategory}
@@ -49,7 +40,7 @@ function CategoryList({ value }) {
             )
         },
         {
-            title: "Hành động", dataIndex: "actionCategory", key: "actionCategory", width: '8%', align: "center",
+            title: "Hành động", dataIndex: "actionCategory", key: "actionCategory", width: '15%', align: "center",
             render: (text, record, index) => (
 
                 <Box>
@@ -65,7 +56,7 @@ function CategoryList({ value }) {
                         </IconButton>
                     </Tooltip>
                     <Tooltip title={'Cập nhật danh mục [ ' + record.nameCategory + ' ]'}>
-                        <IconButton color='primary' onClick={() => showModal(record)}>
+                        <IconButton color='primary' onClick={() =>{ showModal(record)}}>
                             <Edit color='white' />
                         </IconButton>
                     </Tooltip>
@@ -73,15 +64,11 @@ function CategoryList({ value }) {
             )
         }
     ]
-
-    useEffect(() => {
-        setData(value)
-    }, [value])
     return (
         <>
             <Table
                 columns={columnCategory}
-                dataSource={data}
+                dataSource={value}
                 rowKey="idCategory"
                 key="idCategory"
                 childrenColumnName="childCategory"
@@ -89,9 +76,7 @@ function CategoryList({ value }) {
                 bordered
             />
 
-            <ModalSystem open={open} title="CẬP NHẬT" onCancel={handleCancel}>
-                <UpdateCategory category={data} info={info} />
-            </ModalSystem >
+            
         </>
     )
 }
