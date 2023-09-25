@@ -6,6 +6,7 @@ import Context from "../../Context"
 import { Delete, Edit } from "@mui/icons-material"
 import ModalSystem from "../../components/ModalSystem"
 import UpdateCategory from "./UpdateCategory"
+import Column from "antd/es/table/Column"
 function CategoryList({ value }) {
     const { setAlert, setMessage, setChange } = useContext(Context)
     const [open, setOpen] = useState(false)
@@ -73,11 +74,17 @@ function CategoryList({ value }) {
                 rowKey="idCategory"
                 key="idCategory"
                 childrenColumnName="childCategory"
-                size="large"
-                bordered
-            />
+                expandable={{
+                    defaultExpandAllRows:true,
+                }}
+                  
+            >
+                <Table.Column key="idCategory" title="nameCategory" dataIndex="idCategory" />
+            </Table>
 
-            
+            <ModalSystem open={open} title="CẬP NHẬT" onCancel={handleCancel}>
+                <UpdateCategory category={value} info={infoCategory} />
+            </ModalSystem >
         </>
     )
 }
