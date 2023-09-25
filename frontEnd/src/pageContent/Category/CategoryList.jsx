@@ -64,6 +64,7 @@ function CategoryList({ value }) {
             )
         }
     ]
+
     return (
         <>
             <Table
