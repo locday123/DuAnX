@@ -7,3 +7,11 @@ SET NEW.idAccount = CONCAT('S',LPAD(
   FROM INFORMATION_SCHEMA.TABLES    
   WHERE table_name = 'ACCOUNT')
 ,3,'0'));
+
+CREATE TRIGGER idProduct_Increment BEFORE INSERT ON PRODUCT
+FOR EACH ROW
+SET NEW.idProduct = CONCAT('P',LPAD(
+(SELECT `auto_increment` 
+  FROM INFORMATION_SCHEMA.TABLES    
+  WHERE table_name = 'PRODUCT')
+,3,'0'));

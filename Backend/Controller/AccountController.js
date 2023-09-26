@@ -1,10 +1,10 @@
 const multer = require("multer");
 const Upload = require("../Hook/Upload");
-const Account = require("../Model/Account");
+const ACCOUNT = require("../Model/Account");
 const upload_images = Upload.uploadAvatar.single("uploadImages")
 module.exports = {
     getAll:  (req, res)=>{
-        Account.get_all().then((value)=>{
+        ACCOUNT.get_all().then((value)=>{
             return res.json(value)
         }) 
     },
@@ -22,7 +22,7 @@ module.exports = {
 
     addAccount: (req, res)=>{
             var data = req.body
-            Account.create(data).then((value)=>{
+            ACCOUNT.create(data).then((value)=>{
                 res.json({
                     status: 'SUCCESS',
                     message:'Thêm tài khoản thành công'
@@ -57,7 +57,7 @@ module.exports = {
                 })
             }
             else{
-                Account.update(req.params.id, data).then(()=>{
+                ACCOUNT.update(req.params.id, data).then(()=>{
                     res.json({
                         status: 'SUCCESS',
                         message:'Cập nhật thành công ID ' + req.params.id
@@ -74,7 +74,7 @@ module.exports = {
     },
 
     deleteAccount: (req, res)=>{
-        Account.delete(req.params.id).then((value)=>{
+        ACCOUNT.delete(req.params.id).then((value)=>{
             res.json({
                 status: 'SUCCESS',
                 message:'Xóa thành công ID ' + req.params.id

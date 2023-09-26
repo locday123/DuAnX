@@ -74,14 +74,7 @@ function CategoryList({ value }) {
                 rowKey="idCategory"
                 key="idCategory"
                 childrenColumnName="childCategory"
-                expandable={{
-                    defaultExpandAllRows:true,
-                }}
-                  
-            >
-                <Table.Column key="idCategory" title="nameCategory" dataIndex="idCategory" />
-            </Table>
-
+            />
             <ModalSystem open={open} title="CẬP NHẬT" onCancel={handleCancel}>
                 <UpdateCategory category={value} info={infoCategory} />
             </ModalSystem >

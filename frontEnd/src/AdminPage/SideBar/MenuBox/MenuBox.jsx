@@ -15,7 +15,7 @@ function MenuBox({data}){
                 <ul className='menu-mini'>
                 {rs.childMenu.map((result, index)=>(
                     <Link
-                        to={rs.linkMenu+result.linkMenu} 
+                        to={result.linkMenu} 
                         key={index}
                         >
                             <li><span>{result.nameMenu}</span></li>

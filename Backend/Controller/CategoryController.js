@@ -1,5 +1,4 @@
-const Hook = require('../Hook/Hook')
-const Category = require('../Model/Category')
+const CATEGORY = require('../Model/Category')
 
 const TreeCategory = (category, idCategory) => {
     var out = []
@@ -19,13 +18,13 @@ const TreeCategory = (category, idCategory) => {
 }
 module.exports = {
     getAll:  (req, res)=>{
-        Category.get_all().then((value)=>{
+        CATEGORY.get_all().then((value)=>{
             return res.json({category:TreeCategory(value,null)})
         })
     },
     addCategory: (req, res)=>{
         var data = req.body
-        Category.find(data.linkCategory).then((value)=>{
+        CATEGORY.find(data.linkCategory).then((value)=>{
             if(value == undefined){
                 Category.create(data).then((value)=>{
                     res.json({
@@ -55,7 +54,7 @@ module.exports = {
     },
 
     updateCategory: (req, res)=>{
-        Category.update(req.params.id, req.body).then(()=>{
+        CATEGORY.update(req.params.id, req.body).then(()=>{
             res.json({
                 status: 'SUCCESS',
                 message:'Cập nhật thành công ID ' + req.params.id
@@ -69,7 +68,7 @@ module.exports = {
     },
 
     deleteCategory: (req, res)=>{
-        Category.delete(req.params.id).then((value)=>{
+        CATEGORY.delete(req.params.id).then((value)=>{
             res.json({
                 status: 'SUCCESS',
                 message:'Xóa thành công danh mục [ ' + req.params.id+' ]'
