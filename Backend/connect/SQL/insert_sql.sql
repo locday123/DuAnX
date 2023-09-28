@@ -11,11 +11,13 @@ INSERT INTO CATEGORY(nameCategory, linkCategory, rootCategory, statusCategory) V
 INSERT INTO CATEGORY(nameCategory, linkCategory, rootCategory, statusCategory) VALUES('iPhone 14 Pro', '14-pro', 4, true);
 
 
-INSERT INTO MENU VALUES (1, 'Tài khoản', '/account', null);
-INSERT INTO MENU VALUES (2, 'Quản lý tài khoản', '/quan-ly-tai-khoan', 1);
-INSERT INTO MENU VALUES (3, 'Thêm tài khoản', '/them-tai-khoan', 1);
-INSERT INTO MENU VALUES (4, 'Danh mục', '/category', null);
-INSERT INTO MENU VALUES (5, 'Quản lý danh mục', '/category', 4);
+INSERT INTO MENU VALUES (1, 'Tài khoản', 'root', null);
+INSERT INTO MENU VALUES (2, 'Quản lý tài khoản', '/account', 1);
+INSERT INTO MENU VALUES (3, 'Danh mục', 'root', null);
+INSERT INTO MENU VALUES (4, 'Quản lý danh mục', '/category', 3);
+INSERT INTO MENU VALUES (5, 'Sản phẩm', 'root', null);
+INSERT INTO MENU VALUES (6, 'Quản lý sản phẩm', '/product', 5);
+INSERT INTO MENU VALUES (7, 'Quản lý thông tin', '/storage', 5);
 
 INSERT INTO STORAGE(spaceStorage, nameSpace) VALUES(128000,'128GB');
 INSERT INTO STORAGE(spaceStorage, nameSpace) VALUES(256000,'256GB');
