@@ -8,12 +8,12 @@ import Storage from '../pageContent/Storage/Storage';
 
 
 const pulicRoutes = [
-    {path: '/', component: Home},
-    {path: '/account', component: Account},
-    {path: '/account/edit/:name', component: UpdateAccount},
-    {path: '/account/:name', component: Menu},
-    {path: '/category', component: Category},
-    {path: '/storage', component: Storage}
+    { path: '/', component: Home },
+    { path: '/account', component: Account },
+    { path: '/account/edit/:name', component: UpdateAccount },
+    { path: '/account/:name', component: Menu },
+    { path: '/category', component: Category },
+    { path: '/storage', component: Storage }
 
 ]
 
@@ -21,4 +21,4 @@ const privateRoutes = [
 
 ]
 
-export {pulicRoutes, privateRoutes}
+export { pulicRoutes, privateRoutes }
