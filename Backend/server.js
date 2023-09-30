@@ -19,6 +19,7 @@
   
   const AccoutRoutes = require('./Routes/AccountRoutes')
   const CategoryRoutes = require('./Routes/CategoryRoutes')
+  const StorageRoutes = require('./Routes/StorageRoutes')
   const LoginRoutes = require('./Routes/LoginRoutes');
   const LogoutRoutes = require('./Routes/LogoutRoutes');
 
@@ -27,6 +28,7 @@
   })
   app.use('/account', AccoutRoutes)
   app.use('/category', CategoryRoutes)
+  app.use('/storage', StorageRoutes)
   app.use('/login', LoginRoutes)
   app.use('/logout',LogoutRoutes)
   app.use("/images", express.static('public/images'));

@@ -20,9 +20,6 @@ INSERT INTO MENU VALUES (6, 'Quản lý sản phẩm', '/product', 5);
 INSERT INTO MENU VALUES (7, 'Quản lý thông tin', '/storage', 5);
 
 INSERT INTO STORAGE(spaceStorage, nameSpace) VALUES(128000,'128GB');
-INSERT INTO STORAGE(spaceStorage, nameSpace) VALUES(256000,'256GB');
-INSERT INTO STORAGE(spaceStorage, nameSpace) VALUES(1000000,'1TB');
-INSERT INTO STORAGE(spaceStorage, nameSpace) VALUES(2000000,'2TB');
 
 INSERT INTO PRODUCT(nameProduct, linkProduct, priceProduct, imageProduct, productBox, idStorage, idCategory)
 VALUES('nameProduct', 'linkProduct', 1000000, 'imageProduct', 'productBox', 1, 1)

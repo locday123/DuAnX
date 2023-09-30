@@ -40,7 +40,7 @@ CREATE TABLE MENU
 CREATE TABLE STORAGE
 (
 	idStorage INTEGER AUTO_INCREMENT,
-    spaceStorage INTEGER,
+    spaceStorage INTEGER unique,
     nameSpace VARCHAR(20),
     CONSTRAINT KEY_STORAGE PRIMARY KEY(idStorage)
 );
