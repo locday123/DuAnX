@@ -3,7 +3,13 @@ const STORAGE = require("../Model/Storage");
 
 module.exports = {
     getAll:  (req, res)=>{
-        STORAGE.get_all().then((value)=>{
+        STORAGE.get_all().then((value) => {
+            value.sort((a, b) => {
+                if (a.spaceStorage < b.spaceStorage)
+                {
+                    return -1
+                }
+            })
             return res.json(value)
         })
     },

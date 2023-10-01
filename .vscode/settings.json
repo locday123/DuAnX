@@ -1,2 +1,10 @@
 {
+  "prettier.requirePragma": true,
+  "editor.formatOnSave": true,
+  "editor.formatOnPaste": false,
+  "editor.formatOnType": true,
+  "editor.fontLigatures": false,
+  
+  "editor.fontWeight": "normal",
+  "editor.defaultFormatter": "esbenp.prettier-vscode"
 }
