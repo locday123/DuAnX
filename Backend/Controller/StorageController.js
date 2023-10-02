@@ -41,5 +41,18 @@ module.exports = {
                 message:'Xảy ra lỗi, vui lòng kiểm tra lại'
             })
         })
+    },
+    deleteStorage: (req, res) => {
+        STORAGE.delete(req.params.id).then((value)=>{
+            res.json({
+                status: 'SUCCESS',
+                message:'Xóa thành công dung lượng [ ' + req.params.id+' ]'
+            })
+        }).catch((err)=>{
+            res.json({
+                status: 'FAILED',
+                message:'Xảy ra lỗi, vui lòng kiểm tra lại'
+            })
+        })
     }
 }

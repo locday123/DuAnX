@@ -16,4 +16,15 @@ const addStorage = async (data) => {
     const response = (await client.post(linkApi, data))
     return await response.data;
 }
-export { getStorage, addStorage }
+const deleteStorage = async (idStorage) => {
+    try {
+        let urlStorage = linkApi + idStorage
+        const response = await client.delete(urlStorage, idStorage)
+        return await response.data
+    }
+    catch (err) {
+        console.log(err);
+    }
+
+}
+export { getStorage, addStorage, deleteStorage }

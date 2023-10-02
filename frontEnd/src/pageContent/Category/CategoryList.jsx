@@ -6,7 +6,6 @@ import Context from "../../Context"
 import { Delete, Edit } from "@mui/icons-material"
 import ModalSystem from "../../components/ModalSystem"
 import UpdateCategory from "./UpdateCategory"
-import Column from "antd/es/table/Column"
 function CategoryList({ value }) {
     const { setAlert, setMessage, setChange } = useContext(Context)
     const [open, setOpen] = useState(false)

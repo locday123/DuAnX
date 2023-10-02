@@ -7,7 +7,7 @@ function DataGird({rows, columns}){
             <DataGrid 
             rows={rows} 
             columns={columns}
-            disableColumnMenu 
+            disableColumnMenu
             disableRowSelectionOnClick
             checkboxSelection 
             hideFooter

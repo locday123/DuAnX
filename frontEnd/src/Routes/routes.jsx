@@ -3,6 +3,7 @@ import UpdateAccount from '../pageContent/Account/UpdateAccount/UpdateAccount';
 import Category from '../pageContent/Category/Category';
 import Home from '../pageContent/Home/Home';
 import Menu from '../pageContent/Menu/MenuPage';
+import Product from '../pageContent/Product/Product';
 import Storage from '../pageContent/Storage/Storage';
 
 
@@ -13,7 +14,8 @@ const pulicRoutes = [
     { path: '/account/edit/:name', component: UpdateAccount },
     { path: '/account/:name', component: Menu },
     { path: '/category', component: Category },
-    { path: '/storage', component: Storage }
+    { path: '/storage', component: Storage },
+    { path: '/product', component: Product }
 
 ]
 

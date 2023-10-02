@@ -2,13 +2,13 @@ import { useContext, useEffect, useState } from "react"
 import DataGird from "../../components/DataGird"
 import AddStorage from "./AddStorage"
 import { Box, Button, IconButton, Tooltip } from "@mui/material"
-import { getStorage } from "../../Service/Storage/StorageService"
+import { deleteStorage, getStorage } from "../../Service/Storage/StorageService"
 import Context from "../../Context"
 import { Delete } from "@mui/icons-material"
 
 function Storage() {
     const [storage, setStorage] = useState([])
-    const { dataChange } = useContext(Context)
+    const { dataChange,setAlert, setMessage, setChange } = useContext(Context)
     const columns = [
         { field: 'idStorage', headerName: 'ID', width: 80 },
         {
@@ -31,7 +31,13 @@ function Storage() {
             field: 'handle', headerName: 'THAO TÁC', width: 150, renderCell: ({ value }) => {
                 return (
                     <Tooltip title={'Xóa ID [ '+value.nameSpace+' ]'}>
-                        <IconButton color='primary'>
+                        <IconButton color='primary' onClick={() => {
+                            deleteStorage(value.idStorage).then((value) => {
+                                setAlert({ ...{ vertical: 'bottom', horizontal: 'right' }, open: true });
+                                setMessage(value.message)
+                                setChange(true)
+                            })
+                        }}>
                             <Delete />
                         </IconButton>
                     </Tooltip>
@@ -54,10 +60,13 @@ function Storage() {
             setStorage(value)
         });
     }, [dataChange == true])
+    const option = [
+        disableColumnMenu
+    ]
     return (
         <Box sx={{padding:"10px", backgroundColor:"white", borderRadius:"10px"}}>
             <Box sx={{marginBottom:"10px"}}><AddStorage /></Box>
-            <Box><DataGird columns={columns} rows={rows}/></Box>    
+            <Box><DataGird columns={columns} rows={rows} data={option}/></Box>    
         </Box>
     )
 }
