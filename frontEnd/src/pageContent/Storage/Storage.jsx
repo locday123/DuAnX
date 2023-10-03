@@ -60,13 +60,10 @@ function Storage() {
             setStorage(value)
         });
     }, [dataChange == true])
-    const option = [
-        disableColumnMenu
-    ]
     return (
         <Box sx={{padding:"10px", backgroundColor:"white", borderRadius:"10px"}}>
             <Box sx={{marginBottom:"10px"}}><AddStorage /></Box>
-            <Box><DataGird columns={columns} rows={rows} data={option}/></Box>    
+            <Box><DataGird columns={columns} rows={rows} /></Box>    
         </Box>
     )
 }

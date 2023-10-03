@@ -1,7 +1,7 @@
 import { Box, Switch, TextField } from "@mui/material"
 import { DataGrid} from '@mui/x-data-grid';
 import { getProduct } from "../../Service/Product/ProductService"
-import { Fragment, useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 
 function Product() {
     const [product, setProduct] = useState([])
@@ -10,7 +10,7 @@ function Product() {
             renderCell: ({ value }) => { 
                 return (
                     <Box sx={{display:"flex", flexDirection:"column"}}>
-                        <span style={{fontWeight:"bold"}}>{value.nameProduct}</span>
+                        <span style={{fontWeight:"bold", fontSize:"15px"}}>{value.nameProduct}</span>
                         <span style={{ fontSize: "12px", color: "#5c5c66" }}>ID:{value.idProduct}</span>
                     </Box>
                 )
@@ -21,18 +21,20 @@ function Product() {
             renderCell: ({ value }) => { 
                 return (
                     <Box sx={{display:"flex", flexDirection:"column"}}>
-                        <span style={{fontWeight:"bold", fontSize:"15px", marginBottom:"10px"}}>{value.priceProduct}</span>
+                        <span style={{fontWeight:"bold", fontSize:"16px", marginBottom:"10px", textAlign:"center"}}>{new Intl.NumberFormat().format(value.priceProduct)}</span>
                         <TextField
                             label="Giá thị trường"
+                            InputLabelProps={{style: {fontSize: "13px", color: "#5c5c66"}}}
                             name="priceThrough"
-                            defaultValue={value.priceThrough}
+                            defaultValue={new Intl.NumberFormat().format(value.priceThrough)}
                             size="small"
+                            inputProps={{ style: { textAlign: "center", height:"15px", fontSize:"14px"} }}
                         />
                     </Box>
                 )
             }
         },
-        {field: 'status', headerName: 'Status', width: 120, align: "center", headerAlign: 'center',
+        {field: 'status', headerName: 'Ẩn / Hiện', width: 120, align: "center", headerAlign: 'center',
             renderCell: ({ value }) => { 
                 return (
                     <Switch/>
