@@ -1,12 +1,14 @@
 import { Box, IconButton, Switch, TextField, Tooltip } from "@mui/material"
 import { getProduct } from "../../Service/Product/ProductService"
 import { useEffect, useState } from "react"
-import { Table } from "antd";
+import { Input, Table, TreeSelect } from "antd";
 import { Delete, Edit, Preview } from "@mui/icons-material";
 import { Link } from "react-router-dom";
+import {TreeCategory} from "../../Hook/Hook"
 
 function Product() {
-    const [product, setProduct] = useState([])
+    const [data, setData] = useState([])
+    const [dataSearch, setSearch] = useState({nameSearch:""})
     const columns = [
         {dataIndex:"status", key: 'status', title: 'Ẩn | Hiện', width: 20, align: "center", headerAlign: 'center',
             render: () => { 
@@ -17,6 +19,11 @@ function Product() {
         },
         {
             dataIndex: "nameProduct", key: 'nameProduct', title: 'Tên sản phẩm', width: 250, height: 200,
+            filteredValue: [dataSearch.nameSearch] || "",
+            onFilter: (value, record) => {
+                console.log(value);
+                return String(record.nameProduct.nameProduct).toLowerCase().includes(value.toLowerCase())
+            },
             render: (value) => {
                 return (
                     <Box sx={{ display: "flex", flexDirection: "column" }}>
@@ -80,8 +87,7 @@ function Product() {
             }
         },
     ]
-
-    const rows = product.map((row) => ({
+    const rows = data.listProduct?.map((row) => ({
         key:row.idProduct,
         nameProduct: row,
         price: row,
@@ -89,11 +95,34 @@ function Product() {
     }))
     useEffect(() => {
         getProduct().then((value) => {
-            setProduct(value)
+            setData({...data, listProduct:value[1], listCategory:TreeCategory(value[0])})
         });
     }, [])
     return (
-        <Box sx={{padding:"10px", backgroundColor:"white", borderRadius:"10px"}}>
+        <Box sx={{ padding: "10px", backgroundColor: "white", borderRadius: "10px" }}>
+            <Box>
+            <TreeSelect
+                fieldNames={{
+                children: 'childCategory',
+                label: 'nameCategory',
+                value: 'idCategory',
+                }}
+                showSearch
+                style={{ width: '100%' }}
+                dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
+                placeholder="Chọn danh mục"
+                allowClear
+                treeData={data.listCategory}
+                size="large"
+                />
+                <Input.Search
+                    placeholder="Tên sản phẩm"
+                    size="large"
+                    onSearch={(value) => {
+                        setSearch({...dataSearch, "nameSearch":value})
+                    }}
+                />
+            </Box>
             <Box>
                 <Table
                     columns={columns}
