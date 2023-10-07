@@ -26,7 +26,7 @@ module.exports = {
         var data = req.body
         CATEGORY.find(data.linkCategory).then((value)=>{
             if(value == undefined){
-                Category.create(data).then((value)=>{
+                CATEGORY.create(data).then((value)=>{
                     res.json({
                         status: 'SUCCESS',
                         message:'Tạo danh mục mới thành công'
@@ -41,13 +41,13 @@ module.exports = {
             else{
                 res.json({
                     status: 'FAILED',
-                    message:'Xảy ra lỗi, vui lòng kiểm tra lạiaa'
+                    message:'Xảy ra lỗi, vui lòng kiểm tra lại'
                 })
             }
         }).catch((err)=>{
             res.json({
                 status: 'FAILED',
-                message:'Xảy ra lỗi, vui lòng kiểm tra lại'
+                message:'Xảy ra lỗi, vui lòng kiểm tra lạia'
             })
         })
         

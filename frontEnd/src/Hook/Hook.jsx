@@ -26,5 +26,30 @@ const TreeCategory = (category, idCategory) => {
     return out
 }
 
+const getParent = (category, idCategory) => {
+    var out = []
+    for (var i in category) {
+        if (category[i].idCategory == idCategory)
+        {
+            var parent = getParent(category, category[i].rootCategory)
+            if (parent.length) {
+                category[i].parentChild = parent
+            }
+            out.push(category[i])
+        }
+    }
+    return out
+}
 
-export { slugify, TreeCategory }
+const getCategoryByProduct = (categoryEndCode, idCategory) => {
+    var out = []
+    for (var i in categoryEndCode) {
+       
+            out.push(categoryEndCode[i].nameCategory)
+            getCategoryByProduct(categoryEndCode[i].parentChild, categoryEndCode[i].rootCategory)
+    }
+    return out
+}
+
+
+export { slugify, TreeCategory, getParent,getCategoryByProduct }

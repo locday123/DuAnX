@@ -4,24 +4,26 @@ import { useEffect, useState } from "react"
 import { Input, Table, TreeSelect } from "antd";
 import { Delete, Edit, Preview } from "@mui/icons-material";
 import { Link } from "react-router-dom";
-import {TreeCategory} from "../../Hook/Hook"
+import {TreeCategory, getParent,getCategoryByProduct} from "../../Hook/Hook"
 
 function Product() {
     const [data, setData] = useState([])
-    const [dataSearch, setSearch] = useState({nameSearch:""})
+    const [test, setTest] = useState([])
+    const [dataSearch, setSearch] = useState({ nameSearch: "" })
+
     const columns = [
         {dataIndex:"status", key: 'status', title: 'Ẩn | Hiện', width: 20, align: "center", headerAlign: 'center',
-            render: () => { 
+            render: (value) => { 
                 return (
-                    <Switch/>
+                    <Switch />
+                    
                 )
             }
         },
         {
             dataIndex: "nameProduct", key: 'nameProduct', title: 'Tên sản phẩm', width: 250, height: 200,
-            filteredValue: [dataSearch.nameSearch] || "",
+            filteredValue: [dataSearch.nameSearch],
             onFilter: (value, record) => {
-                console.log(value);
                 return String(record.nameProduct.nameProduct).toLowerCase().includes(value.toLowerCase())
             },
             render: (value) => {
@@ -30,6 +32,7 @@ function Product() {
                         <span style={{ fontWeight: "bold", fontSize: "15px" }}>{value.nameProduct}</span>
                         <span style={{ fontSize: "12px", color: "#5c5c66" }}>ID: {value.idProduct}</span>
                         <span style={{ fontSize: "12px", color: "#5c5c66" }}>Link: {value.linkProduct}</span>
+                        <span>{getCategoryByProduct(getParent(test, value.idCategory))}</span>
                     </Box>
                 )
             }
@@ -95,7 +98,8 @@ function Product() {
     }))
     useEffect(() => {
         getProduct().then((value) => {
-            setData({...data, listProduct:value[1], listCategory:TreeCategory(value[0])})
+            setData({ ...data, listProduct: value[1], listCategory: TreeCategory(value[0], null) })
+            setTest(value[0])
         });
     }, [])
     return (
@@ -112,6 +116,7 @@ function Product() {
                 dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
                 placeholder="Chọn danh mục"
                 allowClear
+                loading={data.listCategory?false:true}
                 treeData={data.listCategory}
                 size="large"
                 />
@@ -127,6 +132,7 @@ function Product() {
                 <Table
                     columns={columns}
                     dataSource={rows}
+                    loading={data.listProduct?false:true}
                 />
             </Box>    
         </Box>
