@@ -4,15 +4,17 @@ import { useEffect, useState } from "react"
 import { Input, Table, TreeSelect } from "antd";
 import { Delete, Edit, Preview } from "@mui/icons-material";
 import { Link } from "react-router-dom";
-import {TreeCategory, getParent,getCategoryByProduct} from "../../Hook/Hook"
+import {TreeCategory,getCategoryByProduct, ProductCategory} from "../../Hook/Hook"
 
 function Product() {
     const [data, setData] = useState([])
-    const [test, setTest] = useState([])
-    const [dataSearch, setSearch] = useState({ nameSearch: "" })
-
+    const [dataSearch, setSearch] = useState({ nameSearch: "", cateSearch: [1] })
     const columns = [
         {dataIndex:"status", key: 'status', title: 'Ẩn | Hiện', width: 20, align: "center", headerAlign: 'center',
+            filteredValue: [dataSearch.cateSearch],
+            onFilter: (value, record) => {
+                return record.status.listCategory.find((id)=>id==value)
+            },
             render: (value) => { 
                 return (
                     <Switch />
@@ -27,14 +29,15 @@ function Product() {
                 return String(record.nameProduct.nameProduct).toLowerCase().includes(value.toLowerCase())
             },
             render: (value) => {
+                
                 return (
                     <Box sx={{ display: "flex", flexDirection: "column" }}>
                         <span style={{ fontWeight: "bold", fontSize: "15px" }}>{value.nameProduct}</span>
                         <span style={{ fontSize: "12px", color: "#5c5c66" }}>ID: {value.idProduct}</span>
-                        <span style={{ fontSize: "12px", color: "#5c5c66" }}>Link: {value.linkProduct}</span>
-                        <span>{getCategoryByProduct(getParent(test, value.idCategory))}</span>
+                        <span style={{ fontSize: "12px", color: "#5c5c66" }}>Link: {value.idCategory}</span>
+                        <span>{ getCategoryByProduct(data.listCategory, value.idCategory) }</span>
                     </Box>
-                )
+                )   
             }
         },
         {dataIndex:"price", key: 'price', title: 'Giá', width: 70, type:"number", align: "center", headerAlign: 'center',
@@ -91,40 +94,45 @@ function Product() {
         },
     ]
     const rows = data.listProduct?.map((row) => ({
-        key:row.idProduct,
+        key: row.idProduct,
+        status:row,
         nameProduct: row,
         price: row,
         action:row
     }))
     useEffect(() => {
         getProduct().then((value) => {
-            setData({ ...data, listProduct: value[1], listCategory: TreeCategory(value[0], null) })
-            setTest(value[0])
+            setData({ ...data, 
+                listProduct: ProductCategory(TreeCategory(value[0], null), value[1]),
+                listCategory: TreeCategory(value[0], null)
+            })
         });
     }, [])
     return (
         <Box sx={{ padding: "10px", backgroundColor: "white", borderRadius: "10px" }}>
-            <Box>
-            <TreeSelect
-                fieldNames={{
-                children: 'childCategory',
-                label: 'nameCategory',
-                value: 'idCategory',
-                }}
-                showSearch
-                style={{ width: '100%' }}
-                dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
-                placeholder="Chọn danh mục"
-                allowClear
-                loading={data.listCategory?false:true}
-                treeData={data.listCategory}
-                size="large"
+            <Box sx={{ display: "flex", margin:"10px"}}>
+                <TreeSelect
+                    fieldNames={{
+                    children: 'childCategory',
+                    label: 'nameCategory',
+                    value: 'idCategory',
+                    }}
+                    showSearch
+                    style={{ width: '50%', marginRight:"10px" }}
+                    dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
+                    placeholder="Chọn danh mục"
+                    loading={data.listCategory?false:true}
+                    treeData={data.listCategory}
+                    size="large"
+                    onChange={(value) => {
+                        setSearch({...dataSearch, "cateSearch":value})
+                    }}
                 />
-                <Input.Search
+                <Input 
                     placeholder="Tên sản phẩm"
                     size="large"
-                    onSearch={(value) => {
-                        setSearch({...dataSearch, "nameSearch":value})
+                    onChange={(e) => {
+                        setSearch({...dataSearch, "nameSearch":e.target.value})
                     }}
                 />
             </Box>

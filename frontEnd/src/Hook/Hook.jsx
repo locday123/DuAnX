@@ -19,6 +19,9 @@ const TreeCategory = (category, idCategory) => {
             if (children.length) {
                 category[i].childCategory = children
             }
+            else {
+                category[i].childCategory=[]
+            }
             category[i].key = category[i].idCategory
             out.push(category[i])
         }
@@ -26,30 +29,33 @@ const TreeCategory = (category, idCategory) => {
     return out
 }
 
-const getParent = (category, idCategory) => {
+const ProductCategory = (category,product) => {
     var out = []
-    for (var i in category) {
-        if (category[i].idCategory == idCategory)
-        {
-            var parent = getParent(category, category[i].rootCategory)
-            if (parent.length) {
-                category[i].parentChild = parent
-            }
-            out.push(category[i])
+    for (var i in product) {
+        product[i].listCategory = getCategoryByProduct(category, product[i].idCategory)
+        out.push(product[i])
+    }
+
+    return out
+}
+
+const getCategoryByProduct = (dataCategory, idCate) => {
+    var path;
+    dataCategory.some(({ idCategory, childCategory }) => {
+        var temp;
+        if (idCategory === idCate) {
+            path = [idCategory];
+            return true;
         }
-    }
-    return out
+        if (temp = getCategoryByProduct(childCategory, idCate)) {
+            path = [idCategory, ...temp];
+            return true;
+        }
+    });
+    return path;
 }
 
-const getCategoryByProduct = (categoryEndCode, idCategory) => {
-    var out = []
-    for (var i in categoryEndCode) {
-       
-            out.push(categoryEndCode[i].nameCategory)
-            getCategoryByProduct(categoryEndCode[i].parentChild, categoryEndCode[i].rootCategory)
-    }
-    return out
-}
+//https://stackoverflow.com/questions/53175946/how-to-find-a-tree-inside-a-tree-in-typescript
 
 
-export { slugify, TreeCategory, getParent,getCategoryByProduct }
+export { slugify, TreeCategory,getCategoryByProduct, ProductCategory }
