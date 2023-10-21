@@ -9,7 +9,6 @@ function DataGird({rows, columns}){
             columns={columns}
             disableColumnMenu
             disableRowSelectionOnClick
-            checkboxSelection 
             hideFooter
             />
         </Box>

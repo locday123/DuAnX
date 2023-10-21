@@ -8,7 +8,7 @@ const pool =
       host: "localhost",
       user: "root",
       password:
-        "admin",
+        "root",
       database:
         "duanx",
     }

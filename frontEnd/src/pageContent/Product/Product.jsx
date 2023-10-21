@@ -1,4 +1,4 @@
-import { Box, IconButton, Switch, TextField, Tooltip } from "@mui/material"
+import { Box, Button, IconButton, Switch, TextField, Tooltip } from "@mui/material"
 import { getProduct } from "../../Service/Product/ProductService"
 import { useEffect, useState } from "react"
 import { Input, Table, TreeSelect } from "antd";
@@ -23,12 +23,12 @@ function Product() {
                 )
             }
         },
-        {dataIndex: "imageProduct", key: 'imageProduct', width: 150, title: 'Hình ảnh', align: "center", headerAlign: 'center',
-            render: () => (
+        {dataIndex: "imageProduct", key: 'imageProduct', title: 'Hình ảnh', align: "center", headerAlign: 'center',
+            render: (value) => (
                 <img width="100px" src="https://www.vienquangmobile.com/vnt_upload/product/iphone/iphone-15-series/iphone-15/thumbs/iphone-15-pink.png" />
             )
         },
-        {dataIndex: "nameProduct", key: 'nameProduct', title: 'Tên sản phẩm', width: 300,
+        {dataIndex: "nameProduct", key: 'nameProduct', title: 'Tên sản phẩm',
             filteredValue: [dataSearch.nameSearch],
             onFilter: (value, record) => {
                 return String(record.nameProduct.nameProduct).toLowerCase().includes(value.toLowerCase())
@@ -39,18 +39,17 @@ function Product() {
                     <Box sx={{ display: "flex", flexDirection: "column" }}>
                         <span style={{ fontWeight: "bold", fontSize: "15px" }}>{value.nameProduct}</span>
                         <span style={{ fontSize: "12px",    color: "#5c5c66" }}>ID: {value.idProduct}</span>
-                        <span style={{ fontSize: "12px", color: "#5c5c66" }}>Link: {value.linkProduct}</span>
+                        <span style={{ fontSize: "12px", color: "#5c5c66" }}>Link: {value.urlProduct}</span>
                         <span style={{ fontSize: "12px", color: "#5c5c66" }}>Ngày thêm: {moment(value.dateAdd).format('DD/MM/YYYY')}</span>
                     </Box>
                 )   
             }
         },
-        {dataIndex: "meta", key: 'meta', title: 'Mô tả Meta Description | Meta Title'},
         {dataIndex:"price", key: 'price', title: 'Giá', width: 150, type:"number", align: "center", headerAlign: 'center',
             render: (value) => {
                 return (
                     <Box sx={{ display: "flex", flexDirection: "column" }}>
-                        <span style={{ fontWeight: "bold", fontSize: "16px", marginBottom: "10px", textAlign: "center" }}>{new Intl.NumberFormat().format(value.priceProduct)}</span>
+                        <span style={{ fontWeight: "bold", fontSize: "16px", marginBottom: "20px", textAlign: "center" }}>{new Intl.NumberFormat().format(value.priceProduct)}</span>
                         <TextField
                             label="Giá thị trường"
                             InputLabelProps={{ style: {fontSize: "14px", color: "#5c5c66" } }}
@@ -63,7 +62,7 @@ function Product() {
                 )
             }
         },
-        {dataIndex:"update", key: 'update', title: 'Hình ảnh | Cấu hình ',width: 160, align: "center", headerAlign: 'center',
+        {dataIndex:"update", key: 'update', title: 'Hình ảnh | Cấu hình ',align: "center", headerAlign: 'center',
             render: () => { 
                 return (
                     <Box sx={{ display: "flex", flexDirection: "column" }}>
@@ -73,7 +72,7 @@ function Product() {
                 )
             }
         },
-        {dataIndex:"action", key: 'action', title: 'Hành động', width: 70, align:"center",
+        {dataIndex:"action", key: 'action', title: 'Hành động', align:"center",
             render: (value) => { 
                 return (
                     <Box sx={{ display: "flex", flexDirection: "rows", justifyContent:"flex-end"}}>
@@ -101,7 +100,8 @@ function Product() {
     ]
     const rows = data.listProduct?.map((row) => ({
         key: row.idProduct,
-        status:row,
+        status: row,
+        imageProduct: row.imageProduct,
         nameProduct: row,
         price: row,
         action:row
@@ -124,7 +124,7 @@ function Product() {
                     value: 'idCategory',
                     }}
                     showSearch
-                    style={{ width: '50%', marginRight:"10px" }}
+                    style={{ width: '40%', marginRight:"10px" }}
                     dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
                     placeholder="Chọn danh mục"
                     loading={data.listCategory?false:true}
@@ -136,18 +136,21 @@ function Product() {
                 />
                 <Input 
                     placeholder="Tên sản phẩm"
+                    style={{marginRight:10, width:"40%"}}
                     size="large"
                     onChange={(e) => {
                         setSearch({...dataSearch, "nameSearch":e.target.value})
                     }}
                 />
+                <Link to={"/product/add"} style={{width:"20%"}}>
+                    <Button variant="contained" sx={{width:"100%"}}>Thêm sản phẩm</Button>
+                </Link>
             </Box>
             <Box>
                 <Table
                     columns={columns}
                     dataSource={rows}
                     bordered
-                    scroll={{ x: 1300 }}
                     loading={data.listProduct?false:true}
                 />
             </Box>    
