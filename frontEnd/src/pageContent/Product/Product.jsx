@@ -4,13 +4,14 @@ import { useEffect, useState } from "react"
 import { Input, Table, TreeSelect } from "antd";
 import { Delete, Edit, Preview } from "@mui/icons-material";
 import { Link } from "react-router-dom";
-import {TreeCategory,getCategoryByProduct, ProductCategory} from "../../Hook/Hook"
+import {TreeCategory, ProductCategory} from "../../Hook/Hook"
+import moment from "moment";
 
 function Product() {
     const [data, setData] = useState([])
     const [dataSearch, setSearch] = useState({ nameSearch: "", cateSearch: ["all"] })
     const columns = [
-        {dataIndex:"status", key: 'status', title: 'Ẩn | Hiện', width: 20, align: "center", headerAlign: 'center',
+        {dataIndex:"status", key: 'status', title: 'Ẩn | Hiện', width: 100, align: "center", headerAlign: 'center',
             filteredValue: [dataSearch.cateSearch],
             onFilter: (value, record) => {
                 return record.status.listCategory.find((id)=>id==value)
@@ -22,8 +23,12 @@ function Product() {
                 )
             }
         },
-        {
-            dataIndex: "nameProduct", key: 'nameProduct', title: 'Tên sản phẩm', width: 250, height: 200,
+        {dataIndex: "imageProduct", key: 'imageProduct', width: 150, title: 'Hình ảnh', align: "center", headerAlign: 'center',
+            render: () => (
+                <img width="100px" src="https://www.vienquangmobile.com/vnt_upload/product/iphone/iphone-15-series/iphone-15/thumbs/iphone-15-pink.png" />
+            )
+        },
+        {dataIndex: "nameProduct", key: 'nameProduct', title: 'Tên sản phẩm', width: 300,
             filteredValue: [dataSearch.nameSearch],
             onFilter: (value, record) => {
                 return String(record.nameProduct.nameProduct).toLowerCase().includes(value.toLowerCase())
@@ -33,13 +38,15 @@ function Product() {
                 return (
                     <Box sx={{ display: "flex", flexDirection: "column" }}>
                         <span style={{ fontWeight: "bold", fontSize: "15px" }}>{value.nameProduct}</span>
-                        <span style={{ fontSize: "12px", color: "#5c5c66" }}>ID: {value.idProduct}</span>
+                        <span style={{ fontSize: "12px",    color: "#5c5c66" }}>ID: {value.idProduct}</span>
                         <span style={{ fontSize: "12px", color: "#5c5c66" }}>Link: {value.linkProduct}</span>
+                        <span style={{ fontSize: "12px", color: "#5c5c66" }}>Ngày thêm: {moment(value.dateAdd).format('DD/MM/YYYY')}</span>
                     </Box>
                 )   
             }
         },
-        {dataIndex:"price", key: 'price', title: 'Giá', width: 70, type:"number", align: "center", headerAlign: 'center',
+        {dataIndex: "meta", key: 'meta', title: 'Mô tả Meta Description | Meta Title'},
+        {dataIndex:"price", key: 'price', title: 'Giá', width: 150, type:"number", align: "center", headerAlign: 'center',
             render: (value) => {
                 return (
                     <Box sx={{ display: "flex", flexDirection: "column" }}>
@@ -56,7 +63,7 @@ function Product() {
                 )
             }
         },
-        {dataIndex:"update", key: 'update', title: 'Hình ảnh | Cấu hình ',width:120, align: "center", headerAlign: 'center',
+        {dataIndex:"update", key: 'update', title: 'Hình ảnh | Cấu hình ',width: 160, align: "center", headerAlign: 'center',
             render: () => { 
                 return (
                     <Box sx={{ display: "flex", flexDirection: "column" }}>
@@ -66,10 +73,10 @@ function Product() {
                 )
             }
         },
-        {dataIndex:"action", key: 'action', title: 'Hành động', width: 30,
+        {dataIndex:"action", key: 'action', title: 'Hành động', width: 70, align:"center",
             render: (value) => { 
                 return (
-                    <Box sx={{ display: "flex", flexDirection: "rows" }}>
+                    <Box sx={{ display: "flex", flexDirection: "rows", justifyContent:"flex-end"}}>
                         <Tooltip title={'Xem chi tiết sản phẩm [ ' + value.idProduct + ' ]'}>
                             <IconButton color='primary'>
                                 <Preview />
@@ -107,10 +114,9 @@ function Product() {
             })
         });
     }, [])
-    console.log(data.listProduct);
     return (
         <Box sx={{ padding: "10px", backgroundColor: "white", borderRadius: "10px" }}>
-            <Box sx={{ display: "flex", margin:"10px"}}>
+            <Box sx={{ display: "flex", marginBottom:"10px"}}>
                 <TreeSelect
                     fieldNames={{
                     children: 'childCategory',
@@ -140,6 +146,8 @@ function Product() {
                 <Table
                     columns={columns}
                     dataSource={rows}
+                    bordered
+                    scroll={{ x: 1300 }}
                     loading={data.listProduct?false:true}
                 />
             </Box>    
