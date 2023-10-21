@@ -40,12 +40,12 @@ const ProductCategory = (category,product) => {
 }
 
 const getCategoryByProduct = (dataCategory, idCate) => {
-    var path;
+    var path=["all"];
     dataCategory.some(({ idCategory, childCategory }) => {
         var temp;
         if (idCategory === idCate) {
-            path = [idCategory];
-            return true;
+            path = [...path, idCategory];
+            return true;    
         }
         if (temp = getCategoryByProduct(childCategory, idCate)) {
             path = [idCategory, ...temp];

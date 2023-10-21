@@ -8,7 +8,7 @@ import {TreeCategory,getCategoryByProduct, ProductCategory} from "../../Hook/Hoo
 
 function Product() {
     const [data, setData] = useState([])
-    const [dataSearch, setSearch] = useState({ nameSearch: "", cateSearch: [1] })
+    const [dataSearch, setSearch] = useState({ nameSearch: "", cateSearch: ["all"] })
     const columns = [
         {dataIndex:"status", key: 'status', title: 'Ẩn | Hiện', width: 20, align: "center", headerAlign: 'center',
             filteredValue: [dataSearch.cateSearch],
@@ -34,8 +34,7 @@ function Product() {
                     <Box sx={{ display: "flex", flexDirection: "column" }}>
                         <span style={{ fontWeight: "bold", fontSize: "15px" }}>{value.nameProduct}</span>
                         <span style={{ fontSize: "12px", color: "#5c5c66" }}>ID: {value.idProduct}</span>
-                        <span style={{ fontSize: "12px", color: "#5c5c66" }}>Link: {value.idCategory}</span>
-                        <span>{ getCategoryByProduct(data.listCategory, value.idCategory) }</span>
+                        <span style={{ fontSize: "12px", color: "#5c5c66" }}>Link: {value.linkProduct}</span>
                     </Box>
                 )   
             }
@@ -47,7 +46,7 @@ function Product() {
                         <span style={{ fontWeight: "bold", fontSize: "16px", marginBottom: "10px", textAlign: "center" }}>{new Intl.NumberFormat().format(value.priceProduct)}</span>
                         <TextField
                             label="Giá thị trường"
-                            InputLabelProps={{ style: {fontSize: "13px", color: "#5c5c66" } }}
+                            InputLabelProps={{ style: {fontSize: "14px", color: "#5c5c66" } }}
                             name="priceThrough"
                             defaultValue={new Intl.NumberFormat().format(value.priceThrough)}
                             size="small"
@@ -108,6 +107,7 @@ function Product() {
             })
         });
     }, [])
+    console.log(data.listProduct);
     return (
         <Box sx={{ padding: "10px", backgroundColor: "white", borderRadius: "10px" }}>
             <Box sx={{ display: "flex", margin:"10px"}}>
@@ -124,7 +124,7 @@ function Product() {
                     loading={data.listCategory?false:true}
                     treeData={data.listCategory}
                     size="large"
-                    onChange={(value) => {
+                    onChange={(value) => {                    
                         setSearch({...dataSearch, "cateSearch":value})
                     }}
                 />
