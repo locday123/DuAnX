@@ -14,14 +14,14 @@ function AddProduct() {
       ]
     const inputCloumn_2 = [
         { nameInput: 'nameProduct', placehoder: 'Vui lòng nhập tên Sản phẩm', labelInput: 'Tên Sản phẩm', typeInput: 'text' },
-        { nameInput: 'idStorage', placehoder: 'Vui lòng chọn dung lượng', labelInput: 'Dung lượng', typeInput: 'select' },
         { nameInput: 'idCategory', placehoder: 'Vui lòng chọn danh mục', labelInput: 'Danh mục', typeInput: 'select' },
+        { nameInput: 'idStorage', placehoder: 'Vui lòng chọn dung lượng', labelInput: 'Dung lượng', typeInput: 'select' },
         { nameInput: 'priceProduct', placehoder: 'Vui lòng nhập Giá sản phẩm', labelInput: 'Giá Sản phẩm', typeInput: 'number' },
         { nameInput: 'priceThrough', placehoder: 'Vui lòng nhập Giá thị trường', labelInput: 'Giá thị trường', typeInput: 'number' },
     ]
     return (
         <Box sx={{ display: "flex" }}>
-            <Box sx={{ width: "70%", borderRadius: "10px", marginRight: "10px" }}>
+            <Box sx={{ width: "60%", marginRight: "10px" }}>
                 <Box sx={{ backgroundColor: "white", borderRadius: "10px" }}>
                     <List>
                         <ListItem>
@@ -80,7 +80,7 @@ function AddProduct() {
                     </List>
                 </Box>
             </Box>
-            <Box sx={{ width: "30%"}}>
+            <Box sx={{ width: "40%"}}>
                 <Box sx={{backgroundColor: "white", borderRadius: "10px" }}>
                     <List>
                     {
