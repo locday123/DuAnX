@@ -96,7 +96,6 @@ function AddProduct() {
                             </Box>
                         </ListItem>
                         <ListItem >
-                        
                             <TreeView
                                 defaultCollapseIcon={"-"}
                                 defaultExpandIcon={"+"}
