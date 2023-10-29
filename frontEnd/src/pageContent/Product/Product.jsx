@@ -1,12 +1,43 @@
 import { Box, Button, IconButton, Switch, TextField, Tooltip } from "@mui/material"
 import { getProduct } from "../../Service/Product/ProductService"
-import { useEffect, useState } from "react"
+import { forwardRef, useEffect, useState } from "react"
 import { Input, Table, TreeSelect } from "antd";
 import { Delete, Edit, Preview } from "@mui/icons-material";
 import { Link } from "react-router-dom";
 import {TreeCategory, ProductCategory} from "../../Hook/Hook"
 import moment from "moment";
+import { NumericFormat } from "react-number-format";
+import PropTypes from 'prop-types';
 
+const NumericFormatCustom = forwardRef(function NumericFormatCustom(
+    props,
+    ref,
+  ) {
+    const { onChange, ...other } = props;
+  
+    return (
+      <NumericFormat
+        {...other}
+        getInputRef={ref}
+        onValueChange={(values) => {
+          onChange({
+            target: {
+              name: props.name,
+              value: values.value,
+            },
+          });
+        }}
+        thousandSeparator={"."}
+        decimalSeparator={","}
+        valueIsNumericString
+      />
+    );
+  });
+  
+  NumericFormatCustom.propTypeses = {
+    name: PropTypes.string.isRequired,
+    onChange: PropTypes.func.isRequired,
+  };
 function Product() {
     const [data, setData] = useState([])
     const [dataSearch, setSearch] = useState({ nameSearch: "", cateSearch: ["all"] })
@@ -49,14 +80,15 @@ function Product() {
             render: (value) => {
                 return (
                     <Box sx={{ display: "flex", flexDirection: "column" }}>
-                        <span style={{ fontWeight: "bold", fontSize: "16px", marginBottom: "20px", textAlign: "center" }}>{new Intl.NumberFormat().format(value.priceProduct)}</span>
+                        <span style={{ fontWeight: "bold", fontSize: "18px", marginBottom: "20px", textAlign: "center" }}>{new Intl.NumberFormat().format(value.priceProduct)}</span>
                         <TextField
                             label="Giá thị trường"
-                            InputLabelProps={{ style: {fontSize: "14px", color: "#5c5c66" } }}
+                            InputLabelProps={{ style: {fontSize: "16px", color: "#5c5c66", fontWeight:"bold" } }}
                             name="priceThrough"
-                            defaultValue={new Intl.NumberFormat().format(value.priceThrough)}
-                            size="small"
-                            inputProps={{ style: { textAlign: "center", height: "15px", fontSize: "14px" } }}
+                            defaultValue={value.priceThrough}
+                            size="medium"
+                            inputProps={{ style: { textAlign: "center", height: "15px", fontSize: "17px", marginTop:"5px" } }}
+                            InputProps={{inputComponent: NumericFormatCustom}}
                         />
                     </Box>
                 )

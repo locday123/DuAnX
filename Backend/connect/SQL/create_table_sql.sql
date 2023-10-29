@@ -46,7 +46,6 @@ CREATE TABLE STORAGE
     nameSpace VARCHAR(20),
     CONSTRAINT KEY_STORAGE PRIMARY KEY(idStorage)
 );
-352982095236140
 CREATE TABLE PRODUCT
 (
 	idIncrement INTEGER AUTO_INCREMENT,
@@ -58,13 +57,14 @@ CREATE TABLE PRODUCT
     imageProduct VARCHAR(255),
     idStorage INTEGER,
     idCategory INTEGER,
-    productBox VARCHAR(255),
     metaTitle VARCHAR(70) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
     metaDescription VARCHAR(155) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
     metaKeyword VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
-    dateAdd DATE DEFAULT (CURRENT_DATE),
+    productBox VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
     shortDescription VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
     reviewArticle TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+    dateAdd DATE DEFAULT (CURRENT_DATE),
+    statusProduct BOOLEAN,
     CONSTRAINT PRIMARY_KEY_PRODUCT PRIMARY KEY(idIncrement, idProduct),
     CONSTRAINT FOREIGN_KEY_OF_PRODUCT_TO_CATEGORY FOREIGN KEY(idCategory) REFERENCES CATEGORY(idCategory),
     CONSTRAINT FOREIGN_KEY_OF_PRODUCT_TO_STORAGE FOREIGN KEY(idStorage) REFERENCES STORAGE(idStorage)
