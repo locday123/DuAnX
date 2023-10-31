@@ -6,8 +6,7 @@ import { NumericFormat } from "react-number-format";
 import PropTypes from 'prop-types';
 import { getProduct } from "../../Service/Product/ProductService";
 import { TreeCategory } from "../../Hook/Hook";
-import { TreeSelect } from "antd";
-import { TreeItem, TreeView } from "@mui/lab";
+import { Tree } from "antd";
 const NumericFormatCustom = forwardRef(function NumericFormatCustom(
     props,
     ref,
@@ -57,14 +56,6 @@ function AddProduct() {
         { nameInput: 'shortDescription', placehoder: 'Vui lòng nhập Mô rả ngắn', labelInput: 'Mô tả ngắn', typeInput: 'text' },
         { nameInput: 'reviewArticle', placehoder: 'Vui lòng soạn bài viết đánh giá', labelInput: 'Bài viết đánh giá', typeInput: 'text' },
     ]
-    const renderTree = (nodes) => (
-        <TreeItem key={nodes.rootCategory} nodeId={nodes.idCategory} label={nodes.nameCategory}
-        >
-          {Array.isArray(nodes.childCategory)
-            ? nodes.childCategory.map((node) => renderTree(node))
-            : null}
-        </TreeItem>
-      );
     console.log(data);
     useEffect(() => {
         getProduct().then((value) => {
@@ -95,30 +86,29 @@ function AddProduct() {
                                 </Box>
                             </Box>
                         </ListItem>
-                        <ListItem >
-                            <TreeView
-                                defaultCollapseIcon={"-"}
-                                defaultExpandIcon={"+"}
-                                sx={{
+                        <ListItem sx={{ display: "flex" }}>
+                            <Button variant="contained" size="large" sx={{width:"45%", marginRight:"10px"}}> THÊM DANH MỤC </Button>
+                            <Tree
+                                showLine
+                                fieldNames={{
+                                    children: 'childCategory',
+                                    title: 'nameCategory',
+                                    value: 'idCategory',
+                                }}
+                                rootStyle={{
                                     width: '100%',
-                                    bgcolor: 'background.paper',
                                     position: 'relative',
                                     overflow: 'auto',
                                     maxHeight: 150,
-                                    fontSize: "25px",
+                                    fontSize: "16px",
                                     border: "1px solid #c4c4c4",
                                     borderRadius: "5px",
-                                    scrollbarColor:"black"
+                                    padding: "8px",
+                                    
                                 }}
-                                
-                            >
-                                <ListSubheader component="div" id="nested-list-subheader">
-                                    Danh mục
-                                </ListSubheader>
-                            {
-                                data.listCategory?.map((value)=>renderTree(value))
-                            }
-                            </TreeView>
+                                treeData={data.listCategory}
+                            />
+                            
                         </ListItem>
                     {
                     inputCloumn_2.map((value, index) => (

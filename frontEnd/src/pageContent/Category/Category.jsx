@@ -52,8 +52,9 @@ function Category() {
               label: 'nameCategory',
               value: 'idCategory',
             }}
+            bordered={false}
             showSearch
-            style={{ width: '100%' }}
+            style={{width: '100%', border:"1px solid #c4c4c4", borderRadius:"5px" }}
             dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
             placeholder="Chọn danh mục"
             allowClear
