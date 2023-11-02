@@ -1,11 +1,11 @@
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic"
 import { CKEditor } from "@ckeditor/ckeditor5-react"
-import { Box, Button, FormControlLabel, List, ListItem, ListSubheader, MenuItem, Switch, TextField } from "@mui/material"
+import { Box, Button, FormControlLabel, InputAdornment, List, ListItem, ListSubheader, MenuItem, Switch, TextField } from "@mui/material"
 import { forwardRef, useEffect, useState } from "react";
 import { NumericFormat } from "react-number-format";
 import PropTypes from 'prop-types';
 import { getProduct } from "../../Service/Product/ProductService";
-import { TreeCategory } from "../../Hook/Hook";
+import { TreeCategory, slugify } from "../../Hook/Hook";
 import { Tree } from "antd";
 const NumericFormatCustom = forwardRef(function NumericFormatCustom(
     props,
@@ -39,6 +39,7 @@ const NumericFormatCustom = forwardRef(function NumericFormatCustom(
 function AddProduct() {
     const [dataProduct, setDataProduct] = useState([])
     const [data, setData] = useState([])
+    const [onFocus, setFocus] = useState([])
     const inputCloumn_1 = [
         { nameInput: 'urlProduct', placehoder: 'Vui lòng nhập URL Sản phẩm', labelInput: 'URL Sản phẩm', typeInput: 'text' },
         { nameInput: 'metaTitle', placehoder: 'Vui lòng nhập Meta Title', labelInput: 'Meta Title', typeInput: 'text' },
@@ -56,7 +57,7 @@ function AddProduct() {
         { nameInput: 'shortDescription', placehoder: 'Vui lòng nhập Mô rả ngắn', labelInput: 'Mô tả ngắn', typeInput: 'text' },
         { nameInput: 'reviewArticle', placehoder: 'Vui lòng soạn bài viết đánh giá', labelInput: 'Bài viết đánh giá', typeInput: 'text' },
     ]
-    console.log(data);
+    console.log(dataProduct);
     useEffect(() => {
         getProduct().then((value) => {
             setData({ ...data, 
@@ -104,9 +105,9 @@ function AddProduct() {
                                     border: "1px solid #c4c4c4",
                                     borderRadius: "5px",
                                     padding: "8px",
-                                    
                                 }}
                                 treeData={data.listCategory}
+                                onSelect={(idCategory,category)=>{setDataProduct({...dataProduct, ["idCategory"]: category.node.idCategory})}}
                             />
                             
                         </ListItem>
@@ -122,6 +123,7 @@ function AddProduct() {
                                 size="medium"
                                 select
                                 fullWidth
+                                onFocus={() => setFocus({ ...focus, "focus": value.nameInput })}
                                 onChange={(e)=>setDataProduct({...dataProduct, [value.nameInput]:e.target.value})}
                             >
                                 <MenuItem key={0} value={0}>
@@ -147,7 +149,29 @@ function AddProduct() {
                                 InputProps={
                                     { inputComponent: value.typeInput == "number" ? NumericFormatCustom : null }
                                 }
-                                onChange={(e)=>setDataProduct({...dataProduct, [value.nameInput]:e.target.value})}
+                                onFocus={() => setFocus({ ...focus, "focus": value.nameInput })}
+                                onChange={(e) =>
+                                    {
+                                        setDataProduct({...dataProduct, [value.nameInput]:e.target.value})
+                                        if(value.nameInput=="nameProduct"){
+                                            setFocus({
+                                                ...focus,
+                                                ["urlProduct"]: slugify(e.target.value),
+                                                ["metaTitle"]: e.target.value,
+                                                ["metaDescription"]: e.target.value
+                                            })
+                                            setDataProduct(
+                                                {
+                                                    ...dataProduct,
+                                                    [value.nameInput]: e.target.value,
+                                                    ["urlProduct"]: slugify(e.target.value),
+                                                    ["metaTitle"]: e.target.value,
+                                                    ["metaDescription"]: e.target.value
+                                                }
+                                            )
+                                        }
+                                    }  
+                                }
                             />
                         </ListItem>
                     ))}
@@ -184,10 +208,18 @@ function AddProduct() {
                         <ListItem key={index}>
                             <TextField
                                 label={value.labelInput}
-                                placeholder={value.placehoder}
+                                
+                                placeholder={value.labelInput}
                                 name={value.nameInput}
                                 size="medium"
                                 fullWidth
+                                InputProps={{
+                                    startAdornment: <InputAdornment position="start"/>,
+                                  }}
+                                onFocus={() => setFocus({ ...focus, "focus": value.nameInput })}
+                                value={
+                                    onFocus[value.nameInput]
+                                }
                                 onChange={(e)=>setDataProduct({...dataProduct, [value.nameInput]:e.target.value})}
                             />
                         </ListItem>
