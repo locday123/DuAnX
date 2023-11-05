@@ -1,12 +1,15 @@
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic"
 import { CKEditor } from "@ckeditor/ckeditor5-react"
-import { Box, Button, FormControlLabel, InputAdornment, List, ListItem, ListSubheader, MenuItem, Switch, TextField } from "@mui/material"
-import { forwardRef, useEffect, useState } from "react";
+import { Box, Button, FormControlLabel, InputAdornment, List, ListItem, MenuItem, Switch, TextField } from "@mui/material"
+import { forwardRef, useContext, useEffect, useState } from "react";
 import { NumericFormat } from "react-number-format";
 import PropTypes from 'prop-types';
 import { getProduct } from "../../Service/Product/ProductService";
 import { TreeCategory, slugify } from "../../Hook/Hook";
 import { Tree } from "antd";
+import ModalSystem from "../../components/ModalSystem";
+import AddUpdateCategory from "../Category/AddUpdateCategory";
+import Context from "../../Context";
 const NumericFormatCustom = forwardRef(function NumericFormatCustom(
     props,
     ref,
@@ -30,16 +33,23 @@ const NumericFormatCustom = forwardRef(function NumericFormatCustom(
         valueIsNumericString
       />
     );
-  });
-  
-  NumericFormatCustom.propTypeses = {
-    name: PropTypes.string.isRequired,
-    onChange: PropTypes.func.isRequired,
-  };
+});
+NumericFormatCustom.propTypeses = {
+name: PropTypes.string.isRequired,
+onChange: PropTypes.func.isRequired,
+};
 function AddProduct() {
+    const { dataChange } = useContext(Context)
     const [dataProduct, setDataProduct] = useState([])
     const [data, setData] = useState([])
     const [onFocus, setFocus] = useState([])
+    const [open, setOpen] = useState(false)
+    const showModal = () => {
+        setOpen(true);
+    };
+    const handleCancel = () => {
+        setOpen(false);
+    };
     const inputCloumn_1 = [
         { nameInput: 'urlProduct', placehoder: 'Vui lòng nhập URL Sản phẩm', labelInput: 'URL Sản phẩm', typeInput: 'text' },
         { nameInput: 'metaTitle', placehoder: 'Vui lòng nhập Meta Title', labelInput: 'Meta Title', typeInput: 'text' },
@@ -57,7 +67,6 @@ function AddProduct() {
         { nameInput: 'shortDescription', placehoder: 'Vui lòng nhập Mô rả ngắn', labelInput: 'Mô tả ngắn', typeInput: 'text' },
         { nameInput: 'reviewArticle', placehoder: 'Vui lòng soạn bài viết đánh giá', labelInput: 'Bài viết đánh giá', typeInput: 'text' },
     ]
-    console.log(dataProduct);
     useEffect(() => {
         getProduct().then((value) => {
             setData({ ...data, 
@@ -65,11 +74,44 @@ function AddProduct() {
                 listStorage: value[2]
             })
         });
-    }, [])
+    }, [dataChange])
     return (
-        <Box sx={{ display: "flex" }}>
-            <Box sx={{ width: "60%", marginRight: "10px" }}>
-                <Box sx={{ backgroundColor: "white", borderRadius: "10px", width:"100%" }}>
+    <>
+        <Box sx={{ display: "flex" }} >
+            <Box sx={{ width: "35%" }}>
+                <Box sx={{ backgroundColor: "white", borderRadius: "10px", marginRight: "10px" }}>
+                    <List>
+                    {inputCloumn_1.map((value, index) => (
+                        <ListItem key={index}>
+                            <TextField
+                                label={value.labelInput}
+                                required={value.nameInput=="urlProduct"?true:false}
+                                placeholder={value.labelInput}
+                                name={value.nameInput}
+                                size="medium"
+                                fullWidth
+                                InputProps={{
+                                    startAdornment: <InputAdornment position="start" />,
+                                }}
+                                onFocus={() => setFocus({ ...focus, "focus": value.nameInput })}
+                                value={onFocus[value.nameInput]}
+                                onChange={(e) => setDataProduct({ ...dataProduct, [value.nameInput]: e.target.value })} />
+                        </ListItem>
+                    ))}
+                        <ListItem>
+                            <Box>
+                                <FormControlLabel
+                                    value="start"
+                                    control={<Switch color="primary" />}
+                                    label="Ẩn / Hiện Sản phẩm"
+                                    labelPlacement="start" />
+                            </Box>
+                        </ListItem>
+                    </List>
+                </Box>
+            </Box>
+            <Box sx={{ width: "65%" }}>
+                <Box sx={{ backgroundColor: "white", borderRadius: "10px", width: "100%" }}>
                     <List>
                         <ListItem>
                             <Box sx={{ display: "flex" }}>
@@ -80,15 +122,16 @@ function AddProduct() {
                                             name="imageProduct"
                                             type="file"
                                             fullWidth
-                                            hidden
-                                        />
+                                            hidden />
                                         {"THÊM HÌNH ẢNH SẢN PHẨM"}
                                     </Button> {/* Thêm hình ảnh */}
                                 </Box>
                             </Box>
                         </ListItem>
                         <ListItem sx={{ display: "flex" }}>
-                            <Button variant="contained" size="large" sx={{width:"45%", marginRight:"10px"}}> THÊM DANH MỤC </Button>
+                            <Button onClick={() => { showModal() }} variant="contained" size="large" sx={{ width: "45%", marginRight: "10px" }}>
+                                THÊM DANH MỤC
+                            </Button>
                             <Tree
                                 showLine
                                 fieldNames={{
@@ -107,137 +150,92 @@ function AddProduct() {
                                     padding: "8px",
                                 }}
                                 treeData={data.listCategory}
-                                onSelect={(idCategory,category)=>{setDataProduct({...dataProduct, ["idCategory"]: category.node.idCategory})}}
+                                onSelect={(idCategory, category) => { setDataProduct({ ...dataProduct, ["idCategory"]: category.node.idCategory }); } } 
                             />
-                            
+
                         </ListItem>
-                    {
-                    inputCloumn_2.map((value, index) => (
-                        value.typeInput == "select" ?
-                        <ListItem key={index}>
-                            <TextField
-                                label={value.labelInput}
-                                placeholder={value.placehoder}
-                                name={value.nameInput}
-                                defaultValue={0}
-                                size="medium"
-                                select
-                                fullWidth
-                                onFocus={() => setFocus({ ...focus, "focus": value.nameInput })}
-                                onChange={(e)=>setDataProduct({...dataProduct, [value.nameInput]:e.target.value})}
-                            >
-                                <MenuItem key={0} value={0}>
-                                       {value.placehoder}
-                                </MenuItem>
-                                {
-                                   data.listStorage?.map((content) => (
-                                        <MenuItem key={content.idStorage} value={content.idStorage}>
-                                            {content.nameSpace}
-                                        </MenuItem>
-                                    ))
-                                }
-                            </TextField>
-                        </ListItem>
-                        :
-                        <ListItem>
-                            <TextField
-                                label={value.labelInput}
-                                placeholder={value.placehoder}
-                                name={value.nameInput}
-                                size="medium"
-                                fullWidth
-                                InputProps={
-                                    { inputComponent: value.typeInput == "number" ? NumericFormatCustom : null }
-                                }
-                                onFocus={() => setFocus({ ...focus, "focus": value.nameInput })}
-                                onChange={(e) =>
-                                    {
-                                        setDataProduct({...dataProduct, [value.nameInput]:e.target.value})
-                                        if(value.nameInput=="nameProduct"){
-                                            setFocus({
-                                                ...focus,
-                                                ["urlProduct"]: slugify(e.target.value),
-                                                ["metaTitle"]: e.target.value,
-                                                ["metaDescription"]: e.target.value
-                                            })
-                                            setDataProduct(
-                                                {
-                                                    ...dataProduct,
-                                                    [value.nameInput]: e.target.value,
+                        {inputCloumn_2.map((value, index) => (
+                                <ListItem key={index}>
+                                    <TextField
+                                        required={value.nameInput=="nameProduct"?true:value.nameInput=="idStorage"?true:false}
+                                        label={value.labelInput}
+                                        placeholder={value.placehoder}
+                                        name={value.nameInput}
+                                        defaultValue={value.typeInput=="select"?"0":undefined}
+                                        size="medium"
+                                        select={value.typeInput=="select"?true:false}
+                                        fullWidth
+                                        InputProps={
+                                            {
+                                                inputComponent: value.typeInput == "number" ? NumericFormatCustom : null,
+                                                startAdornment: <InputAdornment position="start" />
+                                            } 
+                                        }
+                                        onFocus={() => setFocus({ ...focus, "focus": value.nameInput })}
+                                        onChange={(e) => {
+                                            setDataProduct({ ...dataProduct, [value.nameInput]: e.target.value });
+                                            if (value.nameInput == "nameProduct") {
+                                                setFocus({
+                                                    ...focus,
                                                     ["urlProduct"]: slugify(e.target.value),
                                                     ["metaTitle"]: e.target.value,
                                                     ["metaDescription"]: e.target.value
-                                                }
-                                            )
-                                        }
-                                    }  
-                                }
-                            />
-                        </ListItem>
-                    ))}
-                    {
-                    inputCKEEditor.map((value, index) => (
-                        <ListItem key={index} >
-                            <div style={{width:"100%"}}>
-                            <CKEditor
-                                editor={ClassicEditor}
-                                config={{placeholder: value.placehoder}} 
-                                onReady={(editor)=>{
-                                    editor.editing.view.change((writer) => {
-                                        writer.setStyle(
-                                        //use max-height(for scroll) or min-height(static)
-                                        "height", 
-                                        "150px",
-                                        editor.editing.view.document.getRoot()
-                                        );
-                                    });
-                                }}
-                                onChange={(event, editor)=>setDataProduct({...dataProduct, [value.nameInput]:editor.getData()})}
-                            />
-                            </div>
-                        </ListItem>
-                    ))}
-                    </List>
-                </Box>
-            </Box>
-            <Box sx={{ width: "40%"}}>
-                <Box sx={{backgroundColor: "white", borderRadius: "10px" }}>
-                    <List>
-                    {
-                    inputCloumn_1.map((value, index) => (
-                        <ListItem key={index}>
-                            <TextField
-                                label={value.labelInput}
+                                                });
+                                                setDataProduct({
+                                                        ...dataProduct,
+                                                        [value.nameInput]: e.target.value,
+                                                        ["urlProduct"]: slugify(e.target.value),
+                                                        ["metaTitle"]: e.target.value,
+                                                        ["metaDescription"]: e.target.value
+                                                });
+                                            }
+                                        }}
+                                    >
+                                        <MenuItem key={0} value={0}>
+                                            {value.placehoder}
+                                        </MenuItem>
+                                        {data.listStorage?.map((content) => (
+                                            <MenuItem key={content.idStorage} value={content.idStorage}>
+                                                {content.nameSpace}
+                                            </MenuItem>
+                                        ))}
+                                    </TextField>
+                                </ListItem>
                                 
-                                placeholder={value.labelInput}
-                                name={value.nameInput}
-                                size="medium"
-                                fullWidth
-                                InputProps={{
-                                    startAdornment: <InputAdornment position="start"/>,
-                                  }}
-                                onFocus={() => setFocus({ ...focus, "focus": value.nameInput })}
-                                value={
-                                    onFocus[value.nameInput]
-                                }
-                                onChange={(e)=>setDataProduct({...dataProduct, [value.nameInput]:e.target.value})}
-                            />
-                        </ListItem>
-                    ))}
+                        ))}
+                        {inputCKEEditor.map((value, index) => (
+                            <ListItem key={index}>
+                                <div style={{ width: "100%" }}>
+                                    <CKEditor
+                                        editor={ClassicEditor}
+                                        config={{ placeholder: value.placehoder }}
+                                        onReady={(editor) => {
+                                            editor.editing.view.change((writer) => {
+                                                writer.setStyle(
+                                                    //use max-height(for scroll) or min-height(static)
+                                                    "height",
+                                                    "150px",
+                                                    editor.editing.view.document.getRoot()
+                                                );
+                                            });
+                                        } }
+                                        onChange={(event, editor) => setDataProduct({ ...dataProduct, [value.nameInput]: editor.getData() })} />
+                                </div>
+                            </ListItem>
+                        ))}
                         <ListItem>
-                            <Box>
-                                <FormControlLabel
-                                    value="start"
-                                    control={<Switch color="primary" />}
-                                    label="Ẩn / Hiện Sản phẩm"
-                                    labelPlacement="start"
-                                />
-                            </Box>
+                            <Button variant="contained" sx={{width:"100%"}}>TẠO SẢN PHẨM</Button>
                         </ListItem>
                     </List>
                 </Box>
             </Box>
+            
         </Box>
+        
+        <ModalSystem open={open} onCancel={handleCancel}>
+            <AddUpdateCategory action={"addCategory"} info={null} category={data.listCategory} />
+        </ModalSystem>
+    </>
     )
 }
 

@@ -5,7 +5,7 @@ import { useContext, useEffect, useState } from "react"
 import Context from "../../Context"
 import { Delete, Edit } from "@mui/icons-material"
 import ModalSystem from "../../components/ModalSystem"
-import UpdateCategory from "./UpdateCategory"
+import AddUpdateCategory from "./AddUpdateCategory"
 function CategoryList({ value }) {
     const { setAlert, setMessage, setChange } = useContext(Context)
     const [open, setOpen] = useState(false)
@@ -14,8 +14,6 @@ function CategoryList({ value }) {
     const showModal = (record) => {
         setInfo(record)
         setOpen(true);
-        console.log(infoCategory);
-        
     };
     const handleCancel = () => {
         setOpen(false);
@@ -74,8 +72,8 @@ function CategoryList({ value }) {
                 key="idCategory"
                 childrenColumnName="childCategory"
             />
-            <ModalSystem open={open} title="CẬP NHẬT" onCancel={handleCancel}>
-                <UpdateCategory category={value} info={infoCategory} />
+            <ModalSystem open={open} onCancel={handleCancel}>
+                <AddUpdateCategory action={"editCategory"} info={infoCategory} category={value}/>
             </ModalSystem >
         </>
     )

@@ -1,11 +1,32 @@
-import { useState, Fragment, useContext } from 'react';
+import { useState, Fragment, useContext, forwardRef } from 'react';
+import { IMaskInput } from 'react-imask';
 import Box from '@mui/material/Box';
 import SwipeableDrawer from '@mui/material/SwipeableDrawer';
 import Button from '@mui/material/Button';
+import PropTypes from 'prop-types';
 import { List, ListItem, TextField, MenuItem } from '@mui/material';
 import { addAccount } from '../../../Service/Account/AccountService';
 import Context from '../../../Context';
 
+const TextMaskCustom = forwardRef(function TextMaskCustom(props, ref) {
+  const { onChange, ...other } = props;
+  return (
+    <IMaskInput
+      {...other}
+      mask="0000.000.000"
+      definitions={{
+        '#': /[1-9]/,
+      }}
+      inputRef={ref}
+      onAccept={(value) => onChange({ target: { name: props.name, value } })}
+      overwrite
+    />
+  );
+});
+TextMaskCustom.propTypes = {
+  name: PropTypes.string.isRequired,
+  onChange: PropTypes.func.isRequired,
+};
 export default function AddAccount() {
   const [state, setState] = useState({
     right: false,
@@ -19,13 +40,12 @@ export default function AddAccount() {
     setState({ ...state, [anchor]: open });
 
   };
-  console.log(dataAccount);
   const inputValue = [
     { nameInput: 'nameAccount', placehoder: 'Vui lòng nhập tên', labelInput: 'Họ Tên', typeInput: 'text' },
     { nameInput: 'passAccount', placehoder: 'Vui lòng nhập mật khẩu', labelInput: 'Mật khẩu', typeInput: 'password' },
     { nameInput: 'emailAccount', placehoder: 'Vui lòng nhập email', labelInput: 'Email', typeInput: 'text' },
     { nameInput: 'sexAccount', placehoder: 'Chọn giới tính', labelInput: 'Giới Tính', typeInput: 'select' },
-    { nameInput: 'phoneAccount', placehoder: 'Vui lòng nhập số điện thoại', labelInput: 'Điện Thoại', typeInput: 'text' },
+    { nameInput: 'phoneAccount', placehoder: 'Vui lòng nhập số điện thoại', labelInput: 'Điện Thoại', typeInput: 'number' },
     { nameInput: 'dateAccount', placehoder: 'Vui lòng nhập năm sinh', labelInput: '', typeInput: 'date' }
   ]
 
@@ -41,16 +61,17 @@ export default function AddAccount() {
       <List sx={{ marginTop: 2 }}>
         {
           inputValue.map((value, index) => (
-            value.typeInput == 'select' ?
               <ListItem key={index}>
                 <TextField
                   label={value.labelInput}
                   placeholder={value.placehoder}
                   name={value.nameInput}
-                  defaultValue={2}
-                  onChange={(e) => setAccount({ ...dataAccount, [value.nameInput]: e.target.value })}
-                  select
                   fullWidth
+                  InputProps={{ inputComponent: value.typeInput == "number" ? TextMaskCustom :undefined }}
+                  defaultValue={value.typeInput == 'select' ?2:undefined}
+                  onChange={(e) => setAccount({ ...dataAccount, [value.nameInput]: e.target.value })}
+                  select={value.typeInput == 'select' ?true:false}
+                  inputProps={value.typeInput == 'date' ? {type:'date'}:undefined}
                 >
                   {
                     sexAccount.map((value) => (
@@ -61,18 +82,6 @@ export default function AddAccount() {
                   }
                 </TextField>
               </ListItem>
-              :
-              <ListItem key={index}>
-                <TextField
-                  label={value.labelInput}
-                  placeholder={value.placehoder}
-                  name={value.nameInput}
-                  type={value.typeInput}
-                  fullWidth
-                  onChange={(e) => setAccount({ ...dataAccount, [value.nameInput]: e.target.value })}
-                />
-              </ListItem>
-
           ))
         }
         <ListItem >

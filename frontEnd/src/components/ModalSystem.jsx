@@ -8,6 +8,7 @@ function ModalSystem({ title, open, onCancel, children}) {
             title={title}
             width={1000}
             centered
+            footer={false}
             destroyOnClose
             maskStyle={{zIndex:1000}}
             onCancel={onCancel}
