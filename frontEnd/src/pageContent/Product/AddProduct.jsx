@@ -67,6 +67,16 @@ function AddProduct() {
         { nameInput: 'shortDescription', placehoder: 'Vui lòng nhập Mô rả ngắn', labelInput: 'Mô tả ngắn', typeInput: 'text' },
         { nameInput: 'reviewArticle', placehoder: 'Vui lòng soạn bài viết đánh giá', labelInput: 'Bài viết đánh giá', typeInput: 'text' },
     ]
+    const checkValidation = (data) => {
+       
+           if (data["nameProduct"] > 0 && data["urlProduct"]>0 && data["idStorage"]) {
+               return true
+           }
+           return false
+    }
+    const actionProduct = (event) => {
+        console.log("OK");
+    }
     useEffect(() => {
         getProduct().then((value) => {
             setData({ ...data, 
@@ -76,8 +86,8 @@ function AddProduct() {
         });
     }, [dataChange])
     return (
-    <>
-        <Box sx={{ display: "flex" }} >
+    <> 
+        <Box sx={{ display: "flex" }} component={"form"} noValidate>
             <Box sx={{ width: "35%" }}>
                 <Box sx={{ backgroundColor: "white", borderRadius: "10px", marginRight: "10px" }}>
                     <List>
@@ -132,6 +142,7 @@ function AddProduct() {
                             <Button onClick={() => { showModal() }} variant="contained" size="large" sx={{ width: "45%", marginRight: "10px" }}>
                                 THÊM DANH MỤC
                             </Button>
+                            
                             <Tree
                                 showLine
                                 fieldNames={{
@@ -152,55 +163,50 @@ function AddProduct() {
                                 treeData={data.listCategory}
                                 onSelect={(idCategory, category) => { setDataProduct({ ...dataProduct, ["idCategory"]: category.node.idCategory }); } } 
                             />
-
                         </ListItem>
                         {inputCloumn_2.map((value, index) => (
-                                <ListItem key={index}>
-                                    <TextField
-                                        required={value.nameInput=="nameProduct"?true:value.nameInput=="idStorage"?true:false}
-                                        label={value.labelInput}
-                                        placeholder={value.placehoder}
-                                        name={value.nameInput}
-                                        defaultValue={value.typeInput=="select"?"0":undefined}
-                                        size="medium"
-                                        select={value.typeInput=="select"?true:false}
-                                        fullWidth
-                                        InputProps={
-                                            {
-                                                inputComponent: value.typeInput == "number" ? NumericFormatCustom : null,
-                                                startAdornment: <InputAdornment position="start" />
-                                            } 
+                            <ListItem key={index}>
+                                <TextField
+                                    required={value.nameInput == "nameProduct" ? true : value.nameInput == "idStorage" ? true : false}
+                                    label={value.labelInput}
+                                    placeholder={value.placehoder}
+                                    name={value.nameInput}
+                                    size="medium"
+                                    select={value.typeInput == "select" ? true : false}
+                                    fullWidth
+                                    InputProps={
+                                        {
+                                            inputComponent: value.typeInput == "number" ? NumericFormatCustom : null,
+                                            startAdornment: <InputAdornment position="start" />
                                         }
-                                        onFocus={() => setFocus({ ...focus, "focus": value.nameInput })}
-                                        onChange={(e) => {
-                                            setDataProduct({ ...dataProduct, [value.nameInput]: e.target.value });
-                                            if (value.nameInput == "nameProduct") {
-                                                setFocus({
-                                                    ...focus,
-                                                    ["urlProduct"]: slugify(e.target.value),
-                                                    ["metaTitle"]: e.target.value,
-                                                    ["metaDescription"]: e.target.value
-                                                });
-                                                setDataProduct({
-                                                        ...dataProduct,
-                                                        [value.nameInput]: e.target.value,
-                                                        ["urlProduct"]: slugify(e.target.value),
-                                                        ["metaTitle"]: e.target.value,
-                                                        ["metaDescription"]: e.target.value
-                                                });
-                                            }
-                                        }}
-                                    >
-                                        <MenuItem key={0} value={0}>
-                                            {value.placehoder}
+                                    }
+                                    onFocus={() => setFocus({ ...focus, "focus": value.nameInput })}
+                                    onChange={(e) => {
+                                        setDataProduct({ ...dataProduct, [value.nameInput]: e.target.value });
+                                        if (value.nameInput == "nameProduct") {
+                                            setFocus({
+                                                ...focus,
+                                                ["urlProduct"]: slugify(e.target.value),
+                                                ["metaTitle"]: e.target.value,
+                                                ["metaDescription"]: e.target.value
+                                            });
+                                            setDataProduct({
+                                                ...dataProduct,
+                                                [value.nameInput]: e.target.value,
+                                                ["urlProduct"]: slugify(e.target.value),
+                                                ["metaTitle"]: e.target.value,
+                                                ["metaDescription"]: e.target.value
+                                            });
+                                        }
+                                    }}
+                                >
+                                    {data.listStorage?.map((content) => (
+                                        <MenuItem key={content.idStorage} value={content.idStorage}>
+                                            {content.nameSpace}
                                         </MenuItem>
-                                        {data.listStorage?.map((content) => (
-                                            <MenuItem key={content.idStorage} value={content.idStorage}>
-                                                {content.nameSpace}
-                                            </MenuItem>
-                                        ))}
-                                    </TextField>
-                                </ListItem>
+                                    ))}
+                                </TextField>
+                            </ListItem>
                                 
                         ))}
                         {inputCKEEditor.map((value, index) => (
@@ -224,14 +230,21 @@ function AddProduct() {
                             </ListItem>
                         ))}
                         <ListItem>
-                            <Button variant="contained" sx={{width:"100%"}}>TẠO SẢN PHẨM</Button>
+                            <Button
+                                variant="contained"
+                                fullWidth
+                                onClick={() => checkValidation(dataProduct) == false ? null
+                                    : actionProduct()
+                                }
+                            >
+                                TẠO SẢN PHẨM
+                            </Button> {/* Cập nhật */}
                         </ListItem>
                     </List>
                 </Box>
             </Box>
             
         </Box>
-        
         <ModalSystem open={open} onCancel={handleCancel}>
             <AddUpdateCategory action={"addCategory"} info={null} category={data.listCategory} />
         </ModalSystem>
