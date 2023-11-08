@@ -69,7 +69,7 @@ function AddProduct() {
     ]
     const checkValidation = (data) => {
        
-           if (data["nameProduct"] > 0 && data["urlProduct"]>0 && data["idStorage"]) {
+           if (data["nameProduct"] > 0 && data["urlProduct"] > 0 && data["idStorage"]>0 && data["idCategory"] > 0) {
                return true
            }
            return false
@@ -233,7 +233,7 @@ function AddProduct() {
                             <Button
                                 variant="contained"
                                 fullWidth
-                                onClick={() => checkValidation(dataProduct) == false ? null
+                                onClick={() => checkValidation(dataProduct) == false? null
                                     : actionProduct()
                                 }
                             >
