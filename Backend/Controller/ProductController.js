@@ -15,4 +15,47 @@ module.exports = {
             res.json(value)
         })
     },
+    addProduct: (req, res)=>{
+        var data = req.body
+        PRODUCT.create(data).then((value)=>{
+            res.json({
+                status: 'SUCCESS',
+                message:'Thêm sản phẩm thành công'
+            })        
+        }).catch((err)=>{
+            res.json({
+                status: 'FAILED',
+                message:'Xảy ra lỗi, vui lòng kiểm tra lại'
+            })
+        })
+    },
+
+    updateProduct: (req, res)=>{
+        PRODUCT.update(req.params.id, req.body).then(()=>{
+            res.json({
+                status: 'SUCCESS',
+                message:'Cập nhật thành công ID ' + req.params.id
+            })
+        }).catch((err)=>{
+            res.json({
+                status: 'FAILED',
+                message:'Xảy ra lỗi, vui lòng kiểm tra lạia'
+            })
+        })
+    },
+
+    
+    deleteProduct: (req, res)=>{
+        PRODUCT.delete(req.params.id).then((value)=>{
+            res.json({
+                status: 'SUCCESS',
+                message:'Xóa thành công sản phẩm [ ' + req.params.id+' ]'
+            })
+        }).catch((err)=>{
+            res.json({
+                status: 'FAILED',
+                message:'Xảy ra lỗi, vui lòng kiểm tra lại'
+            })
+        })
+    }
 }

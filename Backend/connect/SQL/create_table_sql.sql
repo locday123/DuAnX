@@ -51,7 +51,7 @@ CREATE TABLE PRODUCT
 	idIncrement INTEGER AUTO_INCREMENT,
 	idProduct VARCHAR(15),
     nameProduct VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
-    urlProduct VARCHAR(255),
+    urlProduct VARCHAR(255) unique,
     priceProduct INTEGER,
     priceThrough INTEGER,
     imageProduct VARCHAR(255),
@@ -64,8 +64,8 @@ CREATE TABLE PRODUCT
     shortDescription VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
     reviewArticle TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
     dateAdd DATE DEFAULT (CURRENT_DATE),
-    statusProduct BOOLEAN,
-    CONSTRAINT PRIMARY_KEY_PRODUCT PRIMARY KEY(idIncrement, idProduct),
+    statusProduct BOOLEAN DEFAULT (0),
+    CONSTRAINT PRIMARY_KEY_PRODUCT PRIMARY KEY(idIncrement),
     CONSTRAINT FOREIGN_KEY_OF_PRODUCT_TO_CATEGORY FOREIGN KEY(idCategory) REFERENCES CATEGORY(idCategory),
     CONSTRAINT FOREIGN_KEY_OF_PRODUCT_TO_STORAGE FOREIGN KEY(idStorage) REFERENCES STORAGE(idStorage)
 );

@@ -2,7 +2,7 @@ import ClassicEditor from "@ckeditor/ckeditor5-build-classic"
 import { CKEditor } from "@ckeditor/ckeditor5-react"
 import { Box, Button, FormControlLabel, InputAdornment, List, ListItem, MenuItem, Switch, TextField } from "@mui/material"
 import { useContext, useEffect, useState } from "react";
-import { getProduct } from "../../Service/Product/ProductService";
+import { addProduct, getProduct } from "../../Service/Product/ProductService";
 import { NumericFormatCustom, TreeCategory, slugify } from "../../Hook/Hook";
 import { Tree } from "antd";
 import {Product_INFO, Product_SEO, Product_REVIEW, Product_CHECKVALIDATION} from './ProductTextField';
@@ -11,7 +11,7 @@ import AddUpdateCategory from "../Category/AddUpdateCategory";
 import Context from "../../Context";
 
 function AddProduct() {
-    const { dataChange } = useContext(Context)
+    const { dataChange, setAlert, setMessage, setChange } = useContext(Context)
     const [dataProduct, setDataProduct] = useState([])
     const [data, setData] = useState([])
     const [onFocus, setFocus] = useState([])
@@ -22,8 +22,12 @@ function AddProduct() {
     const handleCancel = () => {
         setOpen(false);
     };
-    const actionProduct = (event) => {
-        console.log("OK");
+    const actionProduct = () => {
+        addProduct(dataProduct).then((value) => {
+            setChange(true)
+            setAlert({ ...{ vertical: 'bottom', horizontal: 'right' }, open: true });
+            setMessage(value.message)
+        })
     }
     useEffect(() => {
         getProduct().then((value) => {

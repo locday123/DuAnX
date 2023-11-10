@@ -18,7 +18,8 @@ const Product_REVIEW = [
     { nameInput: 'reviewArticle', placehoder: 'Vui lòng soạn bài viết đánh giá', labelInput: 'Bài viết đánh giá', typeInput: 'text' },
 ]
 const Product_CHECKVALIDATION = (data) => {
-    if (data["nameProduct"] > 0 && data["urlProduct"] > 0 && data["idStorage"]>0 && data["idCategory"] > 0) {
+    console.log(data["idStorage"].length > 0);
+    if (data["nameProduct"].length > 0 && data["urlProduct"].length > 0 && data["idStorage"] > 0 && data["idCategory"] > 0) {
         return true
     }
     return false

@@ -1,13 +1,15 @@
 import { Box, Button, IconButton, Switch, TextField, Tooltip } from "@mui/material"
-import { getProduct } from "../../Service/Product/ProductService"
-import { useEffect, useState } from "react"
+import { deleteProduct, getProduct, updateProduct } from "../../Service/Product/ProductService"
+import { useContext, useEffect, useState } from "react"
 import { Input, Table, TreeSelect } from "antd";
 import { Delete, Edit, Preview } from "@mui/icons-material";
 import { Link } from "react-router-dom";
 import {TreeCategory, ProductCategory, NumericFormatCustom} from "../../Hook/Hook"
 import moment from "moment";
+import Context from "../../Context";
 
 function Product() {
+    const { dataChange, setAlert, setMessage, setChange } = useContext(Context)
     const [data, setData] = useState([])
     const [dataSearch, setSearch] = useState({ nameSearch: "", cateSearch: ["all"] })
     const columns = [
@@ -18,8 +20,17 @@ function Product() {
             },
             render: (value) => { 
                 return (
-                    <Switch />
-                    
+                    <Switch
+                        defaultChecked={value.statusProduct}
+                        onClick={(e) => {
+                            updateProduct(value.idProduct, { statusProduct: e.target.checked }).then((value) => {
+                                setChange(true)
+                                setAlert({ ...{ vertical: 'bottom', horizontal: 'right' }, open: true });
+                                setMessage(value.message)
+                            })
+                        }}
+                    />
+
                 )
             }
         },
@@ -90,7 +101,13 @@ function Product() {
                             </Link>
                         </Tooltip>
                         <Tooltip title={'Xóa ID [ ' + value.idProduct + ' ]'}>
-                            <IconButton color='primary'>
+                            <IconButton color='primary' onClick={() =>
+                                deleteProduct(value.idProduct).then((value) => {
+                                    setAlert({ ...{ vertical: 'bottom', horizontal: 'right' }, open: true });
+                                    setMessage(value.message)
+                                    setChange(true)
+                                })}
+                            >
                                 <Delete />
                             </IconButton>
                         </Tooltip>
@@ -114,7 +131,7 @@ function Product() {
                 listCategory: TreeCategory(value[0], null)
             })
         });
-    }, [])
+    }, [dataChange == true])
     return (
         <Box sx={{ padding: "10px", backgroundColor: "white", borderRadius: "10px" }}>
             <Box sx={{ display: "flex", marginBottom:"10px"}}>
