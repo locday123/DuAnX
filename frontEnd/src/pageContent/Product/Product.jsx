@@ -1,43 +1,12 @@
 import { Box, Button, IconButton, Switch, TextField, Tooltip } from "@mui/material"
 import { getProduct } from "../../Service/Product/ProductService"
-import { forwardRef, useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 import { Input, Table, TreeSelect } from "antd";
 import { Delete, Edit, Preview } from "@mui/icons-material";
 import { Link } from "react-router-dom";
-import {TreeCategory, ProductCategory} from "../../Hook/Hook"
+import {TreeCategory, ProductCategory, NumericFormatCustom} from "../../Hook/Hook"
 import moment from "moment";
-import { NumericFormat } from "react-number-format";
-import PropTypes from 'prop-types';
 
-const NumericFormatCustom = forwardRef(function NumericFormatCustom(
-    props,
-    ref,
-  ) {
-    const { onChange, ...other } = props;
-  
-    return (
-      <NumericFormat
-        {...other}
-        getInputRef={ref}
-        onValueChange={(values) => {
-          onChange({
-            target: {
-              name: props.name,
-              value: values.value,
-            },
-          });
-        }}
-        thousandSeparator={"."}
-        decimalSeparator={","}
-        valueIsNumericString
-      />
-    );
-  });
-  
-  NumericFormatCustom.propTypeses = {
-    name: PropTypes.string.isRequired,
-    onChange: PropTypes.func.isRequired,
-  };
 function Product() {
     const [data, setData] = useState([])
     const [dataSearch, setSearch] = useState({ nameSearch: "", cateSearch: ["all"] })

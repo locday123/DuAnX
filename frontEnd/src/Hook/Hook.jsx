@@ -1,3 +1,6 @@
+import { NumericFormat } from "react-number-format";
+import PropTypes from 'prop-types';
+import { forwardRef } from "react";
 
 const slugify = (str) => {
     return String(str)
@@ -9,6 +12,36 @@ const slugify = (str) => {
         .replace(/\s+/g, '-') // replace spaces with hyphens
         .replace(/-+/g, '-'); // remove consecutive hyphens
 }
+
+const NumericFormatCustom = forwardRef(function NumericFormatCustom(
+    props,
+    ref,
+  ) {
+    const { onChange, ...other } = props;
+  
+    return (
+      <NumericFormat
+        {...other}
+        getInputRef={ref}
+        onValueChange={(values) => {
+          onChange({
+            target: {
+              name: props.name,
+              value: values.value,
+            },
+          });
+        }}
+        thousandSeparator={"."}
+        decimalSeparator={","}
+        valueIsNumericString
+      />
+    );
+});
+NumericFormatCustom.propTypeses = {
+name: PropTypes.string.isRequired,
+onChange: PropTypes.func.isRequired,
+};
+
 const TreeCategory = (category, idCategory) => {
     var out = []
     for (var i in category) {
@@ -58,4 +91,4 @@ const getCategoryByProduct = (dataCategory, idCate) => {
 //https://stackoverflow.com/questions/53175946/how-to-find-a-tree-inside-a-tree-in-typescript
 
 
-export { slugify, TreeCategory,getCategoryByProduct, ProductCategory }
+export { slugify, TreeCategory,getCategoryByProduct, ProductCategory, NumericFormatCustom }

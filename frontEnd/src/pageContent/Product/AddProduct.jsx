@@ -1,43 +1,15 @@
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic"
 import { CKEditor } from "@ckeditor/ckeditor5-react"
 import { Box, Button, FormControlLabel, InputAdornment, List, ListItem, MenuItem, Switch, TextField } from "@mui/material"
-import { forwardRef, useContext, useEffect, useState } from "react";
-import { NumericFormat } from "react-number-format";
-import PropTypes from 'prop-types';
+import { useContext, useEffect, useState } from "react";
 import { getProduct } from "../../Service/Product/ProductService";
-import { TreeCategory, slugify } from "../../Hook/Hook";
+import { NumericFormatCustom, TreeCategory, slugify } from "../../Hook/Hook";
 import { Tree } from "antd";
+import {Product_INFO, Product_SEO, Product_REVIEW, Product_CHECKVALIDATION} from './ProductTextField';
 import ModalSystem from "../../components/ModalSystem";
 import AddUpdateCategory from "../Category/AddUpdateCategory";
 import Context from "../../Context";
-const NumericFormatCustom = forwardRef(function NumericFormatCustom(
-    props,
-    ref,
-  ) {
-    const { onChange, ...other } = props;
-  
-    return (
-      <NumericFormat
-        {...other}
-        getInputRef={ref}
-        onValueChange={(values) => {
-          onChange({
-            target: {
-              name: props.name,
-              value: values.value,
-            },
-          });
-        }}
-        thousandSeparator={"."}
-        decimalSeparator={","}
-        valueIsNumericString
-      />
-    );
-});
-NumericFormatCustom.propTypeses = {
-name: PropTypes.string.isRequired,
-onChange: PropTypes.func.isRequired,
-};
+
 function AddProduct() {
     const { dataChange } = useContext(Context)
     const [dataProduct, setDataProduct] = useState([])
@@ -50,30 +22,6 @@ function AddProduct() {
     const handleCancel = () => {
         setOpen(false);
     };
-    const inputCloumn_1 = [
-        { nameInput: 'urlProduct', placehoder: 'Vui lòng nhập URL Sản phẩm', labelInput: 'URL Sản phẩm', typeInput: 'text' },
-        { nameInput: 'metaTitle', placehoder: 'Vui lòng nhập Meta Title', labelInput: 'Meta Title', typeInput: 'text' },
-        { nameInput: 'metaDescription', placehoder: 'Vui lòng nhập Meta Description', labelInput: 'Meta Description', typeInput: 'text' },
-        { nameInput: 'metaKeyword', placehoder: 'Vui lòng nhập từ khóa', labelInput: 'Meta Keyword', typeInput: 'text' },
-    ]
-    const inputCloumn_2 = [
-        { nameInput: 'nameProduct', placehoder: 'Vui lòng nhập tên Sản phẩm', labelInput: 'Tên Sản phẩm', typeInput: 'text' },
-        { nameInput: 'idStorage', placehoder: 'Vui lòng chọn dung lượng', labelInput: 'Dung lượng', typeInput: 'select' },
-        { nameInput: 'priceProduct', placehoder: 'Vui lòng nhập Giá sản phẩm', labelInput: 'Giá Sản phẩm', typeInput: 'number' },
-        { nameInput: 'priceThrough', placehoder: 'Vui lòng nhập Giá thị trường', labelInput: 'Giá thị trường', typeInput: 'number' },
-    ]
-    const inputCKEEditor = [
-        { nameInput: 'productBox', placehoder: 'Thông tin của máy Box / Unbox', labelInput: 'Sản phẩm có gì ?', typeInput: 'text' },
-        { nameInput: 'shortDescription', placehoder: 'Vui lòng nhập Mô rả ngắn', labelInput: 'Mô tả ngắn', typeInput: 'text' },
-        { nameInput: 'reviewArticle', placehoder: 'Vui lòng soạn bài viết đánh giá', labelInput: 'Bài viết đánh giá', typeInput: 'text' },
-    ]
-    const checkValidation = (data) => {
-       
-           if (data["nameProduct"] > 0 && data["urlProduct"] > 0 && data["idStorage"]>0 && data["idCategory"] > 0) {
-               return true
-           }
-           return false
-    }
     const actionProduct = (event) => {
         console.log("OK");
     }
@@ -91,7 +39,7 @@ function AddProduct() {
             <Box sx={{ width: "35%" }}>
                 <Box sx={{ backgroundColor: "white", borderRadius: "10px", marginRight: "10px" }}>
                     <List>
-                    {inputCloumn_1.map((value, index) => (
+                    {Product_SEO.map((value, index) => (
                         <ListItem key={index}>
                             <TextField
                                 label={value.labelInput}
@@ -164,7 +112,7 @@ function AddProduct() {
                                 onSelect={(idCategory, category) => { setDataProduct({ ...dataProduct, ["idCategory"]: category.node.idCategory }); } } 
                             />
                         </ListItem>
-                        {inputCloumn_2.map((value, index) => (
+                        {Product_INFO.map((value, index) => (
                             <ListItem key={index}>
                                 <TextField
                                     required={value.nameInput == "nameProduct" ? true : value.nameInput == "idStorage" ? true : false}
@@ -209,7 +157,7 @@ function AddProduct() {
                             </ListItem>
                                 
                         ))}
-                        {inputCKEEditor.map((value, index) => (
+                        {Product_REVIEW.map((value, index) => (
                             <ListItem key={index}>
                                 <div style={{ width: "100%" }}>
                                     <CKEditor
@@ -233,7 +181,7 @@ function AddProduct() {
                             <Button
                                 variant="contained"
                                 fullWidth
-                                onClick={() => checkValidation(dataProduct) == false? null
+                                onClick={() => Product_CHECKVALIDATION(dataProduct) == false? null
                                     : actionProduct()
                                 }
                             >
