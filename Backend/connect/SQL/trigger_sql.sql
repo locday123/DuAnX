@@ -8,6 +8,12 @@ SET NEW.idAccount = CONCAT('S',LPAD(
   WHERE table_name = 'ACCOUNT')
 ,3,'0'));
 
+CREATE TRIGGER idCategory_Increment AFTER INSERT ON CATEGORY
+FOR EACH ROW
+UPDATE CATEGORY 
+SET sortingCategory = NEW.idCategory
+WHERE idCategory = NEW.idCategory;
+
 CREATE TRIGGER idProduct_Increment BEFORE INSERT ON PRODUCT
 FOR EACH ROW
 SET NEW.idProduct = CONCAT('P',LPAD(

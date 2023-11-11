@@ -19,8 +19,12 @@ function CategoryList({ value }) {
         setOpen(false);
     };
     const columnCategory = [
-
-        { title: "Tên danh mục", dataIndex: "nameCategory", key: "nameCategory"},        
+        
+        {
+            title: "Tên danh mục", dataIndex: "nameCategory", key: "nameCategory",
+            sorter: (a, b) => a.nameCategory.length - b.nameCategory.length,
+            sortDirections: ['descend'],
+        },        
         { title: "Đường dẫn", dataIndex: "linkCategory", key: "linkCategory", align: "left" },
         {
             title: "Trạng thái", dataIndex: "statusCategory", key: "statusCategory", align: "center",

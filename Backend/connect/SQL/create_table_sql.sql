@@ -26,6 +26,7 @@ CREATE TABLE CATEGORY(
     metaDescription VARCHAR(155) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
     statusCategory BOOLEAN,
     dateAdd DATE DEFAULT (CURRENT_DATE),
+    sortingCategory INTEGER,
     CONSTRAINT KEY_CATEGORY PRIMARY KEY(idCategory),
 	CONSTRAINT FOREIGN_KEY_CATEGORY FOREIGN KEY(rootCategory) REFERENCES CATEGORY(idCategory) ON DELETE CASCADE ON UPDATE CASCADE
 );
@@ -51,7 +52,7 @@ CREATE TABLE PRODUCT
 	idIncrement INTEGER AUTO_INCREMENT,
 	idProduct VARCHAR(15),
     nameProduct VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
-    urlProduct VARCHAR(255) unique,
+    urlProduct VARCHAR(255) UNIQUE,
     priceProduct INTEGER,
     priceThrough INTEGER,
     imageProduct VARCHAR(255),
