@@ -63,7 +63,9 @@ function Product() {
                         <span style={{ fontWeight: "bold", fontSize: "18px", marginBottom: "20px", textAlign: "center" }}>{new Intl.NumberFormat().format(value.priceProduct)}</span>
                         <TextField
                             label="Giá thị trường"
-                            InputLabelProps={{ style: {fontSize: "16px", color: "#5c5c66", fontWeight:"bold" } }}
+                            InputLabelProps={{
+                                shrink:true
+                            }}
                             name="priceThrough"
                             defaultValue={value.priceThrough}
                             size="medium"

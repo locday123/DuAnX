@@ -52,9 +52,7 @@ function AddProduct() {
                                 name={value.nameInput}
                                 size="medium"
                                 fullWidth
-                                InputProps={{
-                                    startAdornment: <InputAdornment position="start" />,
-                                }}
+                                InputLabelProps={{shrink:true}}
                                 onFocus={() => setFocus({ ...focus, "focus": value.nameInput })}
                                 value={onFocus[value.nameInput]}
                                 onChange={(e) => setDataProduct({ ...dataProduct, [value.nameInput]: e.target.value })} />
@@ -126,10 +124,10 @@ function AddProduct() {
                                     size="medium"
                                     select={value.typeInput == "select" ? true : false}
                                     fullWidth
+                                    InputLabelProps={{shrink:true}}
                                     InputProps={
                                         {
                                             inputComponent: value.typeInput == "number" ? NumericFormatCustom : null,
-                                            startAdornment: <InputAdornment position="start" />
                                         }
                                     }
                                     onFocus={() => setFocus({ ...focus, "focus": value.nameInput })}
