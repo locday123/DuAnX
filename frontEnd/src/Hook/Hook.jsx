@@ -54,7 +54,6 @@ const TextMaskCustom = forwardRef(function TextMaskCustom(props, ref) {
         }}
         inputRef={ref}
         onAccept={(value) => onChange({ target: { name: props.name, value } })}
-        valueIsNumericString
         overwrite
       />
     );

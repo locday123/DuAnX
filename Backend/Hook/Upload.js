@@ -1,5 +1,5 @@
 const multer = require("multer")
-var storageUser =  multer.diskStorage({
+var uploadAvatar =  multer.diskStorage({
     destination:(req,file,res)=>{
         return res(null, './public/images')
     },
@@ -7,6 +7,17 @@ var storageUser =  multer.diskStorage({
         return res(null, file.originalname)
     }
 })
+
+var uploadProduct =  multer.diskStorage({
+    destination:(req,file,res)=>{
+        return res(null, './public/product')
+    },
+    filename:(req, file, res)=>{
+        return res(null, file.originalname)
+    }
+})
+
 module.exports = {
-    uploadAvatar: multer({storage: storageUser})
+    uploadAvatar: multer({ storage: uploadAvatar }),
+    uploadProduct: multer({storage: uploadProduct})
 }

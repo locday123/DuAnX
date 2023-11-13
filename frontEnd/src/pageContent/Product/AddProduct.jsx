@@ -1,6 +1,6 @@
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic"
 import { CKEditor } from "@ckeditor/ckeditor5-react"
-import { Box, Button, FormControlLabel, InputAdornment, List, ListItem, MenuItem, Switch, TextField } from "@mui/material"
+import { Box, Button, FormControlLabel, List, ListItem, MenuItem, Switch, TextField } from "@mui/material"
 import { useContext, useEffect, useState } from "react";
 import { addProduct, getProduct } from "../../Service/Product/ProductService";
 import { NumericFormatCustom, TreeCategory, slugify } from "../../Hook/Hook";
@@ -13,17 +13,28 @@ import Context from "../../Context";
 function AddProduct() {
     const { dataChange, setAlert, setMessage, setChange } = useContext(Context)
     const [dataProduct, setDataProduct] = useState([])
+    const [imagesUpload, setIMGUpload] = useState([])
+    const [images, setImages] = useState('')
+
     const [data, setData] = useState([])
     const [onFocus, setFocus] = useState([])
     const [open, setOpen] = useState(false)
     const showModal = () => {
         setOpen(true);
     };
+    const handleImages = (e) => {
+        URL.revokeObjectURL(images)
+        const img = e.target.files[0];
+        img.preview = URL.createObjectURL(img)
+        setImages(img.preview)
+        setIMGUpload({ ...imagesUpload, ['imageProduct']: e.target.files[0] })
+        setDataProduct({ ...dataProduct, ['imageProduct']: e.target.files[0].name })
+    }
     const handleCancel = () => {
         setOpen(false);
     };
     const actionProduct = () => {
-        addProduct(dataProduct).then((value) => {
+        addProduct(imagesUpload,dataProduct).then((value) => {
             setChange(true)
             setAlert({ ...{ vertical: 'bottom', horizontal: 'right' }, open: true });
             setMessage(value.message)
@@ -75,13 +86,14 @@ function AddProduct() {
                     <List>
                         <ListItem>
                             <Box sx={{ display: "flex" }}>
-                                <img style={{ marginRight: "30px", borderRadius: "8px" }} height="120" width="120px" src="http://localhost:8081/images/img_avatar.png" />
+                                <img style={{ marginRight: "30px", borderRadius: "8px" }} height="120" width="120px" src={images} />
                                 <Box>
                                     <Button variant="contained" component="label" sx={{ width: "250px", marginRight: "10px" }}>
                                         <TextField
                                             name="imageProduct"
                                             type="file"
                                             fullWidth
+                                            onChange={handleImages}
                                             hidden />
                                         {"THÊM HÌNH ẢNH SẢN PHẨM"}
                                     </Button> {/* Thêm hình ảnh */}

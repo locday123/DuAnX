@@ -48,7 +48,7 @@ console.log(dataAccount);
                   name={value.nameInput}
                   type={value.nameInput == "phoneAccount"?null:value.typeInput}
                   fullWidth
-                  InputProps={{ inputComponent: value.typeInput == "number" ? TextMaskCustom :undefined }}
+                  InputProps={{ inputComponent: value.nameInput == "phoneAccount" ? TextMaskCustom :undefined }}
                   defaultValue={value.typeInput == 'select' ?2:undefined}
                   onChange={(e) => setAccount({ ...dataAccount, [value.nameInput]: e.target.value })}
                   select={value.typeInput == 'select' ?true:false}

@@ -35,7 +35,7 @@ function Product() {
         },
         {dataIndex: "imageProduct", key: 'imageProduct', title: 'Hình ảnh', align: "center", headerAlign: 'center',
             render: (value) => (
-                <img width="100px" src="https://www.vienquangmobile.com/vnt_upload/product/iphone/iphone-15-series/iphone-15/thumbs/iphone-15-pink.png" />
+                <img width="100px" src={"http://localhost:8081/img-product/"+value} />
             )
         },
         {dataIndex: "nameProduct", key: 'nameProduct', title: 'Tên sản phẩm',

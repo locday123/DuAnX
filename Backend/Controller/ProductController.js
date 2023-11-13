@@ -1,6 +1,10 @@
+const multer = require("multer");
+
 const PRODUCT = require("../Model/Product")
 const CATEGORY = require("../Model/Category")
 const STORAGE = require("../Model/Storage")
+const UPLOAD = require("../Hook/Upload");
+const uploadProduct = UPLOAD.uploadProduct.single("imageProduct")
 module.exports = {
     getAll:  (req, res)=>{
         PRODUCT.get_all().then((value) => {
@@ -16,17 +20,39 @@ module.exports = {
         })
     },
     addProduct: (req, res)=>{
-        var data = req.body
-        PRODUCT.create(data).then((value)=>{
-            res.json({
-                status: 'SUCCESS',
-                message:'Thêm sản phẩm thành công'
-            })        
-        }).catch((err)=>{
-            res.json({
-                status: 'FAILED',
-                message:'Xảy ra lỗi, vui lòng kiểm tra lại'
-            })
+        uploadProduct(req,res,(err)=>{
+            if(err instanceof multer.MulterError){
+                res.json({
+                    status: 'ERROR',
+                    message:"Upload avatar lỗi"
+                })
+            }
+            else if(err){
+                res.json({
+                    status: 'ERROR',
+                    message:"Upload avatar lỗi " + err 
+                })
+            }
+            var data= JSON.parse(JSON.parse(JSON.stringify(req.body.data)))
+            if(Object.keys(data).length === 0){
+                res.json({
+                    status: 'FAILED',
+                    message:'Xảy ra lỗi, vui lòng kiểm tra lại'
+                })
+            }
+            else {
+                PRODUCT.create(data).then((value)=>{
+                    res.json({
+                        status: 'SUCCESS',
+                        message:'Thêm sản phẩm thành công'
+                    })        
+                }).catch((err)=>{
+                    res.json({
+                        status: 'FAILED',
+                        message:'Xảy ra lỗi, vui lòng kiểm tra lại'
+                    })
+                })
+            }
         })
     },
 

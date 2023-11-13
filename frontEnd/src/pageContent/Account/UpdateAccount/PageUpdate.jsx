@@ -5,6 +5,7 @@ import Grid from "@mui/material/Unstable_Grid2"
 import { useContext, useEffect, useState } from "react"
 import { updateAccount } from "../../../Service/Account/AccountService"
 import Context from '../../../Context'
+import { TextMaskCustom } from '../../../Hook/Hook'
 
 
 function PageUpdate({ dataID }) {
@@ -73,6 +74,7 @@ function PageUpdate({ dataID }) {
                                     select={value.typeInput == "select" ? true : false}
                                     onChange={(e) => setUser({ ...userUpdate, [value.nameInput]: e.target.value })}
                                     fullWidth
+                                    InputProps={{ inputComponent: value.nameInput == "phoneAccount" ? TextMaskCustom :undefined }}
                                     defaultValue={dataID[value.nameInput] != null ?
                                         value.typeInput == "date" ?
                                             momen(dataID[value.nameInput]).format('YYYY-MM-DD') :
