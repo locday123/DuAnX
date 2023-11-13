@@ -1,32 +1,12 @@
 import { useState, Fragment, useContext, forwardRef } from 'react';
-import { IMaskInput } from 'react-imask';
 import Box from '@mui/material/Box';
 import SwipeableDrawer from '@mui/material/SwipeableDrawer';
 import Button from '@mui/material/Button';
-import PropTypes from 'prop-types';
 import { List, ListItem, TextField, MenuItem } from '@mui/material';
 import { addAccount } from '../../../Service/Account/AccountService';
 import Context from '../../../Context';
+import { TextMaskCustom } from '../../../Hook/Hook';
 
-const TextMaskCustom = forwardRef(function TextMaskCustom(props, ref) {
-  const { onChange, ...other } = props;
-  return (
-    <IMaskInput
-      {...other}
-      mask="0000.000.000"
-      definitions={{
-        '#': /[1-9]/,
-      }}
-      inputRef={ref}
-      onAccept={(value) => onChange({ target: { name: props.name, value } })}
-      overwrite
-    />
-  );
-});
-TextMaskCustom.propTypes = {
-  name: PropTypes.string.isRequired,
-  onChange: PropTypes.func.isRequired,
-};
 export default function AddAccount() {
   const [state, setState] = useState({
     right: false,
@@ -54,7 +34,7 @@ export default function AddAccount() {
     { valueInput: 0, label: 'Nam' },
     { valueInput: 1, label: 'Nữ' }
   ]
-
+console.log(dataAccount);
   const list = (anchor) => (
     <Box sx={{ width: 350, height: 50, backgroundColor: '#f5f5f9', padding: 2, marginBottom: 2 }}>
       THÊM TÀI KHOẢN
@@ -66,6 +46,7 @@ export default function AddAccount() {
                   label={value.labelInput}
                   placeholder={value.placehoder}
                   name={value.nameInput}
+                  type={value.nameInput == "phoneAccount"?null:value.typeInput}
                   fullWidth
                   InputProps={{ inputComponent: value.typeInput == "number" ? TextMaskCustom :undefined }}
                   defaultValue={value.typeInput == 'select' ?2:undefined}

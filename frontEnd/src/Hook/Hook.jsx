@@ -1,6 +1,7 @@
 import { NumericFormat } from "react-number-format";
 import PropTypes from 'prop-types';
 import { forwardRef } from "react";
+import { IMaskInput } from 'react-imask';
 
 const slugify = (str) => {
     return String(str)
@@ -41,6 +42,27 @@ NumericFormatCustom.propTypeses = {
 name: PropTypes.string.isRequired,
 onChange: PropTypes.func.isRequired,
 };
+
+const TextMaskCustom = forwardRef(function TextMaskCustom(props, ref) {
+    const { onChange, ...other } = props;
+    return (
+      <IMaskInput
+        {...other}
+        mask="0000.000.000"
+        definitions={{
+          '#': /[1-9]/,
+        }}
+        inputRef={ref}
+        onAccept={(value) => onChange({ target: { name: props.name, value } })}
+        valueIsNumericString
+        overwrite
+      />
+    );
+  });
+  TextMaskCustom.propTypes = {
+    name: PropTypes.string.isRequired,
+    onChange: PropTypes.func.isRequired,
+  };
 
 const TreeCategory = (category, idCategory) => {
     var out = []
@@ -91,4 +113,4 @@ const getCategoryByProduct = (dataCategory, idCate) => {
 //https://stackoverflow.com/questions/53175946/how-to-find-a-tree-inside-a-tree-in-typescript
 
 
-export { slugify, TreeCategory,getCategoryByProduct, ProductCategory, NumericFormatCustom }
+export { slugify, TreeCategory,getCategoryByProduct, ProductCategory, NumericFormatCustom, TextMaskCustom }

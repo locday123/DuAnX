@@ -9,7 +9,7 @@ CREATE TABLE ACCOUNT
 	nameAccount VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
 	emailAccount VARCHAR(255),
 	sexAccount BOOLEAN,
-	phoneAccount VARCHAR(10),
+	phoneAccount VARCHAR(15),
 	dateAccount DATE,
     dateAdd DATE DEFAULT (CURRENT_DATE),
     imagesAccount VARCHAR(15),

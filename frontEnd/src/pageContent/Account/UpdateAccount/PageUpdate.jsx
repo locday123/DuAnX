@@ -34,8 +34,11 @@ function PageUpdate({ dataID }) {
         { valueInput: 0, label: 'Nữ' }
     ]
     useEffect(() => {
-        URL.revokeObjectURL(images)
+        
         setImages("http://localhost:8081/images/" + (dataID['imagesAccount'] != null ? dataID['imagesAccount'] : "img_avatar.png"))
+        return () => {
+            URL.revokeObjectURL(images)
+        }
     }, [dataID])
     return (
         <Grid container rowSpacing={3} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>

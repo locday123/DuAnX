@@ -33,7 +33,6 @@ function CategoryList({ value }) {
                     defaultChecked={record.statusCategory}
                     onClick={(e) => {
                         updateCategory(record.idCategory, { statusCategory: e.target.checked }).then((value) => {
-                            setChange(true)
                             setAlert({ ...{ vertical: 'bottom', horizontal: 'right' }, open: true });
                             setMessage(value.message)
                         })

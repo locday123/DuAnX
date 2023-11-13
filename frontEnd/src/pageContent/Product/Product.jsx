@@ -24,7 +24,6 @@ function Product() {
                         defaultChecked={value.statusProduct}
                         onClick={(e) => {
                             updateProduct(value.idProduct, { statusProduct: e.target.checked }).then((value) => {
-                                setChange(true)
                                 setAlert({ ...{ vertical: 'bottom', horizontal: 'right' }, open: true });
                                 setMessage(value.message)
                             })

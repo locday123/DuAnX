@@ -7,31 +7,41 @@ import Context from '../../../Context';
 
 function AccountAction({ userID }) {
     const { setAlert, setMessage, setChange } = useContext(Context)
+    const listAction = [
+        {name: "preview", title: "Xem chi tiết tài khoản", icon: <Preview /> }, 
+        {name: "update", title: "Cập nhật tài khoản [" + userID + "]", icon: <Edit/> },
+        {name: "delete", title: "Xóa ID ["+ userID +"]", icon: <Delete/>}
+    ]
 
+    const actionButton = (user, action) => {
+        if (action == "delete") {
+            deleteAccount(user).then((value) => {
+                setAlert({ ...{ vertical: 'bottom', horizontal: 'right' }, open: true });
+                setMessage(value.message)
+                setChange(true)
+            })
+        }
+    }
     return (
         <Box>
-            <Tooltip title="Xem chi tiết tài khoản">
-                <IconButton color='primary'>
-                    <Preview />
-                </IconButton>
-            </Tooltip>
-            <Tooltip title={'Cập nhật tài khoản [ ' + userID + ' ]'}>
-                <Link to={"/account/edit/" + userID}>
-                    <IconButton color='primary'>
-                        <Edit color='white' />
-                    </IconButton>
-                </Link>
-            </Tooltip>
-            <Tooltip title={'Xóa ID [ ' + userID + ' ]'}>
-                <IconButton color='primary' onClick={() =>
-                    deleteAccount(userID).then((value) => {
-                        setAlert({ ...{ vertical: 'bottom', horizontal: 'right' }, open: true });
-                        setMessage(value.message)
-                        setChange(true)
-                    })}>
-                    <Delete />
-                </IconButton>
-            </Tooltip>
+            {listAction.map((value, index) => (
+                <Tooltip key={index} title={value.title}>
+                    {
+                        value.name == "update" ?
+                        <Link to={"/account/edit/" + userID}>
+                            <IconButton color='primary'>
+                                {value.icon}
+                            </IconButton>
+                        </Link>
+                        :
+                        <IconButton color='primary' onClick={()=>actionButton(userID, value.name)}>
+                                {value.icon}
+                        </IconButton>
+                    }
+                    
+                </Tooltip>
+            ))}
+            
 
         </Box>
     )

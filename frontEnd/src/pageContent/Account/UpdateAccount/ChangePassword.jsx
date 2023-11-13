@@ -1,17 +1,18 @@
 import { Button, TextField } from "@mui/material"
 import Grid from "@mui/material/Unstable_Grid2/Grid2"
 import { updateAccount } from "../../../Service/Account/AccountService";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Context from "../../../Context";
 
 
-function ChangePassword({ dataID }){
+function ChangePassword({ dataID }) {
+    const [info, setInfo] = useState([])
     const [password, setPassword] = useState([])
-    const { setAlert, setMessage } = useContext(Context)
+    const {setAlert, setMessage } = useContext(Context)
     const checkPassword = (inputPassword)=>{
         console.log(inputPassword);
         if(inputPassword["newPassword"] == inputPassword["confirmPassword"]){
-            if(dataID["passAccount"] == inputPassword["currenPassword"])
+            if(info["passAccount"] == inputPassword["currenPassword"])
             {
                 return true
             }
@@ -32,7 +33,9 @@ function ChangePassword({ dataID }){
         { nameInput: 'newPassword', placehoder: 'Mật khẩu mới', labelInput: 'Mật khẩu mới', typeInput: 'password', width: 12 },
         { nameInput: 'confirmPassword', placehoder: 'Nhập lại mật khẩu mới', labelInput: 'Nhật lại mật khẩu mới', typeInput: 'password', width: 12 },
     ]
-    
+    useEffect(() => {
+        setInfo(info)
+    }, [info])
     return(
         <Grid container rowSpacing={3} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
             {inputValue.map((value, key)=>(
@@ -55,7 +58,8 @@ function ChangePassword({ dataID }){
                     sx={{ marginRight: "10px" }}
                     onClick={() => 
                         checkPassword(password)&&
-                        updateAccount(dataID.idAccount, "", {"passAccount":password.newPassword}).then((value) => {
+                        updateAccount(info.idAccount, "", { "passAccount": password.newPassword }).then((value) => {
+                            setInfo({...info, ["passAccount"]:password.newPassword})
                             setAlert({ ...{ vertical: 'bottom', horizontal: 'right' }, open: true });
                             setMessage("Đổi mật khẩu thành công")
                         })

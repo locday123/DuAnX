@@ -21,6 +21,17 @@ const updateProduct = async (idProduct, data) => {
     return await response.data
 }
 
+const updateProduct2 = async (idProduct, images, data) => {
+    const Form = new FormData()
+    if (Object.keys(images).length != 0) {
+        Form.append("uploadImages", images.imagesAccount)
+    }
+    Form.append("data", JSON.stringify(data))
+    let urlProduct = linkApi + idProduct
+    const response = (await client.put(urlProduct, Form))
+    return await response.data
+}
+
 const deleteProduct = async (idProduct) => {
     try {
         let urlProduct = linkApi + idProduct
@@ -33,4 +44,4 @@ const deleteProduct = async (idProduct) => {
 
 }
 
-export { getProduct, addProduct, deleteProduct, updateProduct }
+export { getProduct, addProduct, deleteProduct, updateProduct, updateProduct2 }
