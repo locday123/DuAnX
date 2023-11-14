@@ -21,6 +21,6 @@ INSERT INTO MENU VALUES (7, 'Quản lý thông tin', '/storage', 5);
 
 INSERT INTO STORAGE(spaceStorage, nameSpace) VALUES(128000,'128GB');
 
-INSERT INTO PRODUCT(nameProduct, urlProduct, priceProduct, priceThrough, imageProduct, metaTitle, metaDescription, productBox, idStorage, idCategory)
-VALUES('nameProduct', 'urlProduct', 1000000,11000000, 'imageProduct', 'metaTitle', 'metaDescription', 'productBox', 1, 1)
+INSERT INTO PRODUCT(nameProduct, urlProduct, priceProduct, priceThrough, metaTitle, metaDescription, productBox, idStorage, idCategory)
+VALUES('nameProduct', 'urlProduct', 1000000,11000000, 'metaTitle', 'metaDescription', 'productBox', 1, 1)
 

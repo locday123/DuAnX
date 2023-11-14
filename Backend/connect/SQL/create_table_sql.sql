@@ -55,7 +55,7 @@ CREATE TABLE PRODUCT
     urlProduct VARCHAR(255) UNIQUE,
     priceProduct INTEGER DEFAULT(0),
     priceThrough INTEGER DEFAULT(0),
-    imageProduct VARCHAR(255),
+    imageProduct VARCHAR(255) DEFAULT("no-images-product.jpg"),
     idStorage INTEGER,
     idCategory INTEGER,
     metaTitle VARCHAR(70) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
