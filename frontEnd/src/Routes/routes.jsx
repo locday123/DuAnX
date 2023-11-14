@@ -6,6 +6,7 @@ import Menu from '../pageContent/Menu/MenuPage';
 import AddProduct from '../pageContent/Product/AddProduct';
 import Product from '../pageContent/Product/Product';
 import Storage from '../pageContent/Storage/Storage';
+import FileManager from '../pageContent/FileManager/FileManager';
 
 
 
@@ -17,7 +18,8 @@ const pulicRoutes = [
     { path: '/category', component: Category },
     { path: '/storage', component: Storage },
     { path: '/product', component: Product },
-    { path: '/product/add', component: AddProduct }
+    { path: '/product/add', component: AddProduct },
+    { path: '/file-manager', component: FileManager }
 
 ]
 

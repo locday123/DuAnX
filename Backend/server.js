@@ -23,7 +23,7 @@ const StorageRoutes = require('./Routes/StorageRoutes')
 const ProductRoutes = require('./Routes/ProductRoutes')
 const LoginRoutes = require('./Routes/LoginRoutes');
 const LogoutRoutes = require('./Routes/LogoutRoutes');
-
+const FileManagerRoutes = require('./Routes/FileManagerRoutes');
 app.get("/", (req, res)=>{
   res.json("Home")
 })
@@ -32,9 +32,11 @@ app.use('/category', CategoryRoutes)
 app.use('/storage', StorageRoutes)
 app.use('/product', ProductRoutes)
 app.use('/login', LoginRoutes)
-app.use('/logout',LogoutRoutes)
-app.use("/images", express.static('public/images'));
-app.use("/img-product", express.static('public/product'));
+app.use('/logout', LogoutRoutes)
+app.use("/file-manager", FileManagerRoutes)
+app.use('/images', express.static('public/images'));
+app.use('/img-product', express.static('public/product'));
+
 
 
 app.listen(PORT, ()=>{
