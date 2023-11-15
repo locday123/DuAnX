@@ -1,12 +1,18 @@
 const fs = require('fs')
-module.exports = {
-    getAll: (req, res) => {
-        var abc = []
-        const data = fs.readdirSync("public/").forEach((value,index) => 
-            abc.push({title:value, key:index+1  })
-        )
 
-        return res.json(abc)
+function listDirectories(pth) {
+    const directories = (fs.readdirSync(pth, {withFileTypes: true}))
+      .filter(dirent => dirent.isDirectory())
+      .map(dir => dir.name);
+  
+    return directories;
+}
+  
+module.exports = {
+    getAll:  (req, res) => {
+        
+
+        return res.json( listDirectories('public/'))
         
     }
 }
