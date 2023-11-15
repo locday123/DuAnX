@@ -4,6 +4,6 @@ const FileManagerController = require('../Controller/FileManagerController');
 const Hook = require('../Hook/Hook');
 
 
-router.get("/",Hook.checkLogin, FileManagerController.getAll)
+router.post("/",Hook.checkLogin, FileManagerController.getAll)
 
 module.exports = router;
