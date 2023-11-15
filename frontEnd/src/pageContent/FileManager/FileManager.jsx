@@ -14,7 +14,8 @@ function FileManager() {
                 <Folder sx={{color:"#f3ec81", marginRight:"12px", fontSize:"35px"}} />
                 <span>{value}</span>
             </Box>),
-        nameFolder: value+"/",
+        path: value + "/",
+        nameFolder: value,
         key: value,
     }))
 
@@ -32,9 +33,11 @@ function FileManager() {
                 <Tree
                     treeData={treeData}
                     onDoubleClick={(nameFolder, folder) => {
-                        getFolder({ ["path"]: folder.nameFolder }).then((value) => {
-                           
-                            console.log(folder);
+                        getFolder({ ["path"]: folder.path }).then((value) => {
+                            value.map((newFolder) => {
+                                setFolder(folder => [...folder.nameFolder, newFolder])
+                            })
+                            
                         })
                     }} 
                 />
