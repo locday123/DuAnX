@@ -83,6 +83,26 @@ const TreeCategory = (category, idCategory) => {
     return out
 }
 
+const FormatTreeFolder = (folder, idFolder) => {
+  var out = []
+  for (var i in folder) {
+
+      if (folder[i].rootFolder == idFolder) {
+
+          var children = FormatTreeFolder(folder, folder[i].idFolder)
+          if (children.length) {
+            folder[i].childFolder = children
+          }
+          else {
+            folder[i].childFolder=[]
+          }
+          folder[i].key = folder[i].idFolder
+          out.push(folder[i])
+      }
+  }
+  return out
+}
+
 const ProductCategory = (category,product) => {
     var out = []
     for (var i in product) {
@@ -112,4 +132,4 @@ const getCategoryByProduct = (dataCategory, idCate) => {
 //https://stackoverflow.com/questions/53175946/how-to-find-a-tree-inside-a-tree-in-typescript
 
 
-export { slugify, TreeCategory,getCategoryByProduct, ProductCategory, NumericFormatCustom, TextMaskCustom }
+export { slugify, TreeCategory, FormatTreeFolder, getCategoryByProduct, ProductCategory, NumericFormatCustom, TextMaskCustom }

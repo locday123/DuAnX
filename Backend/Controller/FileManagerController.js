@@ -1,18 +1,23 @@
 const fs = require('fs')
 
-function listDirectories(path, parent) {
+function listDirectories(path, rootFolder) {
     const data = []
     const directories = (fs.readdirSync(path, {withFileTypes: true}))
       .filter(dirent => dirent.isDirectory())
-        .map(dir => data.push(
-            { ["title"]: dir.name, ["nameFolder"]: dir.name, ["parentFolder"]: parent, ["path"]: dir.name+"/", ["key"]:dir.name }
+        .map((dir,index) => data.push(
+            {
+                "idFolder": dir.name,
+                "nameFolder": dir.name,
+                "rootFolder": rootFolder,
+                "pathFolder": rootFolder+"/"+dir.name+"/"
+            }
         ));
     return data;
 }
   
 module.exports = {
     getAll: (req, res) => {
-        var data = req.body.path ? req.body.path : ""
-        return res.json( listDirectories("public/"+data, data)) 
+        var pathFolder = req.body.pathFolder ? req.body.pathFolder : ""
+        return res.json( listDirectories("public/"+pathFolder, req.body.idFolder?req.body.idFolder:"")) 
     }
 }
