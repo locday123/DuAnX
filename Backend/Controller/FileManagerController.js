@@ -1,18 +1,9 @@
-const fs = require('fs')
+const dree = require('dree')
 
-function listDirectories(path, parent) {
-    const data = []
-    const directories = (fs.readdirSync(path, {withFileTypes: true}))
-      .filter(dirent => dirent.isDirectory())
-        .map(dir => data.push(
-            { ["title"]: dir.name, ["nameFolder"]: dir.name, ["parentFolder"]: parent, ["path"]: dir.name+"/", ["key"]:dir.name }
-        ));
-    return data;
-}
-  
+const treeFolder = dree.scan('public')
 module.exports = {
     getAll: (req, res) => {
         var data = req.body.path ? req.body.path : ""
-        return res.json( listDirectories("public/"+data, data)) 
+        return res.json([treeFolder]) 
     }
 }
