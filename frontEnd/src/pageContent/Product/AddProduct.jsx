@@ -112,6 +112,7 @@ function AddProduct() {
                                     title: 'nameCategory',
                                     value: 'idCategory',
                                 }}
+                                
                                 rootStyle={{
                                     width: '100%',
                                     position: 'relative',
