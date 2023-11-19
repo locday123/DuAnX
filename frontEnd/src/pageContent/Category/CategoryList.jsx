@@ -73,9 +73,9 @@ function CategoryList({ value }) {
                 dataSource={value}
                 rowKey="idCategory"
                 key="idCategory"
-                childrenColumnName="childCategory"
+                childrenColumnName="childCategory"  
             />
-            <ModalSystem open={open} onCancel={handleCancel}>
+            <ModalSystem open={open} onCancel={handleCancel} width={1000}>
                 <AddUpdateCategory action={"editCategory"} info={infoCategory} category={value}/>
             </ModalSystem >
         </>

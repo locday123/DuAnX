@@ -1,47 +1,57 @@
-import { Delete, DriveFileRenameOutlineRounded, Folder, Info } from "@mui/icons-material"
-import { Box } from "@mui/material"
-import { Dropdown, Popover, Tree } from "antd"
+import { Add, CreateNewFolder, CreateNewFolderOutlined, Delete, DriveFileRenameOutlineRounded, Folder, Info } from "@mui/icons-material"
+import { Box, Button, TextField } from "@mui/material"
+import { Dropdown , Popconfirm, Tree } from "antd"
 import { useEffect, useState } from "react"
 import { getFolder } from "../../Service/FileManager/FileManager"
+import ModalSystem from "../../components/ModalSystem"
 
 
 function FileManager() {
 
     const [folder, setFolder] = useState([])
-    const [data, setData] = useState('')
+    const [data, setData] = useState({["pathFolder"]:"public/", ["action"]:"read"})
     const [breadcrumbs, setBreadcrumbs] = useState('File')
+    const [open, setOpen] = useState(false)
+
+    const showModal = () => {
+        setOpen(true);
+    };
+    const handleCancel = () => {
+        setOpen(false);
+    };
+    console.log(data);
     const items = (listFolder) => {
-        const data = []
-        data.push(
+        const pushData = []
+        pushData.push(
             {
                 label: (
-                    <Box sx={{display:"flex", alignItems:"center", fontSize:"13px"}}>
+                    <Button sx={{ display: "flex", alignItems: "center", fontSize: "13px" }} onClick={(e)=>{setData({...data, ["action"]:e})}}>
                         <Delete sx={{color:"#1976d2", fontSize:"20px", marginRight:"10px"}}/>
-                        <span>Xóa thư mục</span>
-                    </Box>
+                        <span>{ "Xóa thư mục ["+ (listFolder.relativePath == "."?"public/":"public/"+listFolder.relativePath)+ "]" }</span>
+                    </Button>
                 ),
                 key: 1
             },
             {
                 label: (
-                    <Box sx={{display:"flex", alignItems:"center", fontSize:"13px"}}>
+                    <Button sx={{display:"flex", alignItems:"center", fontSize:"13px"}} onClick={()=>{setData({...data, ["action"]:"rename-folder"})}}>
                         <DriveFileRenameOutlineRounded sx={{color:"#1976d2  ", fontSize:"20px", marginRight:"10px"}}/>
                         <span>Đổi tên thư mục</span>
-                    </Box>
+                    </Button>
                 ),
                 key: 2
             },
             {
                 label: (
-                    <Box sx={{display:"flex", alignItems:"center", fontSize:"13px"}}>
+                    <Button sx={{display:"flex", alignItems:"center", fontSize:"13px"}}>
                         <Info sx={{color:"#1976d2  ", fontSize:"20px", marginRight:"10px"}}/>
                         <span>Xem chi tiết thư mục</span>
-                    </Box>
+                    </Button>
                 ),
-                key: 2
+                key: 3
             },
         )
-        return data;
+        return pushData;
     }
     
     const TreeFolder = (listFolder) => {
@@ -73,21 +83,53 @@ function FileManager() {
     }, [])
     return (
         <Box sx={{width:"100%", height:"100%", display:"flex"}}>
-            <Box sx={{width:"25%", backgroundColor:"white", padding: "10px"}}>
-                <Tree
-                    fieldNames={{
-                        title: 'nameFolder',
-                    }}
-                    defaultSelectedKeys={"pulbic"}
-                    treeData={TreeFolder(folder)}
-                    onSelect={(nameFolder, folders) => { console.log(folders.node); setBreadcrumbs(folders.node.pathFolder) }}
-                    
-                />
+            <Box sx={{ width: "25%", backgroundColor: "white"}}>
+                <Box sx={{ backgroundColor: "white", borderBottom: "1px solid #dee2e6", padding: "10px" }}>
+                    <Box sx={{display:"flex", alignItems:"center" ,fontSize:"15px"}}>
+                        
+                        <Button variant="contained" size="small" sx={{alignItems:"center"}} onClick={()=>{showModal()}}>
+                            <Add/>
+                            Tạo thư mục
+                        </Button>
+                    </Box>
+                </Box>
+                <Box sx={{ padding:"10px"}}>
+                    <Tree
+                        fieldNames={{
+                            title: 'nameFolder',
+                        }}
+                        defaultSelectedKeys={"pulbic"}
+                        treeData={TreeFolder(folder)}
+                        onSelect={(nameFolder, folders) => {
+                            setBreadcrumbs(folders.node.pathFolder)
+                            setData({ ...data, ["pathFolder"]: folders.node.pathFolder })
+                        }}
+                    />
+                </Box>
             </Box>
             <Box sx={{width:"70%", marginLeft:"10px", backgroundColor:"white"}}>
                 <Box sx={{ backgroundColor: "white", borderBottom: "1px solid #dee2e6", padding: "10px" }}>{ breadcrumbs }</Box>
             </Box>
-            
+            <ModalSystem open={open} onCancel={handleCancel} title={"TẠO THƯ MỤC"} width={"20%"}>
+                <Box>
+                    <TextField
+                        type="text"
+                        size="small"
+                        sx={{ marginBottom: "10px" }}
+                        onChange={(e) =>
+                            setData({ ...data, ["nameFolder"]: e.target.value, ["action"]:"create-folder" })
+                        }
+                        fullWidth
+                    />
+                    <Button variant="contained" size="small" sx={{ alignItems: "center" }} onClick={() => {
+                        getFolder(data).then((value) => {
+                            handleCancel()
+                        })
+                    }}>
+                        Tạo thư mục
+                    </Button>
+                </Box>
+            </ModalSystem >
         </Box>
     )
 }
