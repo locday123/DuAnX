@@ -2,6 +2,7 @@ const dree = require('dree')
 const path = require('path')
 const fs = require('fs');
 const { log } = require('console');
+const { callbackify } = require('util');
 const options = {
     stat: false,
     hash: false,
@@ -39,7 +40,13 @@ module.exports = {
             }
         }
         if (action == "delete-folder") {
-            fs.rm()
+            fs.rm('.//' + pathFolder, { recursive:true }, (err) => { 
+                if(err){ 
+                    // File deletion failed 
+                    res.json({status: "Có lỗi xảy ra !!!"})
+                } 
+                res.json({status: "Xóa thư mục thành công"})
+            }) 
         }
         
     }
