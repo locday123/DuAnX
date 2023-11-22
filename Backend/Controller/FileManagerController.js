@@ -24,7 +24,7 @@ module.exports = {
     getAll: (req, res) => {
         var pathFolder = req.body.pathFolder
         var action = req.body.action
-        var nameFolder = req.body.nameFolder
+        var nameFolder = req.body.newFolder
         
         if (action == "read") {
             return res.json([dree.scan(pathFolder, options)]) 
@@ -47,6 +47,9 @@ module.exports = {
                 } 
                 res.json({status: "Xóa thư mục thành công"})
             }) 
+        }
+        if (action == "rename-folder") {
+            fs.renameSync('./' + pathFolder, './' + nameFolder)
         }
         
     }

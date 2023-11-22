@@ -7,7 +7,7 @@ function CreateFolder({ dataFolder }) {
     console.log(data);
     useEffect(() => {
         setData(dataFolder)
-    },[data])
+    },[dataFolder])
     return (
         <Box>
             <TextField
@@ -17,9 +17,12 @@ function CreateFolder({ dataFolder }) {
                 onChange={(e) => {
                     setData({
                         ...data,
-                        ["nameFolder"]: e.target.value,
-                        ["action"]: data.dataFolder.action,
-                        ["pathFolder"]: data.dataFolder.pathFolder
+                        ["newFolder"]: data.action == "rename-folder" ?
+                            (data.pathFolder).substring(0, (data.pathFolder).lastIndexOf(data.nameFolder)) + e.target.value
+                            : e.target.value,
+                        ["action"]: data.action,
+                        ["pathFolder"]: data.pathFolder ? data.pathFolder : "pulbic",
+                        ["nameFolder"]: data.nameFolder
                     })
                 }}
                 fullWidth

@@ -20,7 +20,6 @@ function FileManager() {
     const handleCancel = () => {
         setOpen(false);
     };
-    console.log(data);
     const items = (listFolder) => {
         const pushData = []
         if (listFolder.name != "public") {
@@ -32,7 +31,7 @@ function FileManager() {
                             sx={{ display: "flex", alignItems: "center", fontSize: "13px" }}
                             onClick={() => {
                                 getFolder({ ["pathFolder"]: data.pathFolder, ["action"]: "delete-folder" }).then((value) => {
-                                    console.log("OK");
+                                    console.log("OK")
                                 })
                             }}
                         >
@@ -48,7 +47,7 @@ function FileManager() {
                             sx={{ display: "flex", alignItems: "center", fontSize: "13px" }}
                             onClick={(e) => {
                                 e.stopPropagation()
-                                setData({ ...data, ["action"]: "rename-folder" })
+                                setData({ ...data, ["action"]: "rename-folder", ["nameFolder"]: listFolder.name})
                                 showModal()
                                 
                             }}
