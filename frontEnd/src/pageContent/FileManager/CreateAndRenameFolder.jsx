@@ -21,7 +21,7 @@ function CreateFolder({ dataFolder }) {
                             (data.pathFolder).substring(0, (data.pathFolder).lastIndexOf(data.nameFolder)) + e.target.value
                             : e.target.value,
                         ["action"]: data.action,
-                        ["pathFolder"]: data.pathFolder ? data.pathFolder : "pulbic",
+                        ["pathFolder"]: data.pathFolder ? data.pathFolder : ".",
                         ["nameFolder"]: data.nameFolder
                     })
                 }}

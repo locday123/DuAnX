@@ -1,8 +1,7 @@
 const dree = require('dree')
-const path = require('path')
-const fs = require('fs');
-const { log } = require('console');
-const { callbackify } = require('util');
+const {resolve, dirname, basename} = require('path')
+const {readdirSync, rename, rm, existsSync, mkdirSync} = require('fs');
+const path = require('path');
 const options = {
     stat: false,
     hash: false,
@@ -12,11 +11,11 @@ const options = {
 };
 
 function addNewFolder(filePath) {
-    var dirname = path.resolve(path.join(filePath));
-    if (fs.existsSync(dirname)) {
+    var dirname = resolve(__dirname, filePath);
+    if (existsSync(dirname)) {
       return true;
     }
-    fs.mkdirSync(filePath, { recursive: true });
+    mkdirSync(filePath, { recursive: true });
 }
 
   
@@ -25,13 +24,14 @@ module.exports = {
         var pathFolder = req.body.pathFolder
         var action = req.body.action
         var nameFolder = req.body.newFolder
-        
+        var folderRoot = resolve(__dirname, '../public/')
         if (action == "read") {
-            return res.json([dree.scan(pathFolder, options)]) 
+            return res.json([dree.scan(folderRoot, options)]) 
         }
         if (action == "create-folder")
         {
-            if (addNewFolder('.//' + pathFolder + "//" + nameFolder))
+
+            if (addNewFolder(folderRoot+"/"+pathFolder+'/'+nameFolder))
             {
                 res.json({status: "Thư mục đã tồn tại"})
             }
@@ -40,7 +40,7 @@ module.exports = {
             }
         }
         if (action == "delete-folder") {
-            fs.rm('.//' + pathFolder, { recursive:true }, (err) => { 
+            rm(folderRoot+'/'+pathFolder, { recursive:true }, (err) => { 
                 if(err){ 
                     // File deletion failed 
                     res.json({status: "Có lỗi xảy ra !!!"})
@@ -49,7 +49,9 @@ module.exports = {
             }) 
         }
         if (action == "rename-folder") {
-            fs.renameSync('./' + pathFolder, './' + nameFolder)
+            const oldPath = folderRoot + `/${pathFolder}`
+            const newPath = dirname(oldPath).split(path.sep).pop() + `/${nameFolder}`
+            rename(oldPath, newPath,err => console.log(err))
         }
         
     }

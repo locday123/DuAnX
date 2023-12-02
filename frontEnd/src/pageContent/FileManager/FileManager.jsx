@@ -22,7 +22,6 @@ function FileManager() {
     };
     const items = (listFolder) => {
         const pushData = []
-        if (listFolder.name != "public") {
             pushData.push(
                 {
                     label: (
@@ -30,12 +29,10 @@ function FileManager() {
                             startIcon={<Delete sx={{ color: "#1976d2", fontSize: "20px" }} />}
                             sx={{ display: "flex", alignItems: "center", fontSize: "13px" }}
                             onClick={() => {
-                                getFolder({ ["pathFolder"]: data.pathFolder, ["action"]: "delete-folder" }).then((value) => {
-                                    console.log("OK")
-                                })
+                                console.log(listFolder.pathFolder);
                             }}
                         >
-                            <span>{"Xóa thư mục [" + (listFolder.relativePath == "." ? "public/" : "public/" + listFolder.relativePath) + "]"}</span>
+                           {"Xóa thư mục"}
                         </Button>
                     ),
                     key: "delete-folder"
@@ -69,7 +66,6 @@ function FileManager() {
                     key: 3
                 },
             )
-        }
         return pushData;
     }
     
@@ -78,31 +74,19 @@ function FileManager() {
         for (const key in listFolder) {
             if (listFolder[key].type == "directory") {
                 data.push({
-                    nameFolder: (
-                        <Dropdown
-                            menu={{
-                                items: items(listFolder[key]),
-                            }}
-                            trigger={['contextMenu']}
-                        >
-                            <Box sx={{display:"flex", alignItems:"center", fontSize:"15px"}}>
-                                <Folder sx={{color:"#fddd36", fontSize:"35px", marginRight:"10px"}}/>
-                                <span>{ (listFolder[key].name).charAt(0).toUpperCase() + (listFolder[key].name).slice(1)}</span>
-                            </Box>
-                        </Dropdown>
-                    ),
+                    nameFolder: listFolder[key].name,
                     typeFolder: listFolder[key].type,
                     key:listFolder[key].name,
-                    pathFolder: listFolder[key].relativePath == "."? "Public": "Public/"+listFolder[key].relativePath,
+                    pathFolder: listFolder[key].relativePath,
                     children: TreeFolder(listFolder[key].children)
                 })
             }
         }
         return data
     }
-    
+    console.log(data);
     useEffect(() => {
-        const getList = { ["pathFolder"]: "public/", ["action"]: "read" }
+        const getList = {["action"]: "read" }
         getFolder(getList).then((value) => {
             setFolder(value)
         })
@@ -145,6 +129,25 @@ function FileManager() {
                         onRightClick={(folders) => {
                             setData({ ...data, ["pathFolder"]: folders.node.pathFolder })
                         }}
+                        titleRender={(node) => (
+                            node.nameFolder !="public"?
+                                <Dropdown
+                                menu={{
+                                    items: items(node),
+                                }}
+                                trigger={['contextMenu']}
+                                >
+                                <Box sx={{display:"flex", alignItems:"center", fontSize:"15px"}}>
+                                    <Folder sx={{color:"#fddd36", fontSize:"30px", marginRight:"10px"}}/>
+                                    <span>{ (node.nameFolder).charAt(0).toUpperCase() + (node.nameFolder).slice(1)}</span>
+                                </Box>
+                                </Dropdown>
+                                :
+                                <Box sx={{ display: "flex", alignItems: "center", fontSize: "15px" }}>
+                                    <Folder sx={{color:"#fddd36", fontSize:"30px", marginRight:"10px"}}/>
+                                    <span>{ (node.nameFolder).charAt(0).toUpperCase() + (node.nameFolder).slice(1)}</span>
+                                </Box>   
+                        )}
                         
                     />
                 </Box>
