@@ -60,7 +60,7 @@ function FileManager() {
                             sx={{ display: "flex", alignItems: "center", fontSize: "13px" }}
                         >
                             <span>Xem chi tiết thư mục</span>
-                        </Button>
+                        </Button> 
                     ),
                     key: 3
                 },
@@ -98,6 +98,10 @@ function FileManager() {
                 })
         }
         return data
+    }
+
+    const loadImg = (item) => {
+        return `localhost:8080/file-manager/load-image/${item}`
     }
     useEffect(() => {
         const getList = {["action"]: "read-folder", ["pathFolder"]:"." }
@@ -190,7 +194,7 @@ function FileManager() {
                                 (item.typeFolder == "file" && item.extensionFolder  == "png")?
                                     <Image
                                         width={"100%"}
-                                        src="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"
+                                        src={loadImg(item.pathFolder)}
                                     />: null
                             }
                             </Box>

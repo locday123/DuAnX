@@ -24,6 +24,7 @@ const ProductRoutes = require('./Routes/ProductRoutes')
 const LoginRoutes = require('./Routes/LoginRoutes');
 const LogoutRoutes = require('./Routes/LogoutRoutes');
 const FileManagerRoutes = require('./Routes/FileManagerRoutes');
+const { loadImages } = require('./Controller/FileManagerController');
 app.get("/", (req, res)=>{
   res.json("Home")
 })

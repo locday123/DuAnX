@@ -4,6 +4,7 @@ const FileManagerController = require('../Controller/FileManagerController');
 const Hook = require('../Hook/Hook');
 
 
-router.post("/",Hook.checkLogin, FileManagerController.getAll)
+router.post("/", Hook.checkLogin, FileManagerController.getAll)
+router.get("/load-image:path",Hook.checkLogin, FileManagerController.loadImages)
 
 module.exports = router;
