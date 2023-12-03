@@ -54,5 +54,14 @@ module.exports = {
             rename(oldPath, newPath,err => console.log(err))
         }
         
+    },
+
+    loadImages: (req, res) => {
+        const path = req.params.pathFolder
+        var folderRoot = resolve(__dirname, '../public/')
+        console.log(path);
+        res.download(folderRoot+`/${path}`, function (error) {
+            console.log("Error : ", error)
+        });
     }
-}
+}   
