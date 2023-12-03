@@ -101,7 +101,8 @@ function FileManager() {
     }
 
     const loadImg = (item) => {
-        return `localhost:8080/file-manager/load-image/${item}`
+        console.log(item);
+        return `http://localhost:8081/images/${data.pathFolder+"/"+item}`
     }
     useEffect(() => {
         const getList = {["action"]: "read-folder", ["pathFolder"]:"." }
@@ -140,16 +141,16 @@ function FileManager() {
                         }}
                         defaultExpandedKeys={["public"]}
                         treeData={TreeFolder(folder)}
-                        onSelect={(nameFolder, folders) => {
-                            setData({ ...data, ["pathFolder"]: folders.node.pathFolder })
-                        }}
+                        
                         onRightClick={(folders) => {
                             setData({ ...data, ["pathFolder"]: folders.node.pathFolder })
                         }}
                         onDoubleClick={(event, node) => {
-                            const getList = {["action"]: "read-folder", ["pathFolder"]:node.pathFolder }
+                            const getList = { ["action"]: "read-folder", ["pathFolder"]: node.pathFolder }
+                            console.log(getList);
                             getFolder(getList).then((value) => {
                                 setChildren(value[0].children)
+                                
                             })
                             
                         }}
@@ -180,20 +181,20 @@ function FileManager() {
                 <Box sx={{padding:"10px"}}>
                 <List
                     grid={{
-                    gutter: 16,
-                    column: 10
+                    gutter: 10,
+                    column: 7
                     }}
                     dataSource={ListItem(children)}
                     renderItem={(item) => (
                     <List.Item>
-                        <Box sx={{display:"flex", flexDirection:"column",alignItems:"center", fontSize:"15px"}}>
-                            <Box sx={{width:"80px"}}>
+                        <Box sx={{display:"flex", flexDirection:"column",justifyContent:"center", fontSize:"12px"}}>
+                                <Box sx={{display:"flex", justifyContent:"center"}}>
                             {
                                 item.typeFolder == "directory"?
-                                    <Folder sx={{ color: "#fddd36", fontSize: "79px" }} />:
+                                    <Folder sx={{ color: "#fddd36", fontSize: "50px" }} />:
                                 (item.typeFolder == "file" && item.extensionFolder  == "png")?
                                     <Image
-                                        width={"100%"}
+                                        width={"60%"}
                                         src={loadImg(item.pathFolder)}
                                     />: null
                             }

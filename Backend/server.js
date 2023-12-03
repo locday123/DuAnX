@@ -35,7 +35,7 @@ app.use('/product', ProductRoutes)
 app.use('/login', LoginRoutes)
 app.use('/logout', LogoutRoutes)
 app.use("/file-manager", FileManagerRoutes)
-app.use('/images', express.static('public/images'));
+app.use('/images', express.static(path.join(__dirname, 'public/')))
 app.use('/img-product', express.static('public/product'));
 
 
