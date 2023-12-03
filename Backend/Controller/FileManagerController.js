@@ -26,7 +26,7 @@ module.exports = {
         var nameFolder = req.body.newFolder
         var folderRoot = resolve(__dirname, '../public/')
         if (action == "read-folder") {
-            return res.json([dree.scan(folderRoot, options)]) 
+            return res.json([dree.scan(folderRoot+'/'+pathFolder, options)]) 
         }
         if (action == "create-folder")
         {

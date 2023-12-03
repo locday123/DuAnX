@@ -13,26 +13,6 @@ function FileManager() {
     const [children, setChildren] = useState([])
     const [breadcrumbs, setBreadcrumbs] = useState('File')
     const [open, setOpen] = useState(false)
-    const data2 = [
-        {
-          title: 'Title 1',
-        },
-        {
-          title: 'Title 2',
-        },
-        {
-          title: 'Title 3',
-        },
-        {
-          title: 'Title 4',
-        },
-        {
-          title: 'Title 5',
-        },
-        {
-          title: 'Title 6',
-        },
-      ];
     const showModal = () => {
         setOpen(true);
     };
@@ -62,7 +42,7 @@ function FileManager() {
                             startIcon={<DriveFileRenameOutlineRounded sx={{ color: "#1976d2  ", fontSize: "20px"}} />}
                             sx={{ display: "flex", alignItems: "center", fontSize: "13px" }}
                             onClick={(e) => {
-                               
+                                e.stopPropagation()
                                 setData({ ...data, ["action"]: "rename-folder", ["nameFolder"]: listFolder.name})
                                 showModal()
                                 
@@ -91,7 +71,7 @@ function FileManager() {
     const TreeFolder = (listFolder) => {
         var data = []
         for (const key in listFolder) {
-           
+            if (listFolder[key].type == "directory") {
                 data.push({
                     nameFolder: listFolder[key].name,
                     typeFolder: listFolder[key].type,
@@ -100,13 +80,29 @@ function FileManager() {
                     pathFolder: listFolder[key].relativePath,
                     children: TreeFolder(listFolder[key].children)
                 })
+            }
+        }
+        return data
+    }
+
+    const ListItem = (listItem) => {
+        var data = []
+        for (const key in listItem) {
+                data.push({
+                    nameFolder: listItem[key].name,
+                    typeFolder: listItem[key].type,
+                    key: listItem[key].name,
+                    extensionFolder: listItem[key].extension,
+                    pathFolder: listItem[key].relativePath,
+                    children: ListItem(listItem[key].children)
+                })
         }
         return data
     }
     useEffect(() => {
-        const getList = {["action"]: "read-folder" }
+        const getList = {["action"]: "read-folder", ["pathFolder"]:"." }
         getFolder(getList).then((value) => {
-            setFolder(value)
+            setFolder(value[0].children)
         })
     }, [])
     return (
@@ -146,9 +142,12 @@ function FileManager() {
                         onRightClick={(folders) => {
                             setData({ ...data, ["pathFolder"]: folders.node.pathFolder })
                         }}
-                        onDoubleClick={(event,node) => {
-                            setChildren(node.children)
-                            console.log(node.children);
+                        onDoubleClick={(event, node) => {
+                            const getList = {["action"]: "read-folder", ["pathFolder"]:node.pathFolder }
+                            getFolder(getList).then((value) => {
+                                setChildren(value[0].children)
+                            })
+                            
                         }}
                         titleRender={(node) => (
                             (node.nameFolder !="public")?
@@ -178,14 +177,9 @@ function FileManager() {
                 <List
                     grid={{
                     gutter: 16,
-                    xs: 1,
-                    sm: 2,
-                    md: 4,
-                    lg: 4,
-                    xl: 6,
-                    xxl: 3,
+                    column: 10
                     }}
-                    dataSource={children}
+                    dataSource={ListItem(children)}
                     renderItem={(item) => (
                     <List.Item>
                         <Box sx={{display:"flex", flexDirection:"column",alignItems:"center", fontSize:"15px"}}>
