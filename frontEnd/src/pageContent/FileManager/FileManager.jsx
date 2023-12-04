@@ -141,13 +141,15 @@ function FileManager() {
                         }}
                         defaultExpandedKeys={["public"]}
                         treeData={TreeFolder(folder)}
-                        
+                        onSelect={(node) => {
+                            
+                        }}
                         onRightClick={(folders) => {
                             setData({ ...data, ["pathFolder"]: folders.node.pathFolder })
                         }}
                         onDoubleClick={(event, node) => {
                             const getList = { ["action"]: "read-folder", ["pathFolder"]: node.pathFolder }
-                            console.log(getList);
+                            setData({ ...data, ["pathFolder"]: node.pathFolder })
                             getFolder(getList).then((value) => {
                                 setChildren(value[0].children)
                                 
