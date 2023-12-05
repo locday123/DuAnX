@@ -164,30 +164,29 @@ function FileManager() {
             </Box>
             <Box sx={{width:"70%", marginLeft:"10px", backgroundColor:"white", height:"100%"}}>
                 <Box sx={{ backgroundColor: "white", borderBottom: "1px solid #dee2e6", padding: "10px" }}>{breadcrumbs}</Box>
-                <Box sx={{maxWidth:"1570px"}}>
-                    <Box sx={{padding:"10px", position: "absolute", overflow:"hidden", height:"100%", zIndex:222222}}>
+                <Box sx={{overflow:"hidden", position:"relative", height:"100%", width:"100%"}}>
+                    <Box sx={{padding:"10px", }}>
                         <List
                             grid={{
-                            gutter: 10,
+                            gutter: 1,
                             column: 7
                             }}
                             dataSource={ListItem(children)}
-                            itemLayout="vertical"
-                            style={{overflow: "hidden", zIndex:9999}}
+                            style={{position: "absolute", height: "calc(100% - 5rem)", width:"100%", overflow:"hidden auto"}}
                             renderItem={(item) => (
                             <List.Item>
                                 <Box sx={{display:"flex", flexDirection:"column",justifyContent:"center", fontSize:"12px"}}>
-                                        <Box sx={{display:"flex", justifyContent:"center"}}>
+                                    <Box sx={{display:"flex", justifyContent:"center"}}>
                                     {
                                         item.typeFolder == "directory"?
-                                            <Folder sx={{ color: "#fddd36", fontSize: "50px" }} />:
+                                            <Folder sx={{ color: "#fddd36", fontSize: "57px"}} />:
                                         (item.typeFolder == "file" && item.extensionFolder  == "png")?
                                             <img
                                                 width={"60%"}
                                                 src={loadImg(item.pathFolder)}
                                             />: null
                                     }
-                                    </Box>
+                                        </Box>
                                     <Box sx={{textAlign:"center"}}>
                                             <span>{ item.nameFolder }</span>
                                     </Box>
