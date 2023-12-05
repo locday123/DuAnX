@@ -1,11 +1,11 @@
 import { Add, Delete, DriveFileRenameOutlineRounded, Folder, Info, UploadFile } from "@mui/icons-material"
 import { Box, Button } from "@mui/material"
-import { Card, Dropdown, Image, List, Tree, Upload } from "antd"
+import { Dropdown, List, Tree, Upload } from "antd"
 import { useEffect, useState } from "react"
 import { getFolder } from "../../Service/FileManager/FileManager"
 import ModalSystem from "../../components/ModalSystem"
 import CreateAndRenameFolder from "./CreateAndRenameFolder"
-import { TreeFolder } from "../../Hook/Hook_Folder"
+import { ListItem, TreeFolder, loadImg } from "../../Hook/Hook_Folder"
 
 
 function FileManager() {
@@ -69,24 +69,6 @@ function FileManager() {
         return pushData;
     }
     
-
-    const ListItem = (listItem) => {
-        var data = []
-        for (const key in listItem) {
-                data.push({
-                    nameFolder: listItem[key].name,
-                    typeFolder: listItem[key].type,
-                    key: listItem[key].name,
-                    extensionFolder: listItem[key].extension,
-                    pathFolder: listItem[key].relativePath,
-                    children: ListItem(listItem[key].children)
-                })
-        }
-        return data
-    }
-    const loadImg = (item) => {
-        return `http://localhost:8081/images/${data.pathFolder+"/"+item}`
-    }
     useEffect(() => {
         const getList = {["action"]: "read-folder", ["pathFolder"]:"." }
         getFolder(getList).then((value) => {
@@ -165,11 +147,11 @@ function FileManager() {
             <Box sx={{width:"70%", marginLeft:"10px", backgroundColor:"white", height:"100%"}}>
                 <Box sx={{ backgroundColor: "white", borderBottom: "1px solid #dee2e6", padding: "10px" }}>{breadcrumbs}</Box>
                 <Box sx={{overflow:"hidden", position:"relative", height:"100%", width:"100%"}}>
-                    <Box sx={{padding:"10px", }}>
+                    <Box sx={{padding:"15px", }}>
                         <List
                             grid={{
                             gutter: 1,
-                            column: 7
+                            column: 5
                             }}
                             dataSource={ListItem(children)}
                             style={{position: "absolute", height: "calc(100% - 5rem)", width:"100%", overflow:"hidden auto"}}
@@ -179,11 +161,12 @@ function FileManager() {
                                     <Box sx={{display:"flex", justifyContent:"center"}}>
                                     {
                                         item.typeFolder == "directory"?
-                                            <Folder sx={{ color: "#fddd36", fontSize: "57px"}} />:
-                                        (item.typeFolder == "file" && item.extensionFolder  == "png")?
+                                            <Folder sx={{ color: "#fddd36", fontSize: "71px"}} />:
+                                        (item.typeFolder == "file" && (item.extensionFolder  == "png" || item.extensionFolder  == "jpg"))?
                                             <img
+                                                style={{borderRadius:"5px"}}
                                                 width={"60%"}
-                                                src={loadImg(item.pathFolder)}
+                                                src={loadImg(item.pathFolder, data.pathFolder)}
                                             />: null
                                     }
                                         </Box>
