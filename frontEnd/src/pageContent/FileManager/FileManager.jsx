@@ -5,6 +5,7 @@ import { useEffect, useState } from "react"
 import { getFolder } from "../../Service/FileManager/FileManager"
 import ModalSystem from "../../components/ModalSystem"
 import CreateAndRenameFolder from "./CreateAndRenameFolder"
+import { TreeFolder } from "../../Hook/Hook_Folder"
 
 
 function FileManager() {
@@ -68,22 +69,6 @@ function FileManager() {
         return pushData;
     }
     
-    const TreeFolder = (listFolder) => {
-        var data = []
-        for (const key in listFolder) {
-            if (listFolder[key].type == "directory") {
-                data.push({
-                    nameFolder: listFolder[key].name,
-                    typeFolder: listFolder[key].type,
-                    key: listFolder[key].name,
-                    extensionFolder: listFolder[key].extension,
-                    pathFolder: listFolder[key].relativePath,
-                    children: TreeFolder(listFolder[key].children)
-                })
-            }
-        }
-        return data
-    }
 
     const ListItem = (listItem) => {
         var data = []
@@ -99,9 +84,7 @@ function FileManager() {
         }
         return data
     }
-
     const loadImg = (item) => {
-        console.log(item);
         return `http://localhost:8081/images/${data.pathFolder+"/"+item}`
     }
     useEffect(() => {
@@ -141,7 +124,8 @@ function FileManager() {
                         }}
                         defaultExpandedKeys={["public"]}
                         treeData={TreeFolder(folder)}
-                        onSelect={(node) => {
+                        onSelect={(name, event) => {
+                            setData({ ...data, ["selectFolder"]: event.node.pathFolder })
                             
                         }}
                         onRightClick={(folders) => {
@@ -178,39 +162,43 @@ function FileManager() {
                     />
                 </Box>
             </Box>
-            <Box sx={{width:"70%", marginLeft:"10px", backgroundColor:"white"}}>
+            <Box sx={{width:"70%", marginLeft:"10px", backgroundColor:"white", height:"100%"}}>
                 <Box sx={{ backgroundColor: "white", borderBottom: "1px solid #dee2e6", padding: "10px" }}>{breadcrumbs}</Box>
-                <Box sx={{padding:"10px"}}>
-                <List
-                    grid={{
-                    gutter: 10,
-                    column: 7
-                    }}
-                    dataSource={ListItem(children)}
-                    renderItem={(item) => (
-                    <List.Item>
-                        <Box sx={{display:"flex", flexDirection:"column",justifyContent:"center", fontSize:"12px"}}>
-                                <Box sx={{display:"flex", justifyContent:"center"}}>
-                            {
-                                item.typeFolder == "directory"?
-                                    <Folder sx={{ color: "#fddd36", fontSize: "50px" }} />:
-                                (item.typeFolder == "file" && item.extensionFolder  == "png")?
-                                    <Image
-                                        width={"60%"}
-                                        src={loadImg(item.pathFolder)}
-                                    />: null
-                            }
-                            </Box>
-                            <Box sx={{textAlign:"center"}}>
-                                    <span>{ item.nameFolder }</span>
-                            </Box>
-                            
-                        </Box>
-                        
+                <Box sx={{maxWidth:"1570px"}}>
+                    <Box sx={{padding:"10px", position: "absolute", overflow:"hidden", height:"100%", zIndex:222222}}>
+                        <List
+                            grid={{
+                            gutter: 10,
+                            column: 7
+                            }}
+                            dataSource={ListItem(children)}
+                            itemLayout="vertical"
+                            style={{overflow: "hidden", zIndex:9999}}
+                            renderItem={(item) => (
+                            <List.Item>
+                                <Box sx={{display:"flex", flexDirection:"column",justifyContent:"center", fontSize:"12px"}}>
+                                        <Box sx={{display:"flex", justifyContent:"center"}}>
+                                    {
+                                        item.typeFolder == "directory"?
+                                            <Folder sx={{ color: "#fddd36", fontSize: "50px" }} />:
+                                        (item.typeFolder == "file" && item.extensionFolder  == "png")?
+                                            <img
+                                                width={"60%"}
+                                                src={loadImg(item.pathFolder)}
+                                            />: null
+                                    }
+                                    </Box>
+                                    <Box sx={{textAlign:"center"}}>
+                                            <span>{ item.nameFolder }</span>
+                                    </Box>
+                                    
+                                </Box>
+                                
 
-                    </List.Item>
-                    )}
-                />
+                            </List.Item>
+                            )}
+                        />
+                    </Box>
                 </Box>
             </Box>
             <ModalSystem open={open} onCancel={handleCancel} title={data.action == "rename-folder"?"ĐỔI TÊN THƯ MỤC":"TẠO DANH MỤC"} width={"30%"}>
