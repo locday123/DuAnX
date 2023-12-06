@@ -1,6 +1,7 @@
 const multer = require("multer")
 var uploadAvatar =  multer.diskStorage({
-    destination:(req,file,res)=>{
+    destination: (req, file, res) => {
+        console.log(req.body);
         return res(null, './public/images')
     },
     filename:(req, file, res)=>{

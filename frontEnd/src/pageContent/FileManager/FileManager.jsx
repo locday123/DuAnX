@@ -29,7 +29,10 @@ function FileManager() {
                             startIcon={<Delete sx={{ color: "#1976d2", fontSize: "20px" }} />}
                             sx={{ display: "flex", alignItems: "center", fontSize: "13px" }}
                             onClick={() => {
-                                console.log(listFolder.pathFolder);
+                                const getList = { ["action"]: "delete-folder", ["pathFolder"]: listFolder.pathFolder }
+                                getFolder(getList).then((value) => {
+                                    console.log(value);
+                                })
                             }}
                         >
                            {"Xóa thư mục"}

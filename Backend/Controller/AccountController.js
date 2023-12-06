@@ -1,6 +1,7 @@
-const multer = require("multer");
+
 const Upload = require("../Hook/Upload");
 const ACCOUNT = require("../Model/Account");
+const multer = require("multer");
 const upload_images = Upload.uploadAvatar.single("uploadImages")
 module.exports = {
     getAll:  (req, res)=>{

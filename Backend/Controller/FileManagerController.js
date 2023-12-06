@@ -2,6 +2,9 @@ const dree = require('dree')
 const {resolve, dirname, basename} = require('path')
 const {readdirSync, rename, rm, existsSync, mkdirSync} = require('fs');
 const path = require('path');
+const multer = require("multer");
+const Upload = require('../Hook/Upload');
+const upload_images = Upload.uploadAvatar.single("uploadImages")
 const options = {
     stat: false,
     hash: false,
@@ -53,6 +56,23 @@ module.exports = {
             const newPath = dirname(oldPath).split(path.sep).pop() + `/${nameFolder}`
             rename(oldPath, newPath,err => console.log(err))
         }
+        
+    },
+    uploadImages: (req, res)=>{
+        upload_images(req,res,(err)=>{
+            if(err instanceof multer.MulterError){
+                res.json({
+                    status: 'ERROR',
+                    message:"Upload avatar lỗi"
+                })
+            }
+            else if(err){
+                res.json({
+                    status: 'ERROR',
+                    message:"Upload avatar lỗi " + err 
+                })
+            }
+        })
         
     },
 }   
