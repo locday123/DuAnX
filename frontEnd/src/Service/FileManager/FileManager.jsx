@@ -10,4 +10,5 @@ const getFolder = async (path) => {
         console.log(err);
     }
 }
+
 export { getFolder }

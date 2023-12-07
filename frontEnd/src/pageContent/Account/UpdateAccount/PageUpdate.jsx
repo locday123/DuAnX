@@ -14,6 +14,7 @@ function PageUpdate({ dataID }) {
     const [imagesUpload, setIMGUpload] = useState([])
     const { setAlert, setMessage } = useContext(Context)
     const handleImages = (e) => {
+        console.log(e.target.files[0]);
         URL.revokeObjectURL(images)
         const img = e.target.files[0];
         img.preview = URL.createObjectURL(img)

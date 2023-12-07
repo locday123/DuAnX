@@ -79,7 +79,7 @@ function FileManager() {
         })
     }, [])
     return (
-        <Box sx={{width:"100%", height:"100%", display:"flex"}}>
+        <Box sx={{width:"100%", height:"93%", display:"flex"}}>
             <Box sx={{ width: "30%", backgroundColor: "white"}}>
                 <Box sx={{ backgroundColor: "white", borderBottom: "1px solid #dee2e6", padding: "10px" }}>
                     <Box sx={{display:"flex", alignItems:"center", justifyItems:"center" ,fontSize:"15px"}}>              
@@ -95,7 +95,12 @@ function FileManager() {
                             }}>
                             Tạo thư mục
                         </Button>
-                        <Upload>
+                        <Upload
+                            withCredentials
+                            name="uploadImages"
+                            action={'http://localhost:8081/file-manager/upload'}
+                            data={(e) =>{return({["pathFolder"]:data.selectFolder})}}
+                        >
                             <Button startIcon={<UploadFile/>} variant="contained" size="small" sx={{ alignItems: "center" }}>
                                 Upload FILE
                             </Button>

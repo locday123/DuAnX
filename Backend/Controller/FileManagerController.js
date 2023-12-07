@@ -1,10 +1,10 @@
 const dree = require('dree')
-const {resolve, dirname, basename} = require('path')
-const {readdirSync, rename, rm, existsSync, mkdirSync} = require('fs');
+const {resolve, dirname} = require('path')
+const { rename, rm, existsSync, mkdirSync} = require('fs');
 const path = require('path');
 const multer = require("multer");
 const Upload = require('../Hook/Upload');
-const upload_images = Upload.uploadAvatar.single("uploadImages")
+const upload_images = Upload.upoadImages.single("uploadImages")
 const options = {
     stat: false,
     hash: false,
@@ -72,6 +72,7 @@ module.exports = {
                     message:"Upload avatar lỗi " + err 
                 })
             }
+            res.json({up:"Upload thành công"})
         })
         
     },

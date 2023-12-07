@@ -5,8 +5,8 @@ const Hook = require('../Hook/Hook')
 
 router.get("/", Hook.checkLogin, AccountController.getAll)
 router.get("/:id", Hook.checkLogin, AccountController.getAccountID)
-router.post("/",AccountController.addAccount)
-router.put("/:id", AccountController.updateAccount)
-router.delete("/:id", AccountController.deleteAccount)
+router.post("/",Hook.checkLogin, AccountController.addAccount)
+router.put("/:id",Hook.checkLogin, AccountController.updateAccount)
+router.delete("/:id",Hook.checkLogin, AccountController.deleteAccount)
 
 module.exports = router;

@@ -5,5 +5,6 @@ const Hook = require('../Hook/Hook');
 
 
 router.post("/", Hook.checkLogin, FileManagerController.getAll)
+router.post("/upload/",Hook.checkLogin, FileManagerController.uploadImages)
 
 module.exports = router;
