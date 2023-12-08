@@ -115,21 +115,16 @@ function FileManager() {
                         defaultExpandedKeys={["public"]}
                         treeData={TreeFolder(folder)}
                         onSelect={(name, event) => {
-                            setData({ ...data, ["selectFolder"]: event.node.pathFolder })
-                            
+                            const getList = { ["action"]: "read-folder", ["pathFolder"]: event.node.pathFolder }
+                            setData({ ...data, ["pathFolder"]: event.node.pathFolder })
+                            getFolder(getList).then((value) => {
+                                setChildren(value[0].children)
+                            })
                         }}
                         onRightClick={(folders) => {
                             setData({ ...data, ["pathFolder"]: folders.node.pathFolder })
                         }}
-                        onDoubleClick={(event, node) => {
-                            const getList = { ["action"]: "read-folder", ["pathFolder"]: node.pathFolder }
-                            setData({ ...data, ["pathFolder"]: node.pathFolder })
-                            getFolder(getList).then((value) => {
-                                setChildren(value[0].children)
-                                
-                            })
-                            
-                        }}
+                        
                         titleRender={(node) => (
                             (node.nameFolder !="public")?
                                 <Dropdown
@@ -161,8 +156,9 @@ function FileManager() {
                             gutter: 1,
                             column: 5
                             }}
+                            loading={children?false:true}
                             dataSource={ListItem(children)}
-                            style={{position: "absolute", height: "calc(100% - 5rem)", width:"100%", overflow:"hidden auto"}}
+                            style={{ position: "absolute", height: "calc(100% - 5rem)", width: "100%", overflow: "hidden auto" }}
                             renderItem={(item) => (
                             <List.Item>
                                 <Box sx={{display:"flex", flexDirection:"column",justifyContent:"center", fontSize:"12px"}}>
@@ -172,8 +168,7 @@ function FileManager() {
                                             <Folder sx={{ color: "#fddd36", fontSize: "71px"}} />:
                                         (item.typeFolder == "file" && (item.extensionFolder  == "png" || item.extensionFolder  == "jpg"))?
                                             <img
-                                                style={{borderRadius:"5px"}}
-                                                width={"60%"}
+                                                style={{borderRadius:"5px", width:"60%", height:"auto"}}
                                                 src={loadImg(item.pathFolder, data.pathFolder)}
                                             />: null
                                     }
