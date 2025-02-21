@@ -66,7 +66,7 @@ module.exports = {
                 }).catch((err)=>{
                     res.json({
                         status: 'FAILED',
-                        message:'Xảy ra lỗi, vui lòng kiểm tra lạiaa'
+                        message:'Xảy ra lỗi, vui lòng kiểm tra lại'
                     })
                 })
             }

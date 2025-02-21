@@ -13,9 +13,7 @@ const cx = classNames.bind(styles);
 function AdminPage({children}){
     
     const [auth, setAuth] = useState(false)
-    const [name, setName] = useState('');
     const [userID, setUserID] = useState('');
-    const [imagesID, setImagesID] = useState('');
     const [menu, setMenu] = useState('');
     const navigate = useNavigate('/');
 
@@ -27,10 +25,8 @@ function AdminPage({children}){
         .then(res=>{
             if(res.data.status === "SUCCESS"){
                 setAuth(true);
-                setName(res.data.hoten);
                 setMenu(res.data.menu)
                 setUserID(res.data.username)
-                setImagesID(res.data.images)
             }
             else{
                 navigate('/login')
@@ -44,7 +40,7 @@ function AdminPage({children}){
             <Sidebar data={menu}/>
             <div className={cx('container')}>
                 <div className={cx('header')}>
-                    <HeaderView data={{name,userID,imagesID}}/>
+                    <HeaderView data={{userID}}/>
                 </div>
                 <div className={cx('content')}>
                     {children}

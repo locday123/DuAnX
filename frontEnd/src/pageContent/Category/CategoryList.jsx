@@ -27,7 +27,7 @@ function CategoryList({ value }) {
         },        
         { title: "Đường dẫn", dataIndex: "linkCategory", key: "linkCategory", align: "left" },
         {
-            title: "Trạng thái", dataIndex: "statusCategory", key: "statusCategory", align: "center",
+            title: "Ẩn / Hiện", dataIndex: "statusCategory", key: "statusCategory", align: "center",
             render: (text, record, index) => (
                 <Switch
                     defaultChecked={record.statusCategory}
@@ -70,7 +70,7 @@ function CategoryList({ value }) {
         <>
             <Table
                 columns={columnCategory}
-                dataSource={value}
+                dataSource={value[0]?value[0].childCategory:[]}
                 rowKey="idCategory"
                 key="idCategory"
                 childrenColumnName="childCategory"  

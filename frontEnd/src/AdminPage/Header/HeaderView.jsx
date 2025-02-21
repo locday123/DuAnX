@@ -2,16 +2,15 @@ import classNames from 'classnames/bind';
 import styles from './HeaderView.module.scss';
 import axios from 'axios';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { getAccountID } from '../../Service/Account/AccountService';
 
 const cx = classNames.bind(styles);
 
 function HeaderView({ data }) {
 
     const navigate = useNavigate('/');
-    console.log(data);
-    const location = useLocation()
-    const crumbs = location.pathname.split('/').filter(crumbs => crumbs !== '')
-    const images = "http://localhost:8081/images/Images/" + (data.imagesID ? data.imagesID : "img_avatar.png")
+    const [account, setAccount] = useState([])
     const handleLogout = (event) => {
         event.preventDefault();
         axios.get('http://localhost:8081/logout')
@@ -29,15 +28,22 @@ function HeaderView({ data }) {
 
     }
 
+    useEffect(() => {
+        getAccountID(data.userID).then((value) => {
+            setAccount(value.info)
+            console.log(value.info);
+        });
+    }, [])
+
     return (
         <div className={cx('header')}>
             <div className={cx('content')}>
                 <span onClick={handleLogout}>Đăng xuất</span>
             </div>
-            <Link to={"/account/edit/"+ data.userID} style={{textDecoration:"none", color:'black'}}>
+            <Link to={"/account/edit/"+ account.idAccount} style={{textDecoration:"none", color:'black'}}>
                 <div className={cx('account')}>
-                    <img className={cx('img-account')} src={images} />
-                    <span>{data.name}</span>
+                    <img className={cx('img-account')} src={"http://localhost:8081/images/Images/" + (account.imagesAccount ? account.imagesAccount : "img_avatar.png")} />
+                    <span>{account.nameAccount}</span>
                 </div>
             </Link>
             
