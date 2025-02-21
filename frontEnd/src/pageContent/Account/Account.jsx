@@ -18,7 +18,7 @@ function Account() {
     const { dataChange } = useContext(Context)
 
     function Group({ data }) {
-        const images = "http://localhost:8081/images/" + (data.imagesAccount ? data.imagesAccount : "img_avatar.png")
+        const images = "http://localhost:8081/images/Images/" + (data.imagesAccount ? data.imagesAccount : "img_avatar.png")
         return (
             <div className={cx('group-name')}>
                 <div className='avatar'>

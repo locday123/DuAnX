@@ -160,7 +160,9 @@ function FileManager() {
                             dataSource={ListItem(children)}
                             style={{ position: "absolute", height: "calc(100% - 5rem)", width: "100%", overflow: "hidden auto" }}
                             renderItem={(item) => (
-                            <List.Item>
+                            <List.Item 
+                                onDoubleClick={()=>console.log(item)}
+                            >
                                 <Box sx={{display:"flex", flexDirection:"column",justifyContent:"center", fontSize:"12px"}}>
                                     <Box sx={{display:"flex", justifyContent:"center"}}>
                                     {
@@ -172,14 +174,11 @@ function FileManager() {
                                                 src={loadImg(item.pathFolder, data.pathFolder)}
                                             />: null
                                     }
-                                        </Box>
+                                    </Box>
                                     <Box sx={{textAlign:"center"}}>
                                             <span>{ item.nameFolder }</span>
                                     </Box>
-                                    
                                 </Box>
-                                
-
                             </List.Item>
                             )}
                         />

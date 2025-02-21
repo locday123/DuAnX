@@ -37,7 +37,7 @@ function PageUpdate({ dataID }) {
     ]
     useEffect(() => {
         
-        setImages("http://localhost:8081/images/" + (dataID['imagesAccount'] != null ? dataID['imagesAccount'] : "img_avatar.png"))
+        setImages("http://localhost:8081/images/Images" +"/"+ (dataID['imagesAccount'] != null ? dataID['imagesAccount'] : "img_avatar.png"))
         return () => {
             URL.revokeObjectURL(images)
         }

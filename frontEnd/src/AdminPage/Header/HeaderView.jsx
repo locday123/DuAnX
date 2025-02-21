@@ -11,7 +11,7 @@ function HeaderView({ data }) {
     console.log(data);
     const location = useLocation()
     const crumbs = location.pathname.split('/').filter(crumbs => crumbs !== '')
-    const images = "http://localhost:8081/images/" + (data.imagesID ? data.imagesID : "img_avatar.png")
+    const images = "http://localhost:8081/images/Images/" + (data.imagesID ? data.imagesID : "img_avatar.png")
     const handleLogout = (event) => {
         event.preventDefault();
         axios.get('http://localhost:8081/logout')
