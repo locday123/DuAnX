@@ -12,12 +12,15 @@ INSERT INTO CATEGORY(nameCategory, linkCategory, rootCategory, statusCategory) V
 
 
 INSERT INTO MENU VALUES (1, 'Tài khoản', 'root', null);
-INSERT INTO MENU VALUES (2, 'Quản lý tài khoản', '/account', 1);
+INSERT INTO MENU VALUES (2, 'Tài khoản', '/account', 1);
 INSERT INTO MENU VALUES (3, 'Danh mục', 'root', null);
-INSERT INTO MENU VALUES (4, 'Quản lý danh mục', '/category', 3);
+INSERT INTO MENU VALUES (4, 'Danh mục', '/category', 3);
 INSERT INTO MENU VALUES (5, 'Sản phẩm', 'root', null);
-INSERT INTO MENU VALUES (6, 'Quản lý sản phẩm', '/product', 5);
-INSERT INTO MENU VALUES (7, 'Quản lý thông tin', '/storage', 5);
+INSERT INTO MENU VALUES (6, 'Sản phẩm', '/product', 5);
+INSERT INTO MENU VALUES (7, 'Dung lượng', '/storage', 5);
+INSERT INTO MENU VALUES (8, 'Tiện ích', 'root', null);
+INSERT INTO MENU VALUES (9, 'Quản lý file', '/file-manager', 8);
+
 
 INSERT INTO STORAGE(spaceStorage, nameSpace) VALUES(128000,'128GB');
 

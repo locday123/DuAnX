@@ -40,10 +40,10 @@ function HeaderView({ data }) {
             <div className={cx('content')}>
                 <span onClick={handleLogout}>Đăng xuất</span>
             </div>
-            <Link to={"/account/edit/"+ account.idAccount} style={{textDecoration:"none", color:'black'}}>
+            <Link to={"/account/edit/"+ data.userID} style={{textDecoration:"none", color:'black'}}>
                 <div className={cx('account')}>
-                    <img className={cx('img-account')} src={"http://localhost:8081/images/Images/" + (account.imagesAccount ? account.imagesAccount : "img_avatar.png")} />
-                    <span>{account.nameAccount}</span>
+                    <img className={cx('img-account')} src={"http://localhost:8081/images/Images/" + (account ? account.imagesAccount : "img_avatar.png")} />
+                    <span>{account ? account.nameAccount:""}</span>
                 </div>
             </Link>
             

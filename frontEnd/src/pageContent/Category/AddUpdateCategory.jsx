@@ -2,13 +2,13 @@
 import { Button, InputAdornment, TextField } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
 import { TreeSelect } from "antd";
-import { useContext, useState } from "react";
+import React, { useContext, useState } from "react";
 import { slugify } from "../../Hook/Hook";
 import { addCategory, updateCategory } from "../../Service/Category/CategoryService";
 import Context from "../../Context";
 
 function AddUpdateCategory({category, info, action }) {
-    const { setAlert, setMessage, setChange } = useContext(Context)
+    const {setAlert, setMessage, setChange} = useContext(Context)
     const [onFocus, setFocus] = useState([])
     const [dataCategory, setData] = useState([]);
     const [meta, setMeta] = useState({ title:0, description:0})
@@ -18,14 +18,21 @@ function AddUpdateCategory({category, info, action }) {
         { nameInput: 'metaTitle', placehoder: 'Meta Title', labelInput: 'Meta Title '+meta.title+'/70 ký tự', typeInput: 'text', width: 4, size: "large"},
         { nameInput: 'metaDescription', placehoder: 'Meta Description', labelInput: 'Meta Description '+meta.description+'/155 ký tự', typeInput: 'text', width: 8, size: "large"}
     ]
+    console.log(dataCategory);
+    console.log(dataCategory!="");
     const actionCategory = (event) => {
         event.preventDefault();
-        if (action == "editCategory") {
+        if (action == "editCategory" && dataCategory!="") {
             updateCategory(info.idCategory, dataCategory).then((value) => {
                 setChange(true)
                 setAlert({ ...{ vertical: 'bottom', horizontal: 'right' }, open: true });
                 setMessage(value.message)
             })
+        }
+        else {
+            setChange(true)
+            setAlert({ ...{ vertical: 'bottom', horizontal: 'right' }, open: true });
+            setMessage("Có lỗi xảy ra, không có dữ liệu để cập nhật")
         }
         if (action == "addCategory") {
             addCategory(dataCategory).then((value) => {
@@ -42,11 +49,16 @@ function AddUpdateCategory({category, info, action }) {
         setData({ ...dataCategory, rootCategory: newValue == undefined ? null : newValue });
 
     };
+    const style =  React.CSSProperties = {
+        width: '100%',
+        maxWidth: '100%',
+        bỏ
+      };
     return (
         <form onSubmit={actionCategory}>
             <Grid container rowSpacing={3} xs={12} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
                 <Grid xs={4}>
-                    <TreeSelect
+                   <TreeSelect
                         fieldNames={{
                             children: 'childCategory',
                             label: 'nameCategory',
@@ -59,7 +71,7 @@ function AddUpdateCategory({category, info, action }) {
                         onChange={onChange}
                         treeData={category}
                         aria-required={"A"}
-                        defaultValue={action=="editCategory"?info.idCategory:null}
+                        defaultValue={action=="editCategory"?info.rootCategory:null}
                         size="large"
                     />
                 </Grid>
@@ -76,25 +88,26 @@ function AddUpdateCategory({category, info, action }) {
                         }}
                         required={
                             value.nameInput == "metaTitle" ? false
-                                : value.nameInput == "metaDescription" ? false
-                                    : true
+                            : value.nameInput == "metaDescription" ? false
+                            : true
                         }
                         type={value.typeInput}
                         size={value.size ? value.size : "small"}
                         value={
-                            value.nameInput == "linkCategory" ?
-                                onFocus.slug
-                                : undefined
+                            value.nameInput == "linkCategory" ? onFocus.slug
+                            : undefined
                         }
                         name={value.nameInput}
                         inputProps={
                             value.nameInput == "metaTitle" ? { "maxLength": "70" }
-                                : value.nameInput == "metaDescription" ? { "maxLength": "155" }
-                                    : undefined
+                            : value.nameInput == "metaDescription" ? { "maxLength": "155" }
+                            : undefined
                         }
                         onFocus={() => setFocus({ ...focus, "focus": value.nameInput })}
                         onChange={(e) => {
-                            setData({ ...dataCategory, [value.nameInput]: e.target.value })
+                            if (e.target.value !=null) {
+                                setData({ ...dataCategory, [value.nameInput]: e.target.value })
+                            }
                             if (value.nameInput == "metaTitle") {
                                 setMeta({ ...meta, "title": e.target.value.length })
                             }
