@@ -24,6 +24,7 @@ CREATE TABLE CATEGORY(
     rootCategory INTEGER DEFAULT NULL,
     metaTitle VARCHAR(70) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
     metaDescription VARCHAR(155) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+    metaKeyword VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
     statusCategory BOOLEAN,
     dateAdd DATE DEFAULT (CURRENT_DATE),
     sortingCategory INTEGER,

@@ -16,13 +16,12 @@ function AddUpdateCategory({category, info, action }) {
         { nameInput: 'nameCategory', placehoder: 'Tên danh mục', labelInput: 'Tên danh mục', typeInput: 'text', width: 4},
         { nameInput: 'linkCategory', placehoder: 'Đường dẫn danh mục', labelInput: 'Đường dẫn danh mục', typeInput: 'text', width: 4},
         { nameInput: 'metaTitle', placehoder: 'Meta Title', labelInput: 'Meta Title '+meta.title+'/70 ký tự', typeInput: 'text', width: 4, size: "large"},
-        { nameInput: 'metaDescription', placehoder: 'Meta Description', labelInput: 'Meta Description '+meta.description+'/155 ký tự', typeInput: 'text', width: 8, size: "large"}
+        { nameInput: 'metaDescription', placehoder: 'Meta Description', labelInput: 'Meta Description '+meta.description+'/300 ký tự', typeInput: 'text', width: 8, size: "large"}
     ]
     console.log(dataCategory);
-    console.log(dataCategory!="");
     const actionCategory = (event) => {
         event.preventDefault();
-        if (action == "editCategory" && dataCategory!="") {
+        if (action == "editCategory" && dataCategory!="" && dataCategory.rootCategory != info.idCategory) {
             updateCategory(info.idCategory, dataCategory).then((value) => {
                 setChange(true)
                 setAlert({ ...{ vertical: 'bottom', horizontal: 'right' }, open: true });
@@ -32,7 +31,7 @@ function AddUpdateCategory({category, info, action }) {
         else {
             setChange(true)
             setAlert({ ...{ vertical: 'bottom', horizontal: 'right' }, open: true });
-            setMessage("Có lỗi xảy ra, không có dữ liệu để cập nhật")
+            setMessage("Danh mục cha không đúng, hoặc không có dữ liệu để cập nhật")
         }
         if (action == "addCategory") {
             addCategory(dataCategory).then((value) => {
@@ -49,14 +48,9 @@ function AddUpdateCategory({category, info, action }) {
         setData({ ...dataCategory, rootCategory: newValue == undefined ? null : newValue });
 
     };
-    const style =  React.CSSProperties = {
-        width: '100%',
-        maxWidth: '100%',
-        bỏ
-      };
     return (
         <form onSubmit={actionCategory}>
-            <Grid container rowSpacing={3} xs={12} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+            <Grid container width={'100%'} rowSpacing={3} xs={12} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
                 <Grid xs={4}>
                    <TreeSelect
                         fieldNames={{
@@ -100,7 +94,7 @@ function AddUpdateCategory({category, info, action }) {
                         name={value.nameInput}
                         inputProps={
                             value.nameInput == "metaTitle" ? { "maxLength": "70" }
-                            : value.nameInput == "metaDescription" ? { "maxLength": "155" }
+                            : value.nameInput == "metaDescription" ? { "maxLength": "300" }
                             : undefined
                         }
                         onFocus={() => setFocus({ ...focus, "focus": value.nameInput })}
