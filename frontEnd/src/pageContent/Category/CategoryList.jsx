@@ -1,15 +1,25 @@
 import { Box, IconButton, Switch, Tooltip } from "@mui/material"
-import { Table } from "antd"
+import { Table, notification } from "antd"
 import { deleteCategory, updateCategory } from "../../Service/Category/CategoryService"
-import { useContext, useEffect, useState } from "react"
+import { useContext, useState } from "react"
 import Context from "../../Context"
 import { Delete, Edit } from "@mui/icons-material"
 import ModalSystem from "../../components/ModalSystem"
 import AddUpdateCategory from "./AddUpdateCategory"
 function CategoryList({ value }) {
-    const { setAlert, setMessage, setChange } = useContext(Context)
+    const { setChange } = useContext(Context)
     const [open, setOpen] = useState(false)
     const [infoCategory, setInfo] = useState([])
+    const [api, contextHolder] = notification.useNotification()
+    const openNotificationWithIcon = (type, message) => {
+        api[type]({
+            message: 'Thông báo hệ thống',
+            description: message,
+            placement: "bottomRight",
+            showProgress: true,
+            pauseOnHover:false
+        });
+    };
 
     const showModal = (record) => {
         setInfo(record)
@@ -33,8 +43,7 @@ function CategoryList({ value }) {
                     defaultChecked={record.statusCategory}
                     onClick={(e) => {
                         updateCategory(record.idCategory, { statusCategory: e.target.checked }).then((value) => {
-                            setAlert({ ...{ vertical: 'bottom', horizontal: 'right' }, open: true });
-                            setMessage(value.message)
+                            openNotificationWithIcon('success', e.target.checked?"Danh mục hiện":"Danh mục ẩn")
                         })
                     }}
                 />
@@ -47,10 +56,9 @@ function CategoryList({ value }) {
                 <Box>
                     <Tooltip title={'Xóa danh mục [ ' + record.nameCategory + ' ]'}>
                         <IconButton color='primary' onClick={() => {
-                            deleteCategory(record.idCategory).then((value) => {
+                            deleteCategory(record.linkCategory).then((value) => {
                                 setChange(true)
-                                setAlert({ ...{ vertical: 'bottom', horizontal: 'right' }, open: true })
-                                setMessage(value.message)
+                                openNotificationWithIcon('success', "Xóa danh mục [ "+record.nameCategory+" ] hoàn thành")
                             })
                         }}>
                             <Delete />
@@ -68,6 +76,7 @@ function CategoryList({ value }) {
 
     return (
         <>
+            {contextHolder}
             <Table
                 columns={columnCategory}
                 dataSource={value[0]?value[0].childCategory:[]}

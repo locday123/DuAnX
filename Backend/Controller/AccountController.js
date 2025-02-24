@@ -9,7 +9,7 @@ module.exports = {
             return res.json(value)
         }) 
     },
-    getAccountID:(req, res)=>{
+    getAccountID: (req, res) => {
         ACCOUNT.find(req.params.id).then((value)=>{
             if(value){
                 return res.json({getStatus: "SUCCESS", info:value})

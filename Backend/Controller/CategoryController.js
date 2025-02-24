@@ -30,25 +30,25 @@ module.exports = {
                 CATEGORY.create(data).then((value)=>{
                     res.json({
                         status: 'SUCCESS',
-                        message:'Tạo danh mục mới thành công'
+                        message:'Tạo thành công danh mục '
                     })        
                 }).catch((err)=>{
                     res.json({
                         status: 'FAILED',
-                        message:'Xảy ra lỗi, vui lòng kiểm tra lại'
+                        message:'Lỗi không xác định, kiểm tra lại'
                     })
                 })
             }
             else{
                 res.json({
                     status: 'FAILED',
-                    message:'Xảy ra lỗi, vui lòng kiểm tra lại'
+                    message:'Dữ liệu trùng lặp [ Đường dẫn danh mục ]'
                 })
             }
         }).catch((err)=>{
             res.json({
                 status: 'FAILED',
-                message:'Xảy ra lỗi, vui lòng kiểm tra lạia'
+                message:'Lỗi không xác định, kiểm tra lại'
             })
         })
         
@@ -58,12 +58,12 @@ module.exports = {
         CATEGORY.update(req.params.id, req.body).then(()=>{
             res.json({
                 status: 'SUCCESS',
-                message:'Cập nhật thành công ID ' + req.params.id
+                message:'Cập nhật thành công danh mục '
             })
         }).catch((err)=>{
             res.json({
                 status: 'FAILED',
-                message:'Xảy ra lỗi, vui lòng kiểm tra lạia'
+                message:'Lỗi không xác định, kiểm tra lại'
             })
         })
     },
@@ -77,7 +77,7 @@ module.exports = {
         }).catch((err)=>{
             res.json({
                 status: 'FAILED',
-                message:'Xảy ra lỗi, vui lòng kiểm tra lại'
+                message:'XLỗi không xác định, kiểm tra lại'
             })
         })
     }

@@ -7,12 +7,13 @@ import Context from "../../Context";
 import AddUpdateCategory from "./AddUpdateCategory";
 
 function Category() {
-  const { dataChange } = useContext(Context)
+  const { dataChange, setChange } = useContext(Context)
   const [category, setCategory] = useState([])
 
   useEffect(() => {
     getCategory().then((value) => {
       setCategory(value.category)
+      setChange(false)
     });
   }, [dataChange == true])
 

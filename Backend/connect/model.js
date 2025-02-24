@@ -20,10 +20,9 @@ module.exports = class Model {
    }
 
    //get row by id and return the result object:
-   find(value){
-
+   find(value){ 
        let cThis = this;
-       return new Promise(function(myResolve, myReject) {
+       return new Promise(function (myResolve, myReject) {
           db.query('SELECT * FROM ?? WHERE ?? = ?',[cThis.table,cThis.id, value], function (error, result) {
            if (error) throw error;
             myResolve( result[0] );

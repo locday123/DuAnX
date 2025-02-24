@@ -4,6 +4,7 @@ import axios from 'axios';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { getAccountID } from '../../Service/Account/AccountService';
+import { Avatar, Badge, Space } from 'antd';
 
 const cx = classNames.bind(styles);
 
@@ -42,8 +43,14 @@ function HeaderView({ data }) {
             </div>
             <Link to={"/account/edit/"+ data.userID} style={{textDecoration:"none", color:'black'}}>
                 <div className={cx('account')}>
-                    <img className={cx('img-account')} src={"http://localhost:8081/images/Images/" + (account ? account.imagesAccount : "img_avatar.png")} />
-                    <span>{account ? account.nameAccount:""}</span>
+                   
+                    <Space size={24}>
+                        <Badge>
+                            <Avatar size="large" icon={<img className={cx('img-account')} src={"http://localhost:8081/images/Images/" + (account ? account.imagesAccount : "img_avatar.png")} />} />
+                        </Badge>
+                        <span>{account ? account.nameAccount:""}</span>
+                    </Space>
+                    
                 </div>
             </Link>
             
