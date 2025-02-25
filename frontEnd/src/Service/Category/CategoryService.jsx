@@ -12,6 +12,16 @@ const getCategory = async () => {
     }
 }
 
+const getCateoryID = async (idCategory) => {
+    try {
+        const linkEdit = linkApi + idCategory
+        const response = await client.get(linkEdit, idCategory)
+        return await response.data
+    } catch (err) {
+        console.log(err);
+    }
+}
+
 const addCategory = async (data) => {
     const response = (await client.post(linkApi, data))
     return await response.data;
@@ -34,4 +44,4 @@ const deleteCategory = async (idCategory) => {
 }
 
 
-export { getCategory, addCategory, updateCategory, deleteCategory }
+export { getCategory, getCateoryID, addCategory, updateCategory, deleteCategory }

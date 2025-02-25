@@ -36,6 +36,7 @@ function CategoryList({ value }) {
             sortDirections: ['descend'],
         },        
         { title: "Đường dẫn", dataIndex: "linkCategory", key: "linkCategory", align: "left" },
+        { title: "Level", dataIndex: "levelMenu", key: "levelMenu", align: "center" },
         {
             title: "Ẩn / Hiện", dataIndex: "statusCategory", key: "statusCategory", align: "center",
             render: (text, record, index) => (
@@ -56,7 +57,7 @@ function CategoryList({ value }) {
                 <Box>
                     <Tooltip title={'Xóa danh mục [ ' + record.nameCategory + ' ]'}>
                         <IconButton color='primary' onClick={() => {
-                            deleteCategory(record.linkCategory).then((value) => {
+                            deleteCategory(record.idCategory).then((value) => {
                                 setChange(true)
                                 openNotificationWithIcon('success', "Xóa danh mục [ "+record.nameCategory+" ] hoàn thành")
                             })

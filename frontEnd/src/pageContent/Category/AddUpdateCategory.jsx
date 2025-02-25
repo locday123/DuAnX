@@ -4,7 +4,7 @@ import Grid from "@mui/material/Unstable_Grid2/Grid2";
 import { TreeSelect, notification } from "antd";
 import React, { useContext, useState } from "react";
 import { slugify } from "../../Hook/Hook";
-import { addCategory, updateCategory } from "../../Service/Category/CategoryService";
+import { addCategory, getCateoryID, updateCategory, } from "../../Service/Category/CategoryService";
 import Context from "../../Context";
 
 function AddUpdateCategory({ category, info, action }) {
@@ -13,6 +13,7 @@ function AddUpdateCategory({ category, info, action }) {
     const [onFocus, setFocus] = useState([])
     const [dataCategory, setData] = useState([]);
     const [meta, setMeta] = useState({ title: 0, description: 0 })
+    const [rootMenu, setRootMenu] = useState([]);
     const [api, contextHolder] = notification.useNotification()
     const openNotificationWithIcon = (type, message) => {
         api[type]({
@@ -30,31 +31,45 @@ function AddUpdateCategory({ category, info, action }) {
     ]
     const actionCategory = (event) => {
         event.preventDefault();
-        if (action == "editCategory" && dataCategory!="" && dataCategory.rootCategory != info.idCategory) {
-            updateCategory(info.linkCategory, dataCategory).then((value) => {
-                setChange(true)
-                openNotificationWithIcon('success', value.message)
-            })
+        if (action == "editCategory" && dataCategory != "" && dataCategory.rootCategory != info.idCategory) {
+            if (info.levelMenu >= rootMenu && info.idCategory != dataCategory.rootCategory) {
+                updateCategory(info.idCategory, dataCategory).then((value) => {
+                    setChange(true)
+                    openNotificationWithIcon('success', value.message)
+                })
+            }else {
+                openNotificationWithIcon('error', "Lỗi chọn danh mục cha")
+            }
         }
-        if(dataCategory.rootCategory == info.idCategory || info.rootCategory == dataCategory.idCategory) {
-            openNotificationWithIcon('error', "Danh mục cha không hợp lệ")
+        else {
+            openNotificationWithIcon('error', "Lỗi chọn danh mục cha")
         }
+        
         if (action == "addCategory") {
+           
             addCategory(dataCategory).then((value) => {
                 
                 if (value.status == "FAILED") {
                     openNotificationWithIcon('error', <b>{value.message}</b>)
                 }
                 else {
+                    
                     setChange(true)
                     openNotificationWithIcon('success', <>{value.message }<b> [{ dataCategory.nameCategory}] </b></>)
                 }
             })
         }
+        
     }
 
     const onChange = (newValue) => {
-        setData({ ...dataCategory, rootCategory: newValue == undefined ? null : newValue });
+        
+        getCateoryID(newValue).then((value) => {
+            setData({ ...dataCategory, rootCategory: newValue == undefined ? null : newValue, levelMenu: value.info.levelMenu + 1, parentMenu: value.info.idCategory +","+newValue});
+            setRootMenu(value.info.levelMenu)
+            
+        })
+        
     };
     return (
         

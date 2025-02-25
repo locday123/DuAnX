@@ -3,12 +3,10 @@ const CATEGORY = require('../Model/Category')
 const TreeCategory = (category, idCategory) => {
     var out = []
     for (var i in category) {
-
         if (category[i].rootCategory == idCategory) {
-
             var children = TreeCategory(category, category[i].idCategory)
             if (children.length) {
-                category[i].childCategory = children
+                category[i].childCategory = children  
             }
             category[i].key = category[i].idCategory
             out.push(category[i])
@@ -19,39 +17,35 @@ const TreeCategory = (category, idCategory) => {
 module.exports = {
     getAll:  (req, res)=>{
         CATEGORY.get_all().then((value) => {
-            console.log(value);
             return res.json({category:TreeCategory(value,null)})
         })
     },
+
+    getCategoryID: (req, res) => {
+        CATEGORY.find(req.params.id).then((value)=>{
+            if(value){
+                return res.json({getStatus: "SUCCESS", info:value})
+            }else{
+                return res.json({getStatus: "ERROR"})
+            }
+        }).catch((err)=>{
+            console.log(err);
+        })
+    },
+
     addCategory: (req, res)=>{
         var data = req.body
-        CATEGORY.find(data.linkCategory).then((value)=>{
-            if(value == undefined){
-                CATEGORY.create(data).then((value)=>{
-                    res.json({
-                        status: 'SUCCESS',
-                        message:'Tạo thành công danh mục '
-                    })        
-                }).catch((err)=>{
-                    res.json({
-                        status: 'FAILED',
-                        message:'Lỗi không xác định, kiểm tra lại'
-                    })
-                })
-            }
-            else{
-                res.json({
-                    status: 'FAILED',
-                    message:'Dữ liệu trùng lặp [ Đường dẫn danh mục ]'
-                })
-            }
+        CATEGORY.create(data).then((value)=>{
+            res.json({
+                status: 'SUCCESS',
+                message:'Tạo thành công danh mục '
+            })        
         }).catch((err)=>{
             res.json({
                 status: 'FAILED',
                 message:'Lỗi không xác định, kiểm tra lại'
             })
         })
-        
     },
 
     updateCategory: (req, res)=>{

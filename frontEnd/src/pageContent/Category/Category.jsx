@@ -12,6 +12,7 @@ function Category() {
 
   useEffect(() => {
     getCategory().then((value) => {
+      console.log(value.category);
       setCategory(value.category)
       setChange(false)
     });

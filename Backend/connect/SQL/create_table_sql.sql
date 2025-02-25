@@ -22,6 +22,8 @@ CREATE TABLE CATEGORY(
     nameCategory VARCHAR(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
     linkCategory VARCHAR(255) unique,
     rootCategory INTEGER DEFAULT NULL,
+    levelMenu INTEGER(20) DEFAULT 0,
+    parentMenu VARCHAR(20),
     metaTitle VARCHAR(70) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
     metaDescription VARCHAR(155) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
     metaKeyword VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
