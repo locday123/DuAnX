@@ -42,7 +42,7 @@ function AddUpdateCategory({ category, info, action }) {
             }
         }
         else {
-            openNotificationWithIcon('error', "Lỗi chọn danh mục cha")
+            openNotificationWithIcon('error', "Lỗi chọn danh mục chaok")
         }
         
         if (action == "addCategory") {
